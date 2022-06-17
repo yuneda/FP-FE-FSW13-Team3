@@ -1,0 +1,6 @@
+.owl-item.active.center {
+  transform: scale(1.28571428);
+}
+.item {
+  cursor: pointer;
+}
