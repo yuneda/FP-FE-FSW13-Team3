@@ -1,0 +1,23 @@
+.image-label {
+  cursor: pointer;
+}
+
+.picture-field {
+  display: none;
+}
+
+.tes {
+  border: 1px solid salmon;
+}
+
+.bgImage {
+  width: 96px;
+  padding: 10px;
+  background-color: #e2d4f0;
+}
+
+.option-field {
+  color: #8a8a8a;
+  padding: 10px;
+  border-radius: 25px;
+}
