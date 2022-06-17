@@ -1,27 +1,28 @@
-import React, { useState } from 'react';
-import { Icon } from 'react-icons-kit';
-import { eye } from 'react-icons-kit/feather/eye';
-import { eyeOff } from 'react-icons-kit/feather/eyeOff';
-import BgLogin from '../../../../src/assets/bg-login.png';
-import './Login.css';
+import React, { useState } from "react";
+import { Icon } from "react-icons-kit";
+import { eye } from "react-icons-kit/feather/eye";
+import { eyeOff } from "react-icons-kit/feather/eyeOff";
+import BgLogin from "../../../../src/assets/bg-login.png";
+import "./Login.css";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   var sectionStyle = {
-    backgroundImage: 'url(' + BgLogin + ')',
-    backgroundRepeat: 'no-repeat',
+    backgroundImage: "url(" + BgLogin + ")",
+    backgroundRepeat: "no-repeat",
   };
 
-  const [type, setType] = useState('password');
+  const [type, setType] = useState("password");
   const [icon, setIcon] = useState(eyeOff);
 
   const handleToggle = (event) => {
     event.preventDefault();
-    if (type === 'password') {
+    if (type === "password") {
       setIcon(eye);
-      setType('text');
+      setType("text");
     } else {
       setIcon(eyeOff);
-      setType('password');
+      setType("password");
     }
   };
   return (
@@ -87,14 +88,7 @@ const Login = () => {
               </div>
               <div className="col-9 text-center">
                 <p>
-                  Belum punya akun ?{' '}
-                  <a
-                    style={{ color: '#7126B5' }}
-                    href
-                    className="text-decoration-none"
-                  >
-                    Daftar di sini
-                  </a>
+                  Belum punya akun ? <Link to="/register">Daftar di sini</Link>
                 </p>
               </div>
             </div>
