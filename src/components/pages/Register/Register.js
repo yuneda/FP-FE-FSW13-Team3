@@ -1,26 +1,26 @@
-import React, { useState } from "react";
-import "./Register.css";
-import { Icon } from "react-icons-kit";
-import { eye } from "react-icons-kit/feather/eye";
-import { eyeOff } from "react-icons-kit/feather/eyeOff";
-import BgRegister from "../../../assets/bg-register.png";
+import React, { useState } from 'react';
+import './Register.css';
+import { Icon } from 'react-icons-kit';
+import { eye } from 'react-icons-kit/feather/eye';
+import { eyeOff } from 'react-icons-kit/feather/eyeOff';
+import BgRegister from '../../../assets/bg-register.png';
 
 const Register = () => {
   var registerImage = {
-    backgroundImage: "url(" + BgRegister + ")",
+    backgroundImage: 'url(' + BgRegister + ')',
   };
 
-  const [type, setType] = useState("password");
+  const [type, setType] = useState('password');
   const [icon, setIcon] = useState(eyeOff);
 
-  const handleToggle = () => {
+  const handleToggle = (event) => {
     event.preventDefault();
-    if (type === "password") {
+    if (type === 'password') {
       setIcon(eye);
-      setType("text");
+      setType('text');
     } else {
       setIcon(eyeOff);
-      setType("password");
+      setType('password');
     }
   };
   return (
@@ -47,9 +47,7 @@ const Register = () => {
                 <h1>Daftar</h1>
               </div>
               <div className="col-9">
-                <label htmlFor="" className="d-flex justify-content-between">
-                  Nama
-                </label>
+                <label className="d-flex justify-content-between">Nama</label>
                 <div className="input-group mb-3">
                   <input
                     type="text"
@@ -62,9 +60,7 @@ const Register = () => {
                 </div>
               </div>
               <div className="col-9">
-                <label htmlFor="" className="d-flex justify-content-between">
-                  Email
-                </label>
+                <label className="d-flex justify-content-between">Email</label>
                 <div className="input-group mb-3">
                   <input
                     type="email"
@@ -77,7 +73,7 @@ const Register = () => {
                 </div>
               </div>
               <div className="col-9">
-                <label htmlFor="" className="d-flex justify-content-between">
+                <label className="d-flex justify-content-between">
                   Password
                 </label>
                 <div className="input-group mb-3 wrapper">
@@ -103,9 +99,9 @@ const Register = () => {
               </div>
               <div className="col-10 text-center">
                 <p>
-                  Sudah punya akun ?{" "}
+                  Sudah punya akun ?{' '}
                   <a
-                    style={{ color: "#7126B5" }}
+                    style={{ color: '#7126B5' }}
                     href=""
                     className="text-decoration-none"
                   >
