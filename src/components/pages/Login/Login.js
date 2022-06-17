@@ -1,27 +1,27 @@
-import React, { useState } from "react";
-import { Icon } from "react-icons-kit";
-import { eye } from "react-icons-kit/feather/eye";
-import { eyeOff } from "react-icons-kit/feather/eyeOff";
-import BgLogin from "../../../../src/assets/bg-login.png";
-import "./Login.css";
+import React, { useState } from 'react';
+import { Icon } from 'react-icons-kit';
+import { eye } from 'react-icons-kit/feather/eye';
+import { eyeOff } from 'react-icons-kit/feather/eyeOff';
+import BgLogin from '../../../../src/assets/bg-login.png';
+import './Login.css';
 
 const Login = () => {
   var sectionStyle = {
-    backgroundImage: "url(" + BgLogin + ")",
-    backgroundRepeat: "no-repeat",
+    backgroundImage: 'url(' + BgLogin + ')',
+    backgroundRepeat: 'no-repeat',
   };
 
-  const [type, setType] = useState("password");
+  const [type, setType] = useState('password');
   const [icon, setIcon] = useState(eyeOff);
 
-  const handleToggle = () => {
+  const handleToggle = (event) => {
     event.preventDefault();
-    if (type === "password") {
+    if (type === 'password') {
       setIcon(eye);
-      setType("text");
+      setType('text');
     } else {
       setIcon(eyeOff);
-      setType("password");
+      setType('password');
     }
   };
   return (
@@ -48,7 +48,7 @@ const Login = () => {
                 <h1>Masuk</h1>
               </div>
               <div className="col-9">
-                <label htmlFor>Email</label>
+                <label>Email</label>
                 <div className="input-group mb-3">
                   <input
                     type="text"
@@ -61,7 +61,7 @@ const Login = () => {
                 </div>
               </div>
               <div className="col-9">
-                <label htmlFor="" className="d-flex justify-content-between">
+                <label className="d-flex justify-content-between">
                   Password
                 </label>
                 <div className="input-group mb-3 wrapper">
@@ -87,9 +87,9 @@ const Login = () => {
               </div>
               <div className="col-9 text-center">
                 <p>
-                  Belum punya akun ?{" "}
+                  Belum punya akun ?{' '}
                   <a
-                    style={{ color: "#7126B5" }}
+                    style={{ color: '#7126B5' }}
                     href
                     className="text-decoration-none"
                   >
