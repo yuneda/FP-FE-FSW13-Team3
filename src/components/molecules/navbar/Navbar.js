@@ -1,12 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import ButtonCategory from '../../atoms/buttoncategory/ButtonCategory';
-import './Navbar.css';
+import React, { useState, useEffect } from "react";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import "./Navbar.css";
+import { Link } from "react-router-dom";
 
 function MyNavbar() {
   const [dimensions, setDimensions] = React.useState({
@@ -20,29 +17,29 @@ function MyNavbar() {
         width: window.innerWidth,
       });
 
-      window.addEventListener('resize', handleResize);
+      window.addEventListener("resize", handleResize);
 
-      return (_) => window.removeEventListener('resize', handleResize);
+      return (_) => window.removeEventListener("resize", handleResize);
     }
   });
   const btnStyle = {
-    background: '#7126B5',
-    borderRadius: '12px',
-    padding: '14px 16px',
-    color: 'white',
+    background: "#7126B5",
+    borderRadius: "12px",
+    padding: "14px 16px",
+    color: "white",
   };
   const logo = {
-    width: '100px',
-    height: '34px',
-    left: '136px',
-    top: '27px',
-    background: '#4B1979',
+    width: "100px",
+    height: "34px",
+    left: "136px",
+    top: "27px",
+    background: "#4B1979",
   };
   return (
     <Navbar
       expand="lg"
       style={{
-        borderBottom: '3px solid #EEEEEE',
+        borderBottom: "3px solid #EEEEEE",
       }}
     >
       <Container>
@@ -51,7 +48,7 @@ function MyNavbar() {
         <Navbar.Collapse id="navbarScroll">
           <Nav
             className="me-auto my-2 my-lg-0"
-            style={{ maxHeight: '100px' }}
+            style={{ maxHeight: "100px" }}
             navbarScroll
           >
             <div style={logo} className="mt-2"></div>
@@ -61,9 +58,9 @@ function MyNavbar() {
                 placeholder="Cari di sini .."
                 type="text"
                 style={{
-                  border: 'none',
-                  background: 'none',
-                  width: '400px',
+                  border: "none",
+                  background: "none",
+                  width: "400px",
                 }}
               />
               <button>
@@ -80,9 +77,11 @@ function MyNavbar() {
               <Button variant="outline-success">Search</Button>
             </Form> */}
           </Nav>
-          <button style={btnStyle}>
-            <i class="fa-solid fa-arrow-right-to-bracket"></i> Masuk
-          </button>
+          <Link to="/login">
+            <button style={btnStyle}>
+              <i class="fa-solid fa-arrow-right-to-bracket"></i> Masuk
+            </button>
+          </Link>
         </Navbar.Collapse>
       </Container>
     </Navbar>
