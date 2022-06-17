@@ -1,26 +1,28 @@
-import React, { useState } from 'react';
-import './Register.css';
-import { Icon } from 'react-icons-kit';
-import { eye } from 'react-icons-kit/feather/eye';
-import { eyeOff } from 'react-icons-kit/feather/eyeOff';
-import BgRegister from '../../../assets/bg-register.png';
+import React, { useState } from "react";
+import "./Register.css";
+import { Icon } from "react-icons-kit";
+import { eye } from "react-icons-kit/feather/eye";
+import { eyeOff } from "react-icons-kit/feather/eyeOff";
+import BgRegister from "../../../assets/bg-register.png";
+import { Link } from "react-router-dom";
 
 const Register = () => {
   var registerImage = {
-    backgroundImage: 'url(' + BgRegister + ')',
+    backgroundImage: "url(" + BgRegister + ")",
+    backgroundRepeat: "no-repeat",
   };
 
-  const [type, setType] = useState('password');
+  const [type, setType] = useState("password");
   const [icon, setIcon] = useState(eyeOff);
 
   const handleToggle = (event) => {
     event.preventDefault();
-    if (type === 'password') {
+    if (type === "password") {
       setIcon(eye);
-      setType('text');
+      setType("text");
     } else {
       setIcon(eyeOff);
-      setType('password');
+      setType("password");
     }
   };
   return (
@@ -99,14 +101,7 @@ const Register = () => {
               </div>
               <div className="col-10 text-center">
                 <p>
-                  Sudah punya akun ?{' '}
-                  <a
-                    style={{ color: '#7126B5' }}
-                    href=""
-                    className="text-decoration-none"
-                  >
-                    Masuk di sini
-                  </a>
+                  Sudah punya akun ? <Link to="/login">Masuk di sini</Link>
                 </p>
               </div>
             </div>
