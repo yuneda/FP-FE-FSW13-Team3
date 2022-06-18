@@ -1,0 +1,15 @@
+.input-pic {
+  border: 2px dashed #d0d0d0;
+  width: 96px;
+  padding: 30px;
+  border-radius: 10px;
+}
+
+.input-pic i {
+  cursor: pointer;
+}
+
+.button-size button {
+  border: 1px solid #7126b5;
+  width: 230px;
+}
