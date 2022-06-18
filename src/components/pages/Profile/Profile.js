@@ -91,11 +91,11 @@ const Profile = () => {
                 </div>
                 <div className="col-9">
                   <label className="d-flex justify-content-between">
-                    Kota*
+                    No Handphone*
                   </label>
                   <div className="input-group mb-3">
                     <input
-                      type="email"
+                      type="text"
                       className="border-radius form-control"
                       placeholder="Contoh: +628123456789"
                       aria-label="Username"
