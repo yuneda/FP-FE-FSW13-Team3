@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ButtonCategory from '../../atoms/buttoncategory/ButtonCategory';
 import watch from '../../../assets/watch.png';
 import './ProductCategory.css';
@@ -16,9 +16,9 @@ const ProductCategory = () => {
         <ButtonCategory content="Elektronik" isActive={false} />
         <ButtonCategory content="Kesehatan" isActive={false} />
         <div className="row justify-content-start g-2 row-cols-lg-6 row-cols-md-4 row-cols-sm-2 row-cols-1 my-5">
-          {data.map((data) => {
+          {data.map((data, index) => {
             return (
-              <div className="col">
+              <div key={index} className="col">
                 <div className="card p-2">
                   <img src={watch} alt="" />
                   <p className="product-title mb-0">Jam Tangan Casio</p>
