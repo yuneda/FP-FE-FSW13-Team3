@@ -1,7 +1,11 @@
 import React from 'react';
+import { useState } from 'react';
+import { Toast, Row, Col, Button } from 'react-bootstrap';
 import userImage from '../../../assets/user.jpg';
 
 const ProductList = () => {
+  const [showA, setShowA] = useState(true);
+  const toggleShowA = () => setShowA(!showA);
   const imgStyle = {
     height: '100px',
     objectFit: 'cover',
