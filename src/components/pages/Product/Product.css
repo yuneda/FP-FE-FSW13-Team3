@@ -1,7 +1,3 @@
-.tes {
-  border: 1px solid red;
-}
-
 .img-user {
   border-radius: 12px;
 }
@@ -43,14 +39,14 @@
   padding: 0px;
 }
 
-.tes {
-  border: 1px solid red;
-}
-
 .add-product {
   width: 223px;
   height: 187px;
   border: 2px dashed #d0d0d0;
+}
+
+.notif-text-body {
+  font-weight: 600;
 }
 
 /* @media screen and (min-width: 992px) {

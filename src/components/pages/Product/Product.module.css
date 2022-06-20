@@ -1,0 +1,56 @@
+.cardDesc {
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.15);
+  border-radius: 16px;
+}
+
+.tes1 {
+  padding: 20px;
+}
+
+.userImg {
+  border-radius: 12px;
+}
+
+.btnEdit {
+  background: white;
+  padding: 12px 24px;
+  border-radius: 16px;
+  border: 1px solid #7126b5;
+}
+
+.productImg {
+  border-radius: 12px;
+}
+
+.modalOffer {
+  width: 380px;
+}
+
+.modal {
+  border-radius: 20px;
+  width: 780px;
+}
+
+.modalBg {
+  background-color: #eeeeee;
+  border-radius: 20px;
+}
+
+.btnEditModal {
+  width: 100%;
+}
+
+.cardNotif {
+  position: absolute;
+  right: 0;
+  z-index: 1;
+  margin-top: -12px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+  border-radius: 16px;
+}
+
+@media screen and (min-width: 992px) {
+  .cardAction {
+    margin-top: -20px;
+  }
+}

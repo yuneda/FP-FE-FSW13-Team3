@@ -5,26 +5,10 @@ import Navbar from 'react-bootstrap/Navbar';
 import './NavbarProduct.css';
 import { Link } from 'react-router-dom';
 
-function NavbarProduct() {
+function NavbarProduct(props) {
   const colorActive = {
     color: '#7126B5',
   };
-  const [dimensions, setDimensions] = React.useState({
-    height: window.innerHeight,
-    width: window.innerWidth,
-  });
-  useEffect(() => {
-    function handleResize() {
-      setDimensions({
-        height: window.innerHeight,
-        width: window.innerWidth,
-      });
-
-      window.addEventListener('resize', handleResize);
-
-      return (_) => window.removeEventListener('resize', handleResize);
-    }
-  });
   const btnStyle = {
     background: '#7126B5',
     borderRadius: '12px',
@@ -73,15 +57,17 @@ function NavbarProduct() {
           </Nav>
           <Link to="/login">
             <div style={colorActive}>
-              <i className="fa-solid fa-ellipsis-vertical me-1"></i>
-              <i className="fa-solid fa-bars me-3"></i>
+              <i className="fa-solid fa-list-ul me-3"></i>
             </div>
           </Link>
-          <Link to="/login">
-            <>
-              <i className="fa-regular fa-bell me-3 text-black"></i>
-            </>
-          </Link>
+          <div
+            onClick={props.onToggleClick}
+            style={{
+              cursor: 'pointer',
+            }}
+          >
+            <i className="fa-regular fa-bell me-3 text-black"></i>
+          </div>
           <Link to="/login">
             <>
               <i className="fa-regular fa-user text-black"></i>
