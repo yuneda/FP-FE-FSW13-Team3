@@ -7,6 +7,8 @@ import Profile from './components/pages/Profile/Profile';
 import CreateProduct from './components/pages/CreateProduct/CreateProduct';
 import Product from './components/pages/Product/Product';
 import ProductDetail from './components/pages/ProductDetail/ProductDetail';
+import ProductOffer from "./components/pages/ProductOffer/ProductOffer";
+
 
 function App() {
   return (
@@ -18,6 +20,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/product" element={<Product />} />
         <Route path="/create" element={<CreateProduct />} />
+        <Route path="/offer" element={<ProductOffer />} />
         <Route path="/product/:id" element={<ProductDetail />} />
       </Routes>
     </BrowserRouter>
