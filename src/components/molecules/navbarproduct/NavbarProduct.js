@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import './Navbar.css';
+import './NavbarProduct.css';
 import { Link } from 'react-router-dom';
 
-function MyNavbar() {
+function NavbarProduct() {
+  const colorActive = {
+    color: '#7126B5',
+  };
   const [dimensions, setDimensions] = React.useState({
     height: window.innerHeight,
     width: window.innerWidth,
@@ -67,20 +70,22 @@ function MyNavbar() {
                 <i className="fa-solid fa-magnifying-glass me-2"></i>
               </button>
             </div>
-            {/* <Form className="d-flex">
-              <Form.Control
-                type="search"
-                placeholder="Search"
-                className="me-2 ms-2"
-                aria-label="Search"
-              />
-              <Button variant="outline-success">Search</Button>
-            </Form> */}
           </Nav>
           <Link to="/login">
-            <button style={btnStyle}>
-              <i className="fa-solid fa-arrow-right-to-bracket"></i> Masuk
-            </button>
+            <div style={colorActive}>
+              <i className="fa-solid fa-ellipsis-vertical me-1"></i>
+              <i className="fa-solid fa-bars me-3"></i>
+            </div>
+          </Link>
+          <Link to="/login">
+            <>
+              <i className="fa-regular fa-bell me-3 text-black"></i>
+            </>
+          </Link>
+          <Link to="/login">
+            <>
+              <i className="fa-regular fa-user text-black"></i>
+            </>
           </Link>
         </Navbar.Collapse>
       </Container>
@@ -88,4 +93,4 @@ function MyNavbar() {
   );
 }
 
-export default MyNavbar;
+export default NavbarProduct;
