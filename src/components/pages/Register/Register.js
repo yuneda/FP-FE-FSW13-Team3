@@ -1,29 +1,77 @@
-import React, { useState } from "react";
-import "./Register.css";
-import { Icon } from "react-icons-kit";
-import { eye } from "react-icons-kit/feather/eye";
-import { eyeOff } from "react-icons-kit/feather/eyeOff";
-import BgRegister from "../../../assets/bg-register.png";
-import { Link } from "react-router-dom";
+import React, { useState } from 'react';
+import axios from 'axios';
+import './Register.css';
+import { Icon } from 'react-icons-kit';
+import { eye } from 'react-icons-kit/feather/eye';
+import { eyeOff } from 'react-icons-kit/feather/eyeOff';
+import BgRegister from '../../../assets/bg-register.png';
+import { Link } from 'react-router-dom';
 
 const Register = () => {
-  var registerImage = {
-    backgroundImage: "url(" + BgRegister + ")",
-    backgroundRepeat: "no-repeat",
-  };
-
-  const [type, setType] = useState("password");
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [type, setType] = useState('password');
   const [icon, setIcon] = useState(eyeOff);
+  var registerImage = {
+    backgroundImage: 'url(' + BgRegister + ')',
+    backgroundRepeat: 'no-repeat',
+  };
 
   const handleToggle = (event) => {
     event.preventDefault();
-    if (type === "password") {
+    if (type === 'password') {
       setIcon(eye);
-      setType("text");
+      setType('text');
     } else {
       setIcon(eyeOff);
-      setType("password");
+      setType('password');
     }
+  };
+  const handleName = (event) => {
+    event.preventDefault();
+    setName(event.target.value);
+  };
+  const handlePassword = (event) => {
+    event.preventDefault();
+    setPassword(event.target.value);
+  };
+  const handleEmail = (event) => {
+    event.preventDefault();
+    setEmail(event.target.value);
+  };
+  const handleRegister = async (event) => {
+    event.preventDefault();
+    // fetch('https://fp-be-fsw13-tim3.herokuapp.com/api/v1/register', {
+    //   method: 'POST',
+    //   body: JSON.stringify({
+    //     name,
+    //     email,
+    //     password,
+    //   }),
+    //   headers: {
+    //     'Content-type': 'application/json; charset=UTF-8',
+    //   },
+    // })
+    //   .then((response) => response.json())
+    //   .then((json) => console.log(json));
+    // try {
+    //   const response = await axios.post(
+    //     'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/register',
+    //     {
+    //       name,
+    //       email,
+    //       password,
+    //     }
+    //   );
+
+    //   console.log(response);
+    //   setName('');
+    //   setEmail('');
+    //   setPassword('');
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
   return (
     <div className="container-fluid box">
@@ -58,6 +106,8 @@ const Register = () => {
                     aria-label="Username"
                     aria-describedby="basic-addon1"
                     autoComplete="off"
+                    value={name}
+                    onChange={handleName}
                   />
                 </div>
               </div>
@@ -67,10 +117,12 @@ const Register = () => {
                   <input
                     type="email"
                     className="border-radius form-control"
-                    placeholder="Username"
+                    placeholder="Email"
                     aria-label="Username"
                     aria-describedby="basic-addon1"
                     autoComplete="off"
+                    value={email}
+                    onChange={handleEmail}
                   />
                 </div>
               </div>
@@ -83,10 +135,12 @@ const Register = () => {
                     <input
                       type={type}
                       className="border-radius form-control"
-                      placeholder="Username"
+                      placeholder="Password"
                       aria-label="Username"
                       aria-describedby="basic-addon1"
                       autoComplete="off"
+                      value={password}
+                      onChange={handlePassword}
                     />
                     <button onClick={handleToggle}>
                       <Icon icon={icon} size={20} />
@@ -95,7 +149,10 @@ const Register = () => {
                 </div>
               </div>
               <div className="col-9 mb-5">
-                <button className="btn w-100 border-radius btn-register">
+                <button
+                  className="btn w-100 border-radius btn-register"
+                  onClick={handleRegister}
+                >
                   Daftar
                 </button>
               </div>
