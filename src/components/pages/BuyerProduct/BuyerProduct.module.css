@@ -17,7 +17,6 @@
 
 .btnPublish {
   padding: 12px 24px;
-  background: #7126b5;
   border-radius: 16px;
   color: white;
 }
@@ -43,6 +42,38 @@
   font-weight: 400;
   font-size: 10px;
   line-height: 14px;
+}
+
+.modalBg {
+  background-color: #eeeeee;
+  border-radius: 20px;
+}
+
+.productImg {
+  /* width: 60px; */
+  border-radius: 12px;
+}
+
+.modalOffer {
+  width: 380px;
+}
+
+.modal {
+  border-radius: 20px;
+  width: 780px;
+}
+
+.btnEditModal {
+  width: 100%;
+}
+
+.cardNotif {
+  position: absolute;
+  right: 0;
+  z-index: 1;
+  margin-top: -12px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+  border-radius: 16px;
 }
 
 @media screen and (min-width: 992px) {

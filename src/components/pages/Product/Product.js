@@ -8,7 +8,7 @@ import Buyer from '../../../assets/buyer.png';
 import Watch from '../../../assets/watch-offer.png';
 import ProductCatDesk from '../../molecules/productcatdesk/ProductCatDesk';
 import ProductList from '../../molecules/productlist/ProductList';
-import { Toast, Row, Col, Button } from 'react-bootstrap';
+import { Toast } from 'react-bootstrap';
 
 const Product = () => {
   const [showA, setShowA] = useState(false);
