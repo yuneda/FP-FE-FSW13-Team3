@@ -14,8 +14,34 @@ const ProductList = () => {
     <>
       <div className="row justify-content-start g-1 row-cols-lg-3">
         <div className="col">
+          <label htmlFor="file-upload" className="file-upload">
+            <div className="fileUploadButton position-relative">
+              <input
+                className=""
+                id="file-upload"
+                type="file"
+                accept="image/x-png, image/jpeg"
+                style={{
+                  opacity: '0',
+                }}
+              />
+              <div
+                className="position-absolute text-center"
+                style={{
+                  marginLeft: '40px',
+                  marginTop: '40px',
+                }}
+              >
+                <i className="fa-solid fa-plus"></i>
+                <br />
+                Tambah Gambar
+              </div>
+            </div>
+          </label>
+        </div>
+        <div className="col">
           <button className="add-product">
-            <i class="fa-solid fa-plus"></i>
+            <i className="fa-solid fa-plus"></i>
           </button>
         </div>
         <div className="col">
