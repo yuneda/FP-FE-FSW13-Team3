@@ -55,23 +55,23 @@ const Register = () => {
     // })
     //   .then((response) => response.json())
     //   .then((json) => console.log(json));
-    // try {
-    //   const response = await axios.post(
-    //     'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/register',
-    //     {
-    //       name,
-    //       email,
-    //       password,
-    //     }
-    //   );
+    try {
+      const response = await axios.post(
+        'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/register',
+        {
+          name,
+          email,
+          password,
+        }
+      );
 
-    //   console.log(response);
-    //   setName('');
-    //   setEmail('');
-    //   setPassword('');
-    // } catch (error) {
-    //   console.log(error);
-    // }
+      console.log(response);
+      setName('');
+      setEmail('');
+      setPassword('');
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className="container-fluid box">
