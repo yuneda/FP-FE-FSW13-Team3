@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { Toast, Row, Col, Button } from 'react-bootstrap';
 import userImage from '../../../assets/user.jpg';
+import './ProductList.css';
 
 const ProductList = () => {
   const [showA, setShowA] = useState(true);
@@ -14,9 +15,23 @@ const ProductList = () => {
     <>
       <div className="row justify-content-start g-1 row-cols-lg-3">
         <div className="col">
-          <button className="add-product">
-            <i class="fa-solid fa-plus"></i>
-          </button>
+          <label htmlFor="file-upload" className="file-upload">
+            <div className="fileUploadButton">
+              <input
+                id="file-upload"
+                type="file"
+                // accept="image/x-png, image/jpeg"
+                accept="image/*"
+                style={{
+                  display: 'none',
+                }}
+              />
+              <div className="text-center mt-5">
+                <i class="fa-solid fa-plus mt-4"></i>
+                <div>Tambah Produk</div>
+              </div>
+            </div>
+          </label>
         </div>
         <div className="col">
           <div className="card p-2">
