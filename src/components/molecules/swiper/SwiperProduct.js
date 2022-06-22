@@ -30,10 +30,13 @@ export default function SwiperProduct({ imgProduct }) {
         <SwiperSlide>
           <img
             src={imgProduct ? imgProduct : detailImg}
-            className="d-block w-100"
+            className="d-block w-100 img-fluid"
             alt="..."
             style={{
               borderRadius: '16px',
+              maxHeight: '436px',
+              // height: '436px',
+              // objectFit: 'cover',
             }}
           />
         </SwiperSlide>
@@ -44,6 +47,7 @@ export default function SwiperProduct({ imgProduct }) {
             alt="..."
             style={{
               borderRadius: '16px',
+              maxHeight: '436px',
             }}
           />
         </SwiperSlide>
@@ -54,6 +58,7 @@ export default function SwiperProduct({ imgProduct }) {
             alt="..."
             style={{
               borderRadius: '16px',
+              maxHeight: '436px',
             }}
           />
         </SwiperSlide>
@@ -64,6 +69,7 @@ export default function SwiperProduct({ imgProduct }) {
             alt="..."
             style={{
               borderRadius: '16px',
+              maxHeight: '436px',
             }}
           />
         </SwiperSlide>
