@@ -15,7 +15,7 @@ import './SwiperProduct.css';
 // import required modules
 import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper';
 
-export default function SwiperProduct() {
+export default function SwiperProduct({ imgProduct }) {
   return (
     <>
       <Swiper
@@ -28,16 +28,50 @@ export default function SwiperProduct() {
         className="mySwiper"
       >
         <SwiperSlide>
-          <img src={detailImg} className="d-block w-100" alt="..." />
+          <img
+            src={imgProduct ? imgProduct : detailImg}
+            className="d-block w-100 img-fluid"
+            alt="..."
+            style={{
+              borderRadius: '16px',
+              maxHeight: '436px',
+              // height: '436px',
+              // objectFit: 'cover',
+            }}
+          />
         </SwiperSlide>
         <SwiperSlide>
-          <img src={detailImg} className="d-block w-100" alt="..." />
+          <img
+            src={imgProduct ? imgProduct : detailImg}
+            className="d-block w-100"
+            alt="..."
+            style={{
+              borderRadius: '16px',
+              maxHeight: '436px',
+            }}
+          />
         </SwiperSlide>
         <SwiperSlide>
-          <img src={detailImg} className="d-block w-100" alt="..." />
+          <img
+            src={imgProduct ? imgProduct : detailImg}
+            className="d-block w-100"
+            alt="..."
+            style={{
+              borderRadius: '16px',
+              maxHeight: '436px',
+            }}
+          />
         </SwiperSlide>
         <SwiperSlide>
-          <img src={detailImg} className="d-block w-100" alt="..." />
+          <img
+            src={imgProduct ? imgProduct : detailImg}
+            className="d-block w-100"
+            alt="..."
+            style={{
+              borderRadius: '16px',
+              maxHeight: '436px',
+            }}
+          />
         </SwiperSlide>
       </Swiper>
     </>
