@@ -1,5 +1,5 @@
 import React from "react";
-import InputForm from "../../atoms/InputForm/InputForm";
+import InputForm from "../../atoms/inputform/InputForm";
 import MyNavbar from "../../molecules/navbarProfile/NavbarProfile";
 import Form from "react-bootstrap/Form";
 import OptionInput from "../../atoms/OptionInput/OptionInput";
