@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import ButtonCategory from '../../atoms/buttoncategory/ButtonCategory';
 import watch from '../../../assets/watch.png';
 import './ProductCategory.css';
@@ -19,26 +20,31 @@ const ProductCategory = ({ product }) => {
           {product &&
             product.map((data, index) => {
               return (
-                <div key={index} className="col">
-                  <div className="card p-2">
-                    <img
-                      src={data.image}
-                      alt=""
-                      style={{
-                        height: '97.1719px',
-                        objectFit: 'cover',
-                      }}
-                    />
-                    <p className="product-title mb-0">{data.product_name}</p>
-                    <p className="desc mb-0">{data.category}</p>
-                    <p className="price">
-                      {Intl.NumberFormat('id-ID', {
-                        style: 'currency',
-                        currency: 'IDR',
-                      }).format(data.product_price)}
-                    </p>
+                <Link
+                  to={`product/${data.id}`}
+                  style={{ color: 'inherit', textDecoration: 'inherit' }}
+                >
+                  <div key={index} className="col">
+                    <div className="card p-2">
+                      <img
+                        src={data.image}
+                        alt=""
+                        style={{
+                          height: '97.1719px',
+                          objectFit: 'cover',
+                        }}
+                      />
+                      <p className="product-title mb-0">{data.product_name}</p>
+                      <p className="desc mb-0">{data.category}</p>
+                      <p className="price">
+                        {Intl.NumberFormat('id-ID', {
+                          style: 'currency',
+                          currency: 'IDR',
+                        }).format(data.product_price)}
+                      </p>
+                    </div>
                   </div>
-                </div>
+                </Link>
               );
             })}
           {!product && <div>No found data</div>}

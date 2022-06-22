@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { Icon } from "react-icons-kit";
-import { eye } from "react-icons-kit/feather/eye";
-import { eyeOff } from "react-icons-kit/feather/eyeOff";
-import BgLogin from "../../../../src/assets/bg-login.png";
-import "./Login.css";
-import { Link } from "react-router-dom";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { Icon } from 'react-icons-kit';
+import { eye } from 'react-icons-kit/feather/eye';
+import { eyeOff } from 'react-icons-kit/feather/eyeOff';
+import BgLogin from '../../../../src/assets/bg-login.png';
+import './Login.css';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [type, setType] = useState("password");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [type, setType] = useState('password');
   const [icon, setIcon] = useState(eyeOff);
   const navigate = useNavigate();
 
@@ -29,20 +29,20 @@ const Login = () => {
     event.preventDefault();
     try {
       const response = await axios.post(
-        "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/login",
+        'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/login',
         {
           email,
           password,
         }
       );
 
-      localStorage.setItem("token", response.data.token);
+      localStorage.setItem('token', response.data.token);
       // console.log(response.data.token);
       // console.log(response.data.name);
-      setEmail("");
-      setPassword("");
+      setEmail('');
+      setPassword('');
 
-      navigate("/profile");
+      navigate('/');
     } catch (error) {
       console.log(error);
     }
@@ -50,18 +50,18 @@ const Login = () => {
 
   const handleToggle = (event) => {
     event.preventDefault();
-    if (type === "password") {
+    if (type === 'password') {
       setIcon(eye);
-      setType("text");
+      setType('text');
     } else {
       setIcon(eyeOff);
-      setType("password");
+      setType('password');
     }
   };
 
   var sectionStyle = {
-    backgroundImage: "url(" + BgLogin + ")",
-    backgroundRepeat: "no-repeat",
+    backgroundImage: 'url(' + BgLogin + ')',
+    backgroundRepeat: 'no-repeat',
   };
   return (
     <div className="container-fluid box">
