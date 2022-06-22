@@ -1,11 +1,11 @@
-import React from 'react';
-import InputForm from '../../atoms/inputform/InputForm';
-import MyNavbar from '../../molecules/navbarProfile/NavbarProfile';
-import Form from 'react-bootstrap/Form';
-import OptionInput from '../../atoms/OptionInput/OptionInput';
-import TextArea from '../../atoms/textArea/TextArea';
-import PicInput from '../../../assets/fi_camera.png';
-import './CreateProduct.css';
+import React from "react";
+import InputForm from "../../atoms/InputForm/InputForm";
+import MyNavbar from "../../molecules/navbarProfile/NavbarProfile";
+import Form from "react-bootstrap/Form";
+import OptionInput from "../../atoms/OptionInput/OptionInput";
+import TextArea from "../../atoms/textArea/TextArea";
+import PicInput from "../../../assets/fi_camera.png";
+import "./CreateProduct.css";
 
 const CreateProduct = () => {
   return (
@@ -18,7 +18,7 @@ const CreateProduct = () => {
               <div className="row w-100 justify-content-center">
                 <i
                   className="fa-solid fa-arrow-left"
-                  style={{ marginTop: '20px' }}
+                  style={{ marginTop: "20px" }}
                 ></i>
                 <div className="col-9">
                   <label className="d-flex justify-content-between">
@@ -55,9 +55,9 @@ const CreateProduct = () => {
                   <div className="input-pic">
                     <label
                       className="d-flex justify-content-center mt-3"
-                      for="input-file"
+                      htmlFor="input-file"
                     >
-                      <i class="fa-solid fa-plus fa-xl"></i>
+                      <i className="fa-solid fa-plus fa-xl"></i>
                     </label>
 
                     <div className="input-group mb-3">

@@ -1,19 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Icon } from "react-icons-kit";
 import { eye } from "react-icons-kit/feather/eye";
 import { eyeOff } from "react-icons-kit/feather/eyeOff";
 import BgLogin from "../../../../src/assets/bg-login.png";
 import "./Login.css";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  var sectionStyle = {
-    backgroundImage: "url(" + BgLogin + ")",
-    backgroundRepeat: "no-repeat",
-  };
-
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [type, setType] = useState("password");
   const [icon, setIcon] = useState(eyeOff);
+  const navigate = useNavigate();
+
+  const handleEmail = (event) => {
+    event.preventDefault();
+    setEmail(event.target.value);
+  };
+
+  const handlePassword = (event) => {
+    event.preventDefault();
+    setPassword(event.target.value);
+  };
+
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await axios.post(
+        "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/login",
+        {
+          email,
+          password,
+        }
+      );
+
+      localStorage.setItem("token", response.data.token);
+      // console.log(response.data.token);
+      // console.log(response.data.name);
+      setEmail("");
+      setPassword("");
+
+      navigate("/profile");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleToggle = (event) => {
     event.preventDefault();
@@ -24,6 +57,11 @@ const Login = () => {
       setIcon(eyeOff);
       setType("password");
     }
+  };
+
+  var sectionStyle = {
+    backgroundImage: "url(" + BgLogin + ")",
+    backgroundRepeat: "no-repeat",
   };
   return (
     <div className="container-fluid box">
@@ -54,10 +92,12 @@ const Login = () => {
                   <input
                     type="text"
                     className="border-radius form-control"
-                    placeholder="Username"
+                    placeholder="email@gmail.com"
                     aria-label="Username"
                     aria-describedby="basic-addon1"
                     autoComplete="off"
+                    value={email}
+                    onChange={handleEmail}
                   />
                 </div>
               </div>
@@ -70,10 +110,12 @@ const Login = () => {
                     <input
                       type={type}
                       className="border-radius form-control"
-                      placeholder="Username"
+                      placeholder="password"
                       aria-label="Username"
                       aria-describedby="basic-addon1"
                       autoComplete="off"
+                      value={password}
+                      onChange={handlePassword}
                     />
                     <button onClick={handleToggle}>
                       <Icon icon={icon} size={20} />
@@ -82,7 +124,10 @@ const Login = () => {
                 </div>
               </div>
               <div className="col-9 mb-5">
-                <button className="btn w-100 border-radius btn-login">
+                <button
+                  onClick={handleLogin}
+                  className="btn w-100 border-radius btn-login"
+                >
                   Masuk
                 </button>
               </div>
