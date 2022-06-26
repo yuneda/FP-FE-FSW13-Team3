@@ -17,3 +17,10 @@
   padding: 10px;
   border-radius: 25px;
 }
+
+@media only screen and (max-width: 576px) {
+  .fit {
+    margin-top: -70px;
+    z-index: 10;
+  }
+}

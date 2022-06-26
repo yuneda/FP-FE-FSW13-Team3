@@ -1,3 +1,7 @@
+.fox {
+  border-bottom: 3px solid #eeeeee;
+}
+
 .search-input {
   width: 400px;
   height: 48px;
@@ -10,4 +14,13 @@
 .user-input:focus {
   border: none;
   outline: none;
+}
+
+@media only screen and (max-width: 576px) {
+  .logo {
+    display: none;
+  }
+  .fox {
+    border-bottom: 0px;
+  }
 }
