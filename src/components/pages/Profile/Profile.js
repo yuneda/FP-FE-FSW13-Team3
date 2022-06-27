@@ -71,7 +71,6 @@ const Profile = () => {
           },
         }
       );
-      console.log(response);
     } catch (error) {
       console.log(error.message);
     }
