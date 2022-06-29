@@ -13,3 +13,9 @@
   border: 1px solid #7126b5;
   width: 230px;
 }
+
+@media only screen and (max-width: 576px) {
+  .responsive-form {
+    margin-top: 50px;
+  }
+}

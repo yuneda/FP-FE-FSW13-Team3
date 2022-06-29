@@ -1,31 +1,31 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import './Register.css';
-import { Icon } from 'react-icons-kit';
-import { eye } from 'react-icons-kit/feather/eye';
-import { eyeOff } from 'react-icons-kit/feather/eyeOff';
-import BgRegister from '../../../assets/bg-register.png';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import axios from "axios";
+import "./Register.css";
+import { Icon } from "react-icons-kit";
+import { eye } from "react-icons-kit/feather/eye";
+import { eyeOff } from "react-icons-kit/feather/eyeOff";
+import BgRegister from "../../../assets/bg-register.png";
+import { Link } from "react-router-dom";
 
 const Register = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [type, setType] = useState('password');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [type, setType] = useState("password");
   const [icon, setIcon] = useState(eyeOff);
   var registerImage = {
-    backgroundImage: 'url(' + BgRegister + ')',
-    backgroundRepeat: 'no-repeat',
+    backgroundImage: "url(" + BgRegister + ")",
+    backgroundRepeat: "no-repeat",
   };
 
   const handleToggle = (event) => {
     event.preventDefault();
-    if (type === 'password') {
+    if (type === "password") {
       setIcon(eye);
-      setType('text');
+      setType("text");
     } else {
       setIcon(eyeOff);
-      setType('password');
+      setType("password");
     }
   };
   const handleName = (event) => {
@@ -57,7 +57,7 @@ const Register = () => {
     //   .then((json) => console.log(json));
     try {
       const response = await axios.post(
-        'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/register',
+        "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/register",
         {
           name,
           email,
@@ -66,9 +66,9 @@ const Register = () => {
       );
 
       console.log(response);
-      setName('');
-      setEmail('');
-      setPassword('');
+      setName("");
+      setEmail("");
+      setPassword("");
     } catch (error) {
       console.log(error);
     }
@@ -77,26 +77,29 @@ const Register = () => {
     <div className="container-fluid box">
       <div className="row">
         <div
-          className="col-md-6 col-sm-12 col-12 left d-flex align-items-center"
+          className="col-md-6 col-sm-12 col-12 left d-flex align-items-center fit-image"
           style={registerImage}
         >
           <div className="row justify-content-center">
-            <div className="col-10 title-register">
+            <div className="col-sm-10 title-register">
               <h2 className="title-register">Second</h2>
             </div>
-            <div className="col-10">
+            <div className="col-sm-10">
               <h2 className="title-register">Hand.</h2>
             </div>
           </div>
         </div>
         <div className="col-md-6 col-sm-12 col-12 right d-flex align-items-center">
-          <form autoComplete="off">
+          <form autoComplete="off" className="fit-form">
             <div className="row w-100 justify-content-center">
-              <div className="col-9 mb-3 text">
-                <i className="bi bi-arrow-left" />
+              <i
+                className="fit-font fa-solid fa-arrow-left mb-5"
+                style={{ marginTop: "20px" }}
+              ></i>
+              <div className="col-sm-9 mb-3 text justify-content-start d-flex">
                 <h1>Daftar</h1>
               </div>
-              <div className="col-9">
+              <div className="col-sm-9">
                 <label className="d-flex justify-content-between">Nama</label>
                 <div className="input-group mb-3">
                   <input
@@ -111,7 +114,7 @@ const Register = () => {
                   />
                 </div>
               </div>
-              <div className="col-9">
+              <div className="col-sm-9">
                 <label className="d-flex justify-content-between">Email</label>
                 <div className="input-group mb-3">
                   <input
@@ -126,7 +129,7 @@ const Register = () => {
                   />
                 </div>
               </div>
-              <div className="col-9">
+              <div className="col-sm-9">
                 <label className="d-flex justify-content-between">
                   Password
                 </label>
@@ -148,7 +151,7 @@ const Register = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-9 mb-5">
+              <div className="col-sm-9 mb-5">
                 <button
                   className="btn w-100 border-radius btn-register"
                   onClick={handleRegister}
@@ -156,9 +159,12 @@ const Register = () => {
                   Daftar
                 </button>
               </div>
-              <div className="col-10 text-center">
+              <div className="col-sm-10 text-center range-bot">
                 <p>
-                  Sudah punya akun ? <Link to="/login">Masuk di sini</Link>
+                  Sudah punya akun ?{" "}
+                  <Link to="/login" className="font-color fw-bold">
+                    Masuk di sini
+                  </Link>
                 </p>
               </div>
             </div>

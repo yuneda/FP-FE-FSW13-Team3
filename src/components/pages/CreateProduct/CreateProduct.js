@@ -10,17 +10,17 @@ import "./CreateProduct.css";
 const CreateProduct = () => {
   return (
     <>
-      <MyNavbar />
+      <MyNavbar title="Lengkapi Detail Produk" />
       <div className="container-fluid box">
         <div className="row justify-content-center mt-3">
           <div className="col-md-6 col-sm-12 col-12 right d-flex">
-            <form autoComplete="off">
-              <div className="row w-100 justify-content-center">
+            <form autoComplete="off" className="justify-content-center d-flex">
+              <div className="row w-100 justify-content-center fit">
                 <i
                   className="fa-solid fa-arrow-left"
                   style={{ marginTop: "20px" }}
                 ></i>
-                <div className="col-9">
+                <div className="col-sm-9 responsive-form">
                   <label className="d-flex justify-content-between">
                     Nama Produk
                   </label>
@@ -47,11 +47,11 @@ const CreateProduct = () => {
                   type="text"
                   placeholder="Contoh: Jalan Ikan Hiu 33"
                 />
-                <div className="col-9 justify-content-start d-flex">
+                <div className="col-sm-9 justify-content-start d-flex">
                   <label>Foto Produk</label>
                 </div>
 
-                <div className="col-9 justify-content-start d-flex mb-5 input-file ">
+                <div className="col-sm-9 justify-content-start d-flex mb-5 input-file ">
                   <div className="input-pic">
                     <label
                       className="d-flex justify-content-center mt-3"
