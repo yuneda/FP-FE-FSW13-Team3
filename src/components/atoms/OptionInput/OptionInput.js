@@ -1,5 +1,5 @@
-import React from "react";
-import "./OptionInput.css";
+import React from 'react';
+import './OptionInput.css';
 
 const OptionInput = (props) => {
   return (
@@ -11,11 +11,15 @@ const OptionInput = (props) => {
             className="form-select option-field"
             id="inputGroupSelect04"
             aria-label="Example select with button addon"
+            onChange={props.onChange}
+            value={props.value}
           >
-            <option defaultValue="1">{props.select}</option>
-            <option value="1">{props.value1}</option>
-            <option value="2">{props.value2}</option>
-            <option value="3">{props.value3}</option>
+            <option defaultValue="Hobi">{props.select}</option>
+            <option value="Hobi">Hobi</option>
+            <option value="Kendaraan">Kendaraan</option>
+            <option value="Baju">Baju</option>
+            <option value="Elektronik">Elektronik</option>
+            <option value="Kesehatan">Kesehatan</option>
           </select>
         </div>
       </div>
