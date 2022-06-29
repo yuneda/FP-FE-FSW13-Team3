@@ -1,5 +1,5 @@
-import React from "react";
-import Form from "react-bootstrap/Form";
+import React from 'react';
+import Form from 'react-bootstrap/Form';
 
 const TextArea = (props) => {
   return (
@@ -16,6 +16,8 @@ const TextArea = (props) => {
             aria-label="Username"
             aria-describedby="basic-addon1"
             autoComplete="off"
+            onChange={props.onChange}
+            value={props.value}
           />
         </div>
       </div>

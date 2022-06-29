@@ -59,20 +59,22 @@ const Profile = () => {
     form.append('city', city);
     form.append('address', address);
     form.append('no_tlpn', phone);
-    // console.log(form);
+    console.log(file, name, city, address, phone);
+    const inputBody = { name, city, address, no_tlpn: phone };
     try {
-      const response = await axios.put(
-        'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/users/:id/picture/cloudinary',
-        form,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            Authorization: 'Bearer ' + token,
-          },
-        }
-      );
+      const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user';
+      const url2 =
+        'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user/2/picture/cloudinary';
+      const response = await axios.put(url2, form, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          // 'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token,
+        },
+      });
+      console.log(response);
     } catch (error) {
-      console.log(error.message);
+      console.log(error);
     }
   };
   return (
@@ -100,6 +102,7 @@ const Profile = () => {
                         style={{
                           display: 'none',
                         }}
+                        name="picture"
                         onChange={handleFile}
                       />
                       <div className="text-center py-2">
@@ -138,7 +141,7 @@ const Profile = () => {
                       id="inputGroupSelect04"
                       aria-label="Example select with button addon"
                       onChange={handleCity}
-                      value={city}
+                      value={city ? city : 'Surabaya'}
                     >
                       <option defaultValue="Surabaya">Pilih Kota</option>
                       {capitalCity.map((city, index) => (
@@ -163,7 +166,7 @@ const Profile = () => {
                       aria-label="Username"
                       aria-describedby="basic-addon1"
                       autoComplete="off"
-                      value={address}
+                      value={address ? address : ''}
                       onChange={handleAddress}
                     />
                   </div>
@@ -180,7 +183,7 @@ const Profile = () => {
                       aria-label="Username"
                       aria-describedby="basic-addon1"
                       autoComplete="off"
-                      value={phone}
+                      value={phone ? phone : ''}
                       onChange={handlePhone}
                     />
                   </div>
