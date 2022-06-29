@@ -3,7 +3,7 @@ import './InputForm.css';
 
 const InputForm = ({ ...props }) => {
   return (
-    <div className="col-9">
+    <div className="col-sm-9">
       <label className="d-flex justify-content-between">{props.name}</label>
       <div className="input-group mt-2 mb-3 input-form">
         <input
