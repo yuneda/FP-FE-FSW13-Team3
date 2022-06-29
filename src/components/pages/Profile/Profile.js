@@ -1,113 +1,118 @@
 import React, { useState } from "react";
+import axios from "axios";
 import "./Profile.css";
 import Navbar from "../../molecules/navbarProfile/NavbarProfile";
 import Form from "react-bootstrap/Form";
 import PicInput from "../../../assets/fi_camera.png";
-import axios from "axios";
-import city from "../../../docs/city.json";
+import capitalCity from "../../../docs/city.json";
 
 const Profile = () => {
-  const url =
-    "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/users/:id/picture/cloudinary";
   const token = localStorage.getItem("token");
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
+  const [file, setFile] = useState(null);
   const [name, setName] = useState("");
-  const [kota, setKota] = useState("");
-  const [alamat, setAlamat] = useState("");
-  const [no_tlpn, setNo_tlpn] = useState("");
-  const [image, setImage] = useState("");
-
-  const handleName = (event) => {
-    event.preventDefault();
-    setName(event.target.value);
-  };
-  const handleKota = (event) => {
-    event.preventDefault();
-    setKota(event.target.value);
-  };
-  const handleAlamat = (event) => {
-    event.preventDefault();
-    setAlamat(event.target.value);
-  };
-  const handleTelepon = (event) => {
-    event.preventDefault();
-    setNo_tlpn(event.target.value);
-  };
-  const handleImage = (event) => {
-    event.preventDefault();
-    setImage(event.target.value);
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      const response = await axios.put(
-        url,
-        {
-          name,
-          city: kota,
-          address: alamat,
-          no_tlpn,
+  const [city, setCity] = useState("");
+  const [address, setAddress] = useState("");
+  const [phone, setPhone] = useState("");
+  useState(async () => {
+    let result = await axios.get(
+      "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user",
+      {
+        headers: {
+          Authorization: "Bearer " + token,
         },
-        config
-      );
-      console.log(name, kota, alamat, no_tlpn_image);
-      setName("");
-      setKota("");
-      setAlamat("");
-      setNo_tlpn("");
-      setImage("");
+      }
+    );
+    result = result.data.data;
+    console.log(result.name);
+    setName(result.name);
+    setCity(result.city);
+    setAddress(result.address);
+    setPhone(result.no_tlpn);
+    console.log(result);
+  });
+  const handleName = (e) => {
+    e.preventDefault();
+    setName(e.target.value);
+  };
+  const handleCity = (e) => {
+    e.preventDefault();
+    setCity(e.target.value);
+  };
+  const handleAddress = (e) => {
+    e.preventDefault();
+    setAddress(e.target.value);
+  };
+  const handlePhone = (e) => {
+    e.preventDefault();
+    setPhone(e.target.value);
+  };
+  const handleFile = (e) => {
+    e.preventDefault();
+    setFile(e.target.files[0]);
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const form = new FormData();
+    // photoFormData.append("avatar", file);
+    form.append("picture", file);
+    form.append("name", name);
+    form.append("city", city);
+    form.append("address", address);
+    form.append("no_tlpn", phone);
+    console.log(file, name, city, address, phone);
+    const inputBody = { name, city, address, no_tlpn: phone };
+    try {
+      const url = "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user";
+      const url2 =
+        "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user/2/picture/cloudinary";
+      const response = await axios.put(url2, form, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          // 'Content-Type': 'application/json',
+          Authorization: "Bearer " + token,
+        },
+      });
+      console.log(response);
     } catch (error) {
       console.log(error);
     }
   };
-
   return (
     <>
       <Navbar title="Lengkapi Info Akun" />
       <div className="container-fluid box">
         <div className="row justify-content-center mt-3">
           <div className="col-md-6 col-sm-12 col-12 right d-flex">
-            <form
-              autoComplete="off"
-              onSubmit={handleSubmit}
-              encType="multipart/form-data"
-              className="justify-content-center d-flex"
-            >
+            <form autoComplete="off" onSubmit={handleSubmit}>
               <div className="row w-100 justify-content-center fit">
                 <i
-                  className="fa-solid fa-arrow-left fit"
+                  className="fa-solid fa-arrow-left"
                   style={{ marginTop: "20px" }}
                 ></i>
-                <div className="col-sm-4  justify-content-center d-flex">
-                  <div className="bgImage ">
-                    <label
-                      className="d-flex justify-content-center image-label"
-                      for="input-file"
-                    >
-                      <img src={PicInput} width="40" />
-                    </label>
-                    <div className="input-group mb-3">
+                <div className="col-sm-4 mt-3 justify-content-center d-flex">
+                  <label
+                    htmlFor="file-upload"
+                    className="bgImage user-upload-image"
+                  >
+                    <div className="my-2">
                       <input
-                        id="input-file"
+                        id="file-upload"
                         type="file"
+                        accept="image/*"
+                        style={{
+                          display: "none",
+                        }}
                         name="picture"
-                        accept="image/png, image/gif, image/jpeg"
-                        className="border-radius form-control picture-field"
-                        placeholder="Username"
-                        aria-label="Username"
-                        aria-describedby="basic-addon1"
-                        autoComplete="off"
-                        value={image}
-                        onChange={handleImage}
+                        onChange={handleFile}
                       />
+                      <div className="text-center py-2">
+                        <img
+                          src={PicInput}
+                          style={{ width: "26px", height: "26px" }}
+                        />
+                      </div>
                     </div>
-                  </div>
+                  </label>
                 </div>
                 <div className="col-sm-9">
                   <label className="d-flex justify-content-between">
@@ -117,7 +122,7 @@ const Profile = () => {
                     <input
                       type="text"
                       className="border-radius form-control"
-                      placeholder="Username"
+                      placeholder="Nama"
                       aria-label="Username"
                       aria-describedby="basic-addon1"
                       autoComplete="off"
@@ -135,17 +140,15 @@ const Profile = () => {
                       className="form-select option-field"
                       id="inputGroupSelect04"
                       aria-label="Example select with button addon"
+                      onChange={handleCity}
+                      value={city ? city : "Surabaya"}
                     >
-                      <option selected>Pilih Kota</option>
-                      {city.map((town, index) => (
-                        <option key={index} value={town.city}>
-                          {town.city}
+                      <option defaultValue="Surabaya">Pilih Kota</option>
+                      {capitalCity.map((city, index) => (
+                        <option key={index} value={city.city}>
+                          {city.city}
                         </option>
                       ))}
-
-                      {/* <option value="1">One</option>
-                      <option value="2">Two</option>
-                      <option value="3">Three</option> */}
                     </select>
                   </div>
                 </div>
@@ -163,8 +166,8 @@ const Profile = () => {
                       aria-label="Username"
                       aria-describedby="basic-addon1"
                       autoComplete="off"
-                      value={alamat}
-                      onChange={handleAlamat}
+                      value={address ? address : ""}
+                      onChange={handleAddress}
                     />
                   </div>
                 </div>
@@ -180,15 +183,15 @@ const Profile = () => {
                       aria-label="Username"
                       aria-describedby="basic-addon1"
                       autoComplete="off"
-                      value={no_tlpn}
-                      onChange={handleTelepon}
+                      value={phone ? phone : ""}
+                      onChange={handlePhone}
                     />
                   </div>
                 </div>
                 <div className="col-sm-9 mb-5">
                   <button
-                    className="btn w-100 border-radius btn-register"
                     type="submit"
+                    className="btn w-100 border-radius btn-register"
                   >
                     Simpan
                   </button>

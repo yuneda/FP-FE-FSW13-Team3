@@ -14,6 +14,12 @@
   width: 230px;
 }
 
+.product-upload-image {
+  border: 2px dashed #d0d0d0;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
 @media only screen and (max-width: 576px) {
   .responsive-form {
     margin-top: 50px;

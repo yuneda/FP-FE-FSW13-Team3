@@ -21,13 +21,14 @@ const ProductCategory = ({ product }) => {
             product.map((data, index) => {
               return (
                 <Link
+                  key={index}
                   to={`product/${data.id}`}
                   style={{ color: 'inherit', textDecoration: 'inherit' }}
                 >
                   <div key={index} className="col">
                     <div className="card p-2">
                       <img
-                        src={data.image}
+                        src={data.image[0]}
                         alt=""
                         style={{
                           height: '97.1719px',
