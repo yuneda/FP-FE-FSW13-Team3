@@ -4,7 +4,7 @@ import './OptionInput.css';
 const OptionInput = (props) => {
   return (
     <>
-      <div className="col-9 mb-3 ">
+      <div className="col-sm-9 mb-3 ">
         <label className="d-flex justify-content-between">{props.name}</label>
         <div className="input-group">
           <select

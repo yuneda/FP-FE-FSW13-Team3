@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { Icon } from 'react-icons-kit';
-import { eye } from 'react-icons-kit/feather/eye';
-import { eyeOff } from 'react-icons-kit/feather/eyeOff';
-import BgLogin from '../../../../src/assets/bg-login.png';
-import './Login.css';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Icon } from "react-icons-kit";
+import { eye } from "react-icons-kit/feather/eye";
+import { eyeOff } from "react-icons-kit/feather/eyeOff";
+import BgLogin from "../../../../src/assets/bg-login.png";
+import "./Login.css";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [type, setType] = useState('password');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [type, setType] = useState("password");
   const [icon, setIcon] = useState(eyeOff);
   const navigate = useNavigate();
 
@@ -29,20 +29,20 @@ const Login = () => {
     event.preventDefault();
     try {
       const response = await axios.post(
-        'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/login',
+        "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/login",
         {
           email,
           password,
         }
       );
 
-      localStorage.setItem('token', response.data.token);
+      localStorage.setItem("token", response.data.token);
       // console.log(response.data.token);
       // console.log(response.data.name);
-      setEmail('');
-      setPassword('');
+      setEmail("");
+      setPassword("");
 
-      navigate('/');
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
@@ -50,43 +50,46 @@ const Login = () => {
 
   const handleToggle = (event) => {
     event.preventDefault();
-    if (type === 'password') {
+    if (type === "password") {
       setIcon(eye);
-      setType('text');
+      setType("text");
     } else {
       setIcon(eyeOff);
-      setType('password');
+      setType("password");
     }
   };
 
   var sectionStyle = {
-    backgroundImage: 'url(' + BgLogin + ')',
-    backgroundRepeat: 'no-repeat',
+    backgroundImage: "url(" + BgLogin + ")",
+    backgroundRepeat: "no-repeat",
   };
   return (
     <div className="container-fluid box">
       <div className="row">
         <div
-          className="col-md-6 col-sm-12 col-12 left d-flex align-items-center"
+          className="col-md-6 col-sm-12 col-12 left d-flex align-items-center fit-image"
           style={sectionStyle}
         >
           <div className="row justify-content-center">
             <div className="col-10 title-login">
               <h2 className="title-login">Second</h2>
             </div>
-            <div className="col-10">
+            <div className="col-sm-10">
               <h2 className="title-login">Hand.</h2>
             </div>
           </div>
         </div>
         <div className="col-md-6 col-sm-12 col-12 right d-flex align-items-center">
-          <div>
+          <div className="fit-form-login">
             <div className="row w-100 justify-content-center">
-              <div className="col-9 mb-3">
-                <i className="bi bi-arrow-left" />
+              <div className="col-sm-9 mb-3">
+                <i
+                  className="fit-font fa-solid fa-arrow-left mb-5"
+                  style={{ marginTop: "20px" }}
+                ></i>
                 <h1>Masuk</h1>
               </div>
-              <div className="col-9">
+              <div className="col-sm-9">
                 <label>Email</label>
                 <div className="input-group mb-3">
                   <input
@@ -101,7 +104,7 @@ const Login = () => {
                   />
                 </div>
               </div>
-              <div className="col-9">
+              <div className="col-sm-9">
                 <label className="d-flex justify-content-between">
                   Password
                 </label>
@@ -123,7 +126,7 @@ const Login = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-9 mb-5">
+              <div className="col-sm-9 mb-5">
                 <button
                   onClick={handleLogin}
                   className="btn w-100 border-radius btn-login"
@@ -131,9 +134,12 @@ const Login = () => {
                   Masuk
                 </button>
               </div>
-              <div className="col-9 text-center">
+              <div className="col-sm-9 text-center">
                 <p>
-                  Belum punya akun ? <Link to="/register">Daftar di sini</Link>
+                  Belum punya akun ?{" "}
+                  <Link to="/register" className="font-color fw-bold">
+                    Daftar di sini
+                  </Link>
                 </p>
               </div>
             </div>
