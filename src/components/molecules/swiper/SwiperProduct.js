@@ -27,52 +27,21 @@ export default function SwiperProduct({ imgProduct }) {
         modules={[Navigation, Pagination, Mousewheel, Keyboard]}
         className="mySwiper"
       >
-        <SwiperSlide>
-          <img
-            src={imgProduct ? imgProduct : detailImg}
-            className="d-block w-100 img-fluid"
-            alt="..."
-            style={{
-              borderRadius: '16px',
-              maxHeight: '436px',
-              // height: '436px',
-              // objectFit: 'cover',
-            }}
-          />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img
-            src={imgProduct ? imgProduct : detailImg}
-            className="d-block w-100"
-            alt="..."
-            style={{
-              borderRadius: '16px',
-              maxHeight: '436px',
-            }}
-          />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img
-            src={imgProduct ? imgProduct : detailImg}
-            className="d-block w-100"
-            alt="..."
-            style={{
-              borderRadius: '16px',
-              maxHeight: '436px',
-            }}
-          />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img
-            src={imgProduct ? imgProduct : detailImg}
-            className="d-block w-100"
-            alt="..."
-            style={{
-              borderRadius: '16px',
-              maxHeight: '436px',
-            }}
-          />
-        </SwiperSlide>
+        {imgProduct.map((swiper, index) => (
+          <SwiperSlide key={index}>
+            <img
+              src={swiper}
+              className="d-block w-100 img-fluid"
+              alt="..."
+              style={{
+                borderRadius: '16px',
+                maxHeight: '436px',
+                // height: '436px',
+                // objectFit: 'cover',
+              }}
+            />
+          </SwiperSlide>
+        ))}
       </Swiper>
     </>
   );
