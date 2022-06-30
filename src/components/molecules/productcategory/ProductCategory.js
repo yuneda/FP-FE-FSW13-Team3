@@ -1,22 +1,119 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ButtonCategory from '../../atoms/buttoncategory/ButtonCategory';
 import watch from '../../../assets/watch.png';
 import './ProductCategory.css';
 import data from '../../../docs/product.json';
 
-const ProductCategory = ({ product }) => {
+const ProductCategory = ({ product, handleFilter }) => {
+  const [all, setAll] = useState(true);
+  const [hobby, setHobby] = useState(false);
+  const [vehicle, setVehicle] = useState(false);
+  const [shirt, setShirt] = useState(false);
+  const [electronic, setElectronic] = useState(false);
+  const [health, setHealth] = useState(false);
+  const handleAll = (e) => {
+    e.preventDefault();
+    setAll(true);
+    setHobby(false);
+    setVehicle(false);
+    setShirt(false);
+    setElectronic(false);
+    setHealth(false);
+  };
+  const handleHobby = (e) => {
+    e.preventDefault();
+    setAll(false);
+    setHobby(true);
+    setVehicle(false);
+    setShirt(false);
+    setElectronic(false);
+    setHealth(false);
+  };
+  const handleVehicle = (e) => {
+    e.preventDefault();
+    setAll(false);
+    setHobby(false);
+    setVehicle(true);
+    setShirt(false);
+    setElectronic(false);
+    setHealth(false);
+  };
+  const handleShirt = (e) => {
+    e.preventDefault();
+    setAll(false);
+    setHobby(false);
+    setVehicle(false);
+    setShirt(true);
+    setElectronic(false);
+    setHealth(false);
+  };
+  const handleElectronic = (e) => {
+    e.preventDefault();
+    setAll(false);
+    setHobby(false);
+    setVehicle(false);
+    setShirt(false);
+    setElectronic(true);
+    setHealth(false);
+  };
+  const handleHealth = (e) => {
+    e.preventDefault();
+    setAll(false);
+    setHobby(false);
+    setVehicle(false);
+    setShirt(false);
+    setElectronic(false);
+    setHealth(true);
+  };
   return (
     <>
       <div className="container mt-5">
         <p className="title fw-bold">Telusuri Kategori</p>
-        <ButtonCategory content="Semua" isActive={true} />
-        <ButtonCategory content="Hobi" isActive={false} />
-        <ButtonCategory content="Kendaraan" isActive={false} />
-        <ButtonCategory content="Baju" isActive={false} />
-        <ButtonCategory content="Elektronik" isActive={false} />
-        <ButtonCategory content="Kesehatan" isActive={false} />
+        <ButtonCategory
+          content="Semua"
+          isActive={all ? true : false}
+          handleFilter={handleFilter}
+          changeActive={setAll}
+          handleChange={handleAll}
+        />
+        <ButtonCategory
+          content="Hobi"
+          isActive={hobby ? true : false}
+          handleFilter={handleFilter}
+          changeActive={setHobby}
+          handleChange={handleHobby}
+        />
+        <ButtonCategory
+          content="Kendaraan"
+          isActive={vehicle ? true : false}
+          handleFilter={handleFilter}
+          changeActive={setVehicle}
+          handleChange={handleVehicle}
+        />
+        <ButtonCategory
+          content="Baju"
+          isActive={shirt ? true : false}
+          handleFilter={handleFilter}
+          changeActive={setShirt}
+          handleChange={handleShirt}
+        />
+        <ButtonCategory
+          content="Elektronik"
+          isActive={electronic ? true : false}
+          handleFilter={handleFilter}
+          changeActive={setElectronic}
+          handleChange={handleElectronic}
+        />
+        <ButtonCategory
+          content="Kesehatan"
+          isActive={health ? true : false}
+          handleFilter={handleFilter}
+          changeActive={setHealth}
+          handleChange={handleHealth}
+        />
         <div className="row justify-content-start g-2 row-cols-lg-6 row-cols-md-4 row-cols-sm-2 row-cols-1 my-5">
+          <ButtonCategory content="Jual" isActive={true} css="btn-sell" />
           {product &&
             product.map((data, index) => {
               return (

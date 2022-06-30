@@ -1,27 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import './Navbar.css';
 import { Link } from 'react-router-dom';
 
-function MyNavbar() {
-  const [dimensions, setDimensions] = React.useState({
-    height: window.innerHeight,
-    width: window.innerWidth,
-  });
-  useEffect(() => {
-    function handleResize() {
-      setDimensions({
-        height: window.innerHeight,
-        width: window.innerWidth,
-      });
+function MyNavbar(props) {
+  // const [dimensions, setDimensions] = React.useState({
+  //   height: window.innerHeight,
+  //   width: window.innerWidth,
+  // });
+  // useEffect(() => {
+  //   function handleResize() {
+  //     setDimensions({
+  //       height: window.innerHeight,
+  //       width: window.innerWidth,
+  //     });
 
-      window.addEventListener('resize', handleResize);
+  //     window.addEventListener('resize', handleResize);
 
-      return (_) => window.removeEventListener('resize', handleResize);
-    }
-  });
+  //     return (_) => window.removeEventListener('resize', handleResize);
+  //   }
+  // });
   const btnStyle = {
     background: '#7126B5',
     borderRadius: '12px',
@@ -57,13 +57,15 @@ function MyNavbar() {
                 className="user-input"
                 placeholder="Cari di sini .."
                 type="text"
+                value={props.search}
+                onChange={props.handleSearch}
                 style={{
                   border: 'none',
                   background: 'none',
                   width: '400px',
                 }}
               />
-              <button>
+              <button onClick={props.handleSubmitSearch}>
                 <i className="fa-solid fa-magnifying-glass me-2"></i>
               </button>
             </div>
