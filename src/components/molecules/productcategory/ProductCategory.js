@@ -5,7 +5,7 @@ import watch from '../../../assets/watch.png';
 import './ProductCategory.css';
 import data from '../../../docs/product.json';
 
-const ProductCategory = ({ product, handleFilter }) => {
+const ProductCategory = ({ product, handleFilter, token }) => {
   const [all, setAll] = useState(true);
   const [hobby, setHobby] = useState(false);
   const [vehicle, setVehicle] = useState(false);
@@ -113,7 +113,6 @@ const ProductCategory = ({ product, handleFilter }) => {
           handleChange={handleHealth}
         />
         <div className="row justify-content-start g-2 row-cols-lg-6 row-cols-md-4 row-cols-sm-2 row-cols-1 my-5">
-          <ButtonCategory content="Jual" isActive={true} css="btn-sell" />
           {product &&
             product.map((data, index) => {
               return (
@@ -148,6 +147,9 @@ const ProductCategory = ({ product, handleFilter }) => {
           {!product && <div>No found data</div>}
         </div>
       </div>
+      <Link to={token ? '/create' : '/login'}>
+        <ButtonCategory content="Jual" isActive={true} css="btn-sell" />
+      </Link>
     </>
   );
 };
