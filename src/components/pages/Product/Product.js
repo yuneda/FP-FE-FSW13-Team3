@@ -1,44 +1,122 @@
-import React, { useState } from 'react';
-import NavbarProduct from '../../molecules/navbarproduct/NavbarProduct';
-import './Product.css';
-import styles from './Product.module.css';
-import userImage from '../../../assets/user.jpg';
-import likeImage from '../../../assets/liked.png';
-import Buyer from '../../../assets/buyer.png';
-import Watch from '../../../assets/watch-offer.png';
-import ProductCatDesk from '../../molecules/productcatdesk/ProductCatDesk';
-import ProductList from '../../molecules/productlist/ProductList';
-import { Toast } from 'react-bootstrap';
+import React, { useState, useEffect } from "react";
+import NavbarProduct from "../../molecules/navbarproduct/NavbarProduct";
+import "./Product.css";
+import styles from "./Product.module.css";
+import userImage from "../../../assets/user.jpg";
+import likeImage from "../../../assets/liked.png";
+import Buyer from "../../../assets/buyer.png";
+import Watch from "../../../assets/watch-offer.png";
+import ProductCatDesk from "../../molecules/productcatdesk/ProductCatDesk";
+import ProductList from "../../molecules/productlist/ProductList";
+import { Toast } from "react-bootstrap";
+import axios from "axios";
 
 const Product = () => {
+  const [data, setData] = useState([]);
   const [showA, setShowA] = useState(false);
   const [all, setAll] = useState(false);
   const [like, setLike] = useState(false);
   const [sold, setSold] = useState(false);
+  const [user, setUser] = useState(null);
+  const token = localStorage.getItem("token");
+  useEffect(() => {
+    const fetchDataUser = async () => {
+      try {
+        const url = "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user";
+        const responseUser = await axios({
+          method: "get",
+          url,
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        });
+        setUser(responseUser.data.data);
+        console.log(responseUser.data.data);
+      } catch (error) {
+        console.log("error adalah", error);
+      }
+    };
+    fetchDataUser();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const url = "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/allproduct";
+        const response = await axios({
+          method: "post",
+          url,
+          data: {
+            status: "available",
+          },
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        });
+        setData(response.data.data.product);
+      } catch (error) {
+        console.log("error adalah", error);
+      }
+    };
+    fetchData();
+  }, []);
 
   const toggleShowA = () => setShowA(!showA);
   const title = {
-    fontWeight: '700',
-    fontSize: '20px',
-    lineHeight: '30px',
+    fontWeight: "700",
+    fontSize: "20px",
+    lineHeight: "30px",
   };
   const colorActive = {
-    color: '#7126B5',
+    color: "#7126B5",
   };
   const colorInactive = {
-    color: 'black',
+    color: "black",
   };
   const handleAll = () => {
     setAll(true);
     setLike(false);
     setSold(false);
   };
-  const handleLike = () => {
+  const handleLike = async () => {
+    const url = "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/allproduct";
+    try {
+      const response = await axios({
+        method: "post",
+        url,
+        data: {
+          status: "interested",
+        },
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+      setUser(response.data.data.product);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
     setAll(false);
     setLike(true);
     setSold(false);
   };
-  const handleSold = () => {
+  const handleSold = async () => {
+    const url = "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/allproduct";
+    try {
+      const response = await axios({
+        method: "post",
+        url,
+        data: {
+          status: "sold",
+        },
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+      setData(response.data.data.product);
+    } catch (error) {
+      console.log(error);
+    }
     setAll(false);
     setLike(false);
     setSold(true);
@@ -73,11 +151,11 @@ const Product = () => {
                     </div>
                     <div className="col-5 g-0 ">
                       <div className="text-secondary">
-                        20 Apr, 14:04{' '}
+                        20 Apr, 14:04{" "}
                         <i
                           className="fa-solid fa-circle fa-xs"
                           style={{
-                            color: 'red',
+                            color: "red",
                           }}
                         ></i>
                       </div>
@@ -104,11 +182,11 @@ const Product = () => {
                     </div>
                     <div className="col-5 g-0 ">
                       <div className="text-secondary">
-                        20 Apr, 14:04{' '}
+                        20 Apr, 14:04{" "}
                         <i
                           className="fa-solid fa-circle fa-xs"
                           style={{
-                            color: 'red',
+                            color: "red",
                           }}
                         ></i>
                       </div>
@@ -128,20 +206,25 @@ const Product = () => {
             </div>
             <div className="col-12">
               <div className="card card-user p-2">
-                <div className="d-flex justify-content-between align-items-center">
-                  <div className="col me-2">
-                    <img src={userImage} className="w-100 img-user" />
-                  </div>
-                  <div className="col-10">
-                    <div>
-                      <p className="name-user">Nama Penjual</p>
-                      <p className="address-user">kota</p>
+                {user && (
+                  <div className="d-flex justify-content-between align-items-center">
+                    <div className="col me-2">
+                      <img
+                        src={user.image}
+                        className="w-100 img-user img-fluid"
+                      />
+                    </div>
+                    <div className="col-10">
+                      <div>
+                        <p className="name-user">{user.name}</p>
+                        <p className="address-user">{user.city}</p>
+                      </div>
+                    </div>
+                    <div className="col">
+                      <button className="btn-edit">Edit</button>
                     </div>
                   </div>
-                  <div className="col">
-                    <button className="btn-edit">Edit</button>
-                  </div>
-                </div>
+                )}
               </div>
             </div>
             <div className="col-12 my-3">
@@ -206,12 +289,14 @@ const Product = () => {
                   </div>
                 </div>
                 <div className="col-9">
-                  {all && <ProductList />}
-                  {like && (
+                  {all && <ProductList product={data} action={true} />}
+                  {like && !data && (
                     <div className="text-center">
                       <img src={likeImage} alt="" className="" />
                     </div>
                   )}
+                  {like && data.length > 0 && <ProductList product={data} />}
+                  {sold && data.length > 0 && <ProductList product={data} />}
                 </div>
               </div>
             </div>
