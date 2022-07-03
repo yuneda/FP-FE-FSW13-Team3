@@ -109,9 +109,7 @@ const BuyerProduct = () => {
           <div className="col-10">
             <div className="row">
               <div className="col-lg-8 col-md-12 mt-4">
-                <div className="carousel">
-                  <SwiperProduct />
-                </div>
+                <div className="carousel">{/* <SwiperProduct /> */}</div>
               </div>
               <div className={`col-lg-4 col-md-12 mt-4`}>
                 <div className={`card p-3 ${styles.cardDesc}`}>

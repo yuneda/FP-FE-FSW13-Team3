@@ -6,22 +6,12 @@ import './Navbar.css';
 import { Link } from 'react-router-dom';
 
 function MyNavbar(props) {
-  // const [dimensions, setDimensions] = React.useState({
-  //   height: window.innerHeight,
-  //   width: window.innerWidth,
-  // });
-  // useEffect(() => {
-  //   function handleResize() {
-  //     setDimensions({
-  //       height: window.innerHeight,
-  //       width: window.innerWidth,
-  //     });
-
-  //     window.addEventListener('resize', handleResize);
-
-  //     return (_) => window.removeEventListener('resize', handleResize);
-  //   }
-  // });
+  const colorActive = {
+    color: '#7126B5',
+  };
+  const colorInactive = {
+    color: 'black',
+  };
   const btnStyle = {
     background: '#7126B5',
     borderRadius: '12px',
@@ -69,21 +59,38 @@ function MyNavbar(props) {
                 <i className="fa-solid fa-magnifying-glass me-2"></i>
               </button>
             </div>
-            {/* <Form className="d-flex">
-              <Form.Control
-                type="search"
-                placeholder="Search"
-                className="me-2 ms-2"
-                aria-label="Search"
-              />
-              <Button variant="outline-success">Search</Button>
-            </Form> */}
           </Nav>
-          <Link to="/login">
-            <button style={btnStyle}>
-              <i className="fa-solid fa-arrow-right-to-bracket"></i> Masuk
-            </button>
-          </Link>
+          {/* Not Login */}
+          {!props.token && (
+            <Link to="/login">
+              <button style={btnStyle}>
+                <i className="fa-solid fa-arrow-right-to-bracket"></i> Masuk
+              </button>
+            </Link>
+          )}
+          {/* Login */}
+          {props.token && (
+            <>
+              <Link to="/product">
+                <div style={colorInactive}>
+                  <i className="fa-solid fa-list-ul me-3"></i>
+                </div>
+              </Link>
+              <div
+                onClick={props.onToggleClick}
+                style={{
+                  cursor: 'pointer',
+                }}
+              >
+                <i className="fa-regular fa-bell me-3 text-black"></i>
+              </div>
+              <Link to="/login">
+                <div>
+                  <i className="fa-regular fa-user text-black"></i>
+                </div>
+              </Link>
+            </>
+          )}
         </Navbar.Collapse>
       </Container>
     </Navbar>
