@@ -1,27 +1,27 @@
-import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import NavbarProduct from '../../molecules/navbarproduct/NavbarProduct';
-import styles from './ProductDetail.module.css';
-import detailImg from '../../../assets/nothing.png';
-import user from '../../../assets/user.jpg';
-import SwiperProduct from '../../molecules/swiper/SwiperProduct';
-import Buyer from '../../../assets/buyer.png';
-import axios from 'axios';
-import { useState } from 'react';
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import NavbarProduct from "../../molecules/navbarproduct/NavbarProduct";
+import styles from "./ProductDetail.module.css";
+import detailImg from "../../../assets/nothing.png";
+import user from "../../../assets/user.jpg";
+import SwiperProduct from "../../molecules/swiper/SwiperProduct";
+import Buyer from "../../../assets/buyer.png";
+import axios from "axios";
+import { useState } from "react";
 
 const ProductDetail = () => {
   const [product, setProduct] = useState(null);
   const [idLogin, setIdLogin] = useState(null);
   const [idSeller, setIdSeller] = useState(null);
   const { id } = useParams();
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   // Buyer
-  const [price, setPrice] = useState('');
+  const [price, setPrice] = useState("");
   const colorGrey = {
-    background: '#D0D0D0',
+    background: "#D0D0D0",
   };
   const colorPurple = {
-    background: '#7126B5',
+    background: "#7126B5",
   };
   const [offer, setOffer] = useState(false);
   const handlePrice = (e) => {
@@ -33,9 +33,9 @@ const ProductDetail = () => {
     setOffer(true);
     console.log(id, price, token);
     try {
-      const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/offer';
+      const url = "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/offer";
       const responseOffer = await axios({
-        method: 'post',
+        method: "post",
         url,
         data: {
           id_product: id,
@@ -43,7 +43,7 @@ const ProductDetail = () => {
           id_seller: product.id_user,
         },
         headers: {
-          Authorization: 'Bearer ' + token,
+          Authorization: "Bearer " + token,
         },
       });
       console.log(responseOffer);
@@ -52,23 +52,24 @@ const ProductDetail = () => {
     }
   };
   useEffect(() => {
-    const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product/' + id;
-    const urlUser = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user';
+    const url = "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product/" + id;
+    const urlUser = "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user";
 
     const fetchData = async () => {
       try {
         const response = await axios.get(url);
         const responseUser = await axios.get(urlUser, {
           headers: {
-            Authorization: 'Bearer ' + token,
+            Authorization: "Bearer " + token,
           },
         });
         setProduct(response.data.data);
-        console.log(response.data.data);
+        // console.log(response.data.data);
         setIdSeller(response.data.data.id_user);
         setIdLogin(responseUser.data.data.id);
+        console.log(responseUser);
       } catch (error) {
-        console.log('error adalah', error);
+        console.log("error adalah", error);
       }
     };
 
@@ -94,9 +95,9 @@ const ProductDetail = () => {
                     <p className={styles.prodTitle}>{product.product_name}</p>
                     <p className="text-secondary">{product.category}</p>
                     <p>
-                      {Intl.NumberFormat('id-ID', {
-                        style: 'currency',
-                        currency: 'IDR',
+                      {Intl.NumberFormat("id-ID", {
+                        style: "currency",
+                        currency: "IDR",
                       }).format(product.product_price)}
                     </p>
                     {idLogin == idSeller && (
@@ -116,8 +117,8 @@ const ProductDetail = () => {
                         disabled={offer}
                       >
                         {!offer
-                          ? 'Saya tertarik dan ingin nego'
-                          : 'Menunggu Respon Penjual'}
+                          ? "Saya tertarik dan ingin nego"
+                          : "Menunggu Respon Penjual"}
                       </button>
                     )}
                   </div>
@@ -200,9 +201,9 @@ const ProductDetail = () => {
                                     src={product.image[0]}
                                     // src={Buyer}
                                     style={{
-                                      width: '58.5px',
-                                      height: '58.5px',
-                                      objectFit: 'cover',
+                                      width: "58.5px",
+                                      height: "58.5px",
+                                      objectFit: "cover",
                                     }}
                                     alt=""
                                     className={`${styles.userImg} img-fluid`}
@@ -213,9 +214,9 @@ const ProductDetail = () => {
                                     {product.product_name}
                                   </div>
                                   <div className="">
-                                    {Intl.NumberFormat('id-ID', {
-                                      style: 'currency',
-                                      currency: 'IDR',
+                                    {Intl.NumberFormat("id-ID", {
+                                      style: "currency",
+                                      currency: "IDR",
                                     }).format(product.product_price)}
                                   </div>
                                 </div>
