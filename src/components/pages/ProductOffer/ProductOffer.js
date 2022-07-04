@@ -8,7 +8,6 @@ import MyAlert from "../../atoms/alert/Alert";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import { wait } from "@testing-library/user-event/dist/utils";
-import { format } from "date-fns";
 
 const ProductOffer = () => {
   const [alert, setAlert] = useState(false);
