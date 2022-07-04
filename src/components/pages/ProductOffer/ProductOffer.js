@@ -1,13 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import MyNavbar from "../../molecules/navbarProfile/NavbarProfile";
 import styles from "./ProductOffer.module.css";
 import Buyer from "../../../assets/buyer.png";
 import Watch from "../../../assets/watch-offer.png";
 import "./ProductOffer.css";
 import MyAlert from "../../atoms/alert/Alert";
+import { useParams, Link } from "react-router-dom";
+import axios from "axios";
+import { wait } from "@testing-library/user-event/dist/utils";
 
 const ProductOffer = () => {
+  const [alert, setAlert] = useState(false);
   const [accept, setAccept] = useState(false);
+  const [product, setProduct] = useState(null);
+  const [offer, setOffer] = useState(null);
+  const [user, setUser] = useState(null);
+  const { id } = useParams();
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    const url = "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/history/" + id;
+    const fetchData = async () => {
+      try {
+        const response = await axios({
+          method: "get",
+          url,
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        });
+        setProduct(response.data.data.Offer.Product);
+        setOffer(response.data.data.Offer);
+        setUser(response.data.data.Offer.User);
+        console.log(response.data.data.Offer.createdAt);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const handleAlert = (e) => {
+    e.preventDefault();
+    setAlert(true);
+  };
 
   const handleAccept = (e) => {
     e.preventDefault();
@@ -25,244 +61,284 @@ const ProductOffer = () => {
               </div>
               <div className="col-10 mt-2">
                 <MyAlert title="Status produk berhasil diperbarui" />
-                <div className={`card mt-5 ${styles.cardDesc}`}>
-                  <div className="row align-items-center">
-                    <div className={`col-2 ${styles.tes1}`}>
-                      <img
-                        src={Buyer}
-                        alt=""
-                        className={`${styles.userImg} img-fluid`}
-                      />
-                    </div>
-                    <div className="col-10 ">
-                      <div className="fw-bold">Nama Penjual</div>
-                      <div className="text-secondary">Kota</div>
-                    </div>
-                  </div>
-                </div>
-                <div className="fw-bold pt-3">Daftar Produkmu yang Ditawar</div>
-                <div className={`${styles.cardOffer}`}>
-                  <div className="row align-items-center">
-                    <div className="col-2">
-                      <img
-                        src={Watch}
-                        alt=""
-                        className={`${styles.productImg} img-fluid p-2`}
-                      />
-                    </div>
-                    <div className="col-10 g-0 ">
-                      <div className="row">
-                        <div className="col-9 mt-3">
-                          <div className="text-secondary">Penawaran produk</div>
-                          <div className="">Jam Tangan Casio</div>
-                          <div className="">Rp 250.000</div>
-                          <div className="">Ditawar Rp 200.000</div>
-                        </div>
-                        <div className="col-3 mt-3">
-                          <div className="text-secondary">20 Apr, 14:04</div>
-                        </div>
+                {user && (
+                  <div className={`card mt-5 ${styles.cardDesc}`}>
+                    <div className="row align-items-center">
+                      <div className={`col-2 ${styles.tes1} nyoba`}>
+                        <img
+                          src={user.image}
+                          alt=""
+                          className={`${styles.userImg}  img-fluid img-user-offer`}
+                        />
+                      </div>
+
+                      <div className="col-10 g-0">
+                        <div className="fw-bold">{user.name}</div>
+                        <div className="text-secondary">{user.city}</div>
                       </div>
                     </div>
-                    <div className="col-2"></div>
-                    <div className="row g-0 mt-3">
-                      <div className="col-6"></div>
-                      <div className="col-6 justify-content-end d-flex mb-3">
-                        <button
-                          className={`me-3 btn border-radius btn-light px-5 py-2 ${styles.btnEdit}`}
-                        >
-                          {accept ? "Status" : "Tolak"}
-                        </button>
-                        <button
-                          className={
-                            accept
-                              ? "btn border-radius btn-register px-4 py-2"
-                              : "btn border-radius btn-register px-5 py-2"
-                          }
-                          data-bs-toggle="modal"
-                          data-bs-target="#staticBackdrop"
-                        >
-                          {accept ? (
-                            <>
-                              Hubungi di{" "}
-                              <i className="fa-brands fa-whatsapp"></i>
-                            </>
-                          ) : (
-                            "Terima"
-                          )}
-                        </button>
-
-                        <>
-                          {/* Modal */}
-                          <div
-                            className="modal fade"
-                            id="staticBackdrop"
-                            data-bs-backdrop="static"
-                            data-bs-keyboard="false"
-                            tabIndex={-1}
-                            aria-labelledby="staticBackdropLabel"
-                            aria-hidden="true"
-                          >
-                            <div
-                              className={`modal-dialog modal-dialog-centered ${styles.modalOffer}`}
+                  </div>
+                )}
+                {offer && (
+                  <div>
+                    <div className="fw-bold pt-3">
+                      Daftar Produkmu yang Ditawar
+                    </div>
+                    <div className={`${styles.cardOffer}`}>
+                      <div className="row align-items-center">
+                        <div className="col-2">
+                          <img
+                            src={product.image}
+                            alt=""
+                            className={`${styles.productImg} img-fluid p-2`}
+                          />
+                        </div>
+                        <div className="col-10 g-0 ">
+                          <div className="row">
+                            <div className="col-9 mt-3">
+                              <div className="text-secondary">
+                                Penawaran produk
+                              </div>
+                              <div className="">{product.product_name}</div>
+                              <div className="">
+                                {Intl.NumberFormat("id-ID", {
+                                  style: "currency",
+                                  currency: "IDR",
+                                }).format(product.product_price)}
+                              </div>
+                              <div className="">
+                                Ditawar{" "}
+                                {Intl.NumberFormat("id-ID", {
+                                  style: "currency",
+                                  currency: "IDR",
+                                }).format(offer.bid_price)}
+                              </div>
+                            </div>
+                            <div className="col-3 mt-3">
+                              <div className="text-secondary">
+                                {new Date(offer.createdAt).toLocaleString(
+                                  "en-GB",
+                                  {
+                                    day: "2-digit",
+                                    month: "short",
+                                    hour: "numeric",
+                                    minute: "2-digit",
+                                  }
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col-2"></div>
+                        <div className="row g-0 mt-3">
+                          <div className="col-6"></div>
+                          <div className="col-6 justify-content-end d-flex mb-3">
+                            <button
+                              className={`me-3 btn border-radius btn-light px-5 py-2 ${styles.btnEdit}`}
                             >
-                              <div className={`modal-content ${styles.modal}`}>
-                                <div className="modal-header border-0">
-                                  <h5
-                                    className="modal-title"
-                                    id="staticBackdropLabel"
-                                  ></h5>
-                                  <button
-                                    type="button"
-                                    className="btn-close"
-                                    data-bs-dismiss="modal"
-                                    aria-label="Close"
-                                    onClick={handleAccept}
-                                  />
-                                </div>
-                                <div className="modal-body m-3 p-1">
-                                  {accept ? (
-                                    <>
-                                      <div className="fw-bold">
-                                        Perbarui status penjualan produkmu
-                                      </div>
+                              {accept ? "Status" : "Tolak"}
+                            </button>
+                            <button
+                              className={
+                                accept
+                                  ? "btn border-radius btn-register px-4 py-2"
+                                  : "btn border-radius btn-register px-5 py-2"
+                              }
+                              data-bs-toggle="modal"
+                              data-bs-target="#staticBackdrop"
+                            >
+                              {accept ? (
+                                <>
+                                  Hubungi di{" "}
+                                  <i className="fa-brands fa-whatsapp"></i>
+                                </>
+                              ) : (
+                                "Terima"
+                              )}
+                            </button>
 
-                                      <div className={`col-12 mb-3 mt-4`}>
-                                        <div className="form-check">
-                                          <input
-                                            className="form-check-input custom-control-input"
-                                            type="radio"
-                                            name="exampleRadios"
-                                            id="exampleRadios1"
-                                            defaultValue="option1"
-                                            defaultChecked=""
-                                          />
-                                          <label
-                                            className="form-check-label "
-                                            htmlFor="exampleRadios1"
-                                          >
-                                            Berhasil terjual
-                                          </label>
-                                        </div>
-                                        <div className="ms-4">
-                                          Kamu telah sepakat menjual produk ini
-                                          kepada pembeli
-                                        </div>
-                                      </div>
+                            <>
+                              {/* Modal */}
+                              <div
+                                className="modal fade"
+                                id="staticBackdrop"
+                                data-bs-backdrop="static"
+                                data-bs-keyboard="false"
+                                tabIndex={-1}
+                                aria-labelledby="staticBackdropLabel"
+                                aria-hidden="true"
+                              >
+                                <div
+                                  className={`modal-dialog modal-dialog-centered ${styles.modalOffer}`}
+                                >
+                                  <div
+                                    className={`modal-content ${styles.modal}`}
+                                  >
+                                    <div className="modal-header border-0">
+                                      <h5
+                                        className="modal-title"
+                                        id="staticBackdropLabel"
+                                      ></h5>
+                                      <button
+                                        type="button"
+                                        className="btn-close"
+                                        data-bs-dismiss="modal"
+                                        aria-label="Close"
+                                        onClick={handleAccept}
+                                      />
+                                    </div>
+                                    <div className="modal-body m-3 p-1">
+                                      {accept ? (
+                                        <>
+                                          <div className="fw-bold">
+                                            Perbarui status penjualan produkmu
+                                          </div>
 
-                                      <div className={`col-12 mb-3 mt-4 `}>
-                                        <div className="form-check">
-                                          <input
-                                            className="form-check-input custom-control-input"
-                                            type="radio"
-                                            name="exampleRadios"
-                                            id="exampleRadios2"
-                                            defaultValue="option1"
-                                            defaultChecked=""
-                                          />
-                                          <label
-                                            className="form-check-label"
-                                            htmlFor="exampleRadios2"
-                                          >
-                                            Batalkan transaksi
-                                          </label>
-                                        </div>
-                                        <div className="ms-4">
-                                          Kamu membatalkan transaksi produk ini
-                                          dengan pembeli
-                                        </div>
-                                      </div>
-                                      <div className={`col-12 mb-3 mt-4`}>
-                                        <button
-                                          className={`btn border-radius btn-register  px-4 py-3 ${styles.btnEditModal}`}
-                                        >
-                                          Kirim
-                                        </button>
-                                      </div>
-                                    </>
-                                  ) : (
-                                    <>
-                                      <div className="fw-bold">
-                                        Yeay kamu berhasil mendapat harga yang
-                                        sesuai
-                                      </div>
-                                      <div className="text-secondary">
-                                        Segera hubungi pembeli melalui whatsapp
-                                        untuk transaksi selanjutnya
-                                      </div>
-                                      <div
-                                        className={`row mt-3 ${styles.modalBg}`}
-                                      >
-                                        <div className="col-12 fw-bold text-center">
-                                          Product Match
-                                        </div>
-                                        <div className={`mt-3`}>
-                                          <div className="row align-items-center">
-                                            <div className={`col-3`}>
-                                              <img
-                                                src={Buyer}
-                                                alt=""
-                                                className={`${styles.userImg} img-fluid`}
+                                          <div className={`col-12 mb-3 mt-4`}>
+                                            <div className="form-check">
+                                              <input
+                                                className="form-check-input custom-control-input"
+                                                type="radio"
+                                                name="exampleRadios"
+                                                id="exampleRadios1"
+                                                defaultValue="option1"
+                                                defaultChecked=""
                                               />
+                                              <label
+                                                className="form-check-label "
+                                                htmlFor="exampleRadios1"
+                                              >
+                                                Berhasil terjual
+                                              </label>
                                             </div>
-                                            <div className="col-9">
-                                              <div className="fw-bold">
-                                                Nama Penjual
-                                              </div>
-                                              <div className="text-secondary">
-                                                Kota
-                                              </div>
+                                            <div className="ms-4">
+                                              Kamu telah sepakat menjual produk
+                                              ini kepada pembeli
                                             </div>
                                           </div>
+
+                                          <div className={`col-12 mb-3 mt-4 `}>
+                                            <div className="form-check">
+                                              <input
+                                                className="form-check-input custom-control-input"
+                                                type="radio"
+                                                name="exampleRadios"
+                                                id="exampleRadios2"
+                                                defaultValue="option1"
+                                                defaultChecked=""
+                                              />
+                                              <label
+                                                className="form-check-label"
+                                                htmlFor="exampleRadios2"
+                                              >
+                                                Batalkan transaksi
+                                              </label>
+                                            </div>
+                                            <div className="ms-4">
+                                              Kamu membatalkan transaksi produk
+                                              ini dengan pembeli
+                                            </div>
+                                          </div>
+                                          <div className={`col-12 mb-3 mt-4`}>
+                                            <button
+                                              className={`btn border-radius btn-register  px-4 py-3 ${styles.btnEditModal}`}
+                                            >
+                                              Kirim
+                                            </button>
+                                          </div>
+                                        </>
+                                      ) : (
+                                        <>
+                                          <div className="fw-bold">
+                                            Yeay kamu berhasil mendapat harga
+                                            yang sesuai
+                                          </div>
+                                          <div className="text-secondary">
+                                            Segera hubungi pembeli melalui
+                                            whatsapp untuk transaksi selanjutnya
+                                          </div>
                                           <div
-                                            className={`${styles.cardOffer}`}
+                                            className={`row mt-3 ${styles.modalBg}`}
                                           >
-                                            <div className="row align-items-center">
-                                              <div className="col-3 ">
-                                                <img
-                                                  src={Watch}
-                                                  alt=""
-                                                  className={`${styles.userImg} img-fluid`}
-                                                />
+                                            <div className="col-12 fw-bold text-center">
+                                              Product Match
+                                            </div>
+                                            <div className={`mt-3`}>
+                                              <div className="row align-items-center">
+                                                <div className={`col-3`}>
+                                                  <img
+                                                    src={Buyer}
+                                                    alt=""
+                                                    className={`${styles.userImg} img-fluid`}
+                                                  />
+                                                </div>
+                                                <div className="col-9">
+                                                  <div className="fw-bold">
+                                                    Nama Penjual
+                                                  </div>
+                                                  <div className="text-secondary">
+                                                    Kota
+                                                  </div>
+                                                </div>
                                               </div>
-                                              <div className="col-9">
-                                                <div className="row">
-                                                  <div className="col-9 mt-3">
-                                                    <div className="">
-                                                      Jam Tangan Casio
-                                                    </div>
-                                                    <div className="">
-                                                      Rp <s>250.000</s>
-                                                    </div>
-                                                    <div className="">
-                                                      Ditawar Rp 200.000
+                                              <div
+                                                className={`${styles.cardOffer}`}
+                                              >
+                                                <div className="row align-items-center">
+                                                  <div className="col-3 ">
+                                                    <img
+                                                      src={Watch}
+                                                      alt=""
+                                                      className={`${styles.userImg} img-fluid`}
+                                                    />
+                                                  </div>
+                                                  <div className="col-9">
+                                                    <div className="row">
+                                                      <div className="col-9 mt-3">
+                                                        <div className="">
+                                                          Jam Tangan Casio
+                                                        </div>
+                                                        <div className="">
+                                                          Rp <s>250.000</s>
+                                                        </div>
+                                                        <div className="">
+                                                          Ditawar Rp 200.000
+                                                        </div>
+                                                      </div>
                                                     </div>
                                                   </div>
                                                 </div>
                                               </div>
                                             </div>
                                           </div>
-                                        </div>
-                                      </div>
-                                      <div className={`col-12 mb-3 mt-4`}>
-                                        <button
-                                          className={`btn border-radius btn-register  px-4 py-3 ${styles.btnEditModal}`}
-                                        >
-                                          Hubungi via Whatsapp &nbsp;
-                                          <i class="fa-brands fa-whatsapp"></i>
-                                        </button>
-                                      </div>
-                                    </>
-                                  )}
+                                          <div className={`col-12 mb-3 mt-4`}>
+                                            <a
+                                              href="https://wa.me/+628980023612"
+                                              rel="noopener"
+                                              target="_blank"
+                                            >
+                                              <button
+                                                className={`btn border-radius btn-register  px-4 py-3 ${styles.btnEditModal}`}
+                                              >
+                                                Hubungi via Whatsapp &nbsp;
+                                                <i className="fa-brands fa-whatsapp"></i>
+                                              </button>
+                                            </a>
+                                          </div>
+                                        </>
+                                      )}
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
+                            </>
                           </div>
-                        </>
+                          <hr />
+                        </div>
                       </div>
-                      <hr />
                     </div>
                   </div>
-                </div>
+                )}
               </div>
 
               {/* <div className="col-11 tes">

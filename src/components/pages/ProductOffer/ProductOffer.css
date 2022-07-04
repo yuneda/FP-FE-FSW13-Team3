@@ -1,3 +1,13 @@
+.img-user-offer {
+  height: 60px;
+  width: 70px;
+  border-radius: 12px;
+}
+
+.nyoba {
+  padding-left: 30px;
+}
+
 .custom-control-input {
   background-color: #c4c4c4;
   accent-color: green;

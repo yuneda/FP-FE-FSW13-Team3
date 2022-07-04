@@ -1,29 +1,30 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import './Home.css';
-import styles from './Home.module.css';
-import Watch from '../../../assets/watch-offer.png';
-import MyNavbar from '../../molecules/navbar/Navbar';
-import MyCarousel from '../../molecules/carousel/MyCarousel';
-import ProductCategory from '../../molecules/productcategory/ProductCategory';
-import { Toast } from 'react-bootstrap';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import "./Home.css";
+import styles from "./Home.module.css";
+import Watch from "../../../assets/watch-offer.png";
+import MyNavbar from "../../molecules/navbar/Navbar";
+import MyCarousel from "../../molecules/carousel/MyCarousel";
+import ProductCategory from "../../molecules/productcategory/ProductCategory";
+import { Toast } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 let result;
 const Home = () => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   const [data, setData] = useState(null);
   const [notif, setNotif] = useState(null);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [showA, setShowA] = useState(false);
   const toggleShowA = async (e) => {
     e.preventDefault();
     try {
-      const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/notif';
+      const url = "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/notif";
       const response = await axios({
-        method: 'get',
+        method: "get",
         url,
         headers: {
-          Authorization: 'Bearer ' + token,
+          Authorization: "Bearer " + token,
         },
       });
       setNotif(response.data.data.data);
@@ -34,7 +35,7 @@ const Home = () => {
     setShowA(!showA);
   };
   useEffect(() => {
-    const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product';
+    const url = "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product";
 
     const fetchData = async () => {
       try {
@@ -43,7 +44,7 @@ const Home = () => {
         result = json.data.product.data;
         setData(result);
       } catch (error) {
-        console.log('error adalah', error);
+        console.log("error adalah", error);
       }
     };
 
@@ -55,9 +56,9 @@ const Home = () => {
   };
   const handleFilter = async (e, filter) => {
     e.preventDefault();
-    const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product';
+    const url = "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product";
     const response = await axios({
-      method: 'get',
+      method: "get",
       url,
       params: {
         filter,
@@ -70,7 +71,7 @@ const Home = () => {
     e.preventDefault();
     console.log(search);
     const url =
-      'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product/search?name=' +
+      "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product/search?name=" +
       search;
     const response = await axios.post(url);
     console.log(response.data.data.product.data);
@@ -96,58 +97,64 @@ const Home = () => {
               <div className="row">
                 {notif &&
                   notif.map((notif, index) => (
-                    <div key={index} className="row">
-                      <div className="col-3">
-                        <img
-                          src={notif.Product.image[0]}
-                          alt=""
-                          className={`${styles.productImg} img-fluid`}
-                        />
-                      </div>
-                      <div className="col-9 g-0">
-                        <div className="row">
-                          <div className="col-7 g-0  ps-3">
-                            <div className="text-secondary">
-                              {notif.status == 'created' &&
-                                'Berhasil diterbitkan'}
-                              {notif.status == 'offer' && 'Penawaran produk'}
-                            </div>
-                            <div className="fw-bold">
-                              {notif.Product.product_name}
-                            </div>
-                            <div className="fw-bold">
-                              {Intl.NumberFormat('id-ID', {
-                                style: 'currency',
-                                currency: 'IDR',
-                              }).format(notif.Product.product_price)}
-                            </div>
-                            {notif.status == 'offer' && (
-                              <div className="fw-bold">
-                                Ditawar{' '}
-                                {Intl.NumberFormat('id-ID', {
-                                  style: 'currency',
-                                  currency: 'IDR',
-                                }).format(notif.Offer.bid_price)}
+                    <Link
+                      key={index}
+                      to={`offer/${notif.id}`}
+                      style={{ color: "inherit", textDecoration: "inherit" }}
+                    >
+                      <div key={index} className="row">
+                        <div className="col-3">
+                          <img
+                            src={notif.Product.image[0]}
+                            alt=""
+                            className={`${styles.productImg} img-fluid`}
+                          />
+                        </div>
+                        <div className="col-9 g-0">
+                          <div className="row">
+                            <div className="col-7 g-0  ps-3">
+                              <div className="text-secondary">
+                                {notif.status == "created" &&
+                                  "Berhasil diterbitkan"}
+                                {notif.status == "offer" && "Penawaran produk"}
                               </div>
-                            )}
-                          </div>
-                          <div className="col-5 g-0 ">
-                            <div className="text-secondary">
-                              20 Apr, 14:04{' '}
-                              <i
-                                className="fa-solid fa-circle fa-xs"
-                                style={{
-                                  color: 'red',
-                                }}
-                              ></i>
+                              <div className="fw-bold">
+                                {notif.Product.product_name}
+                              </div>
+                              <div className="fw-bold">
+                                {Intl.NumberFormat("id-ID", {
+                                  style: "currency",
+                                  currency: "IDR",
+                                }).format(notif.Product.product_price)}
+                              </div>
+                              {notif.status == "offer" && (
+                                <div className="fw-bold">
+                                  Ditawar{" "}
+                                  {Intl.NumberFormat("id-ID", {
+                                    style: "currency",
+                                    currency: "IDR",
+                                  }).format(notif.Offer.bid_price)}
+                                </div>
+                              )}
+                            </div>
+                            <div className="col-5 g-0 ">
+                              <div className="text-secondary">
+                                20 Apr, 14:04{" "}
+                                <i
+                                  className="fa-solid fa-circle fa-xs"
+                                  style={{
+                                    color: "red",
+                                  }}
+                                ></i>
+                              </div>
                             </div>
                           </div>
                         </div>
+                        <div className="col-12">
+                          <hr />
+                        </div>
                       </div>
-                      <div className="col-12">
-                        <hr />
-                      </div>
-                    </div>
+                    </Link>
                   ))}
               </div>
             </div>
