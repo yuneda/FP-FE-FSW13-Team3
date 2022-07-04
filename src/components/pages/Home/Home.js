@@ -4,7 +4,8 @@ import './Home.css';
 import styles from './Home.module.css';
 import Watch from '../../../assets/watch-offer.png';
 import MyNavbar from '../../molecules/navbar/Navbar';
-import MyCarousel from '../../molecules/carousel/MyCarousel';
+// import MyCarousel from '../../molecules/carousel/MyCarousel';
+import CenterMode from '../../molecules/slick/Slick';
 import ProductCategory from '../../molecules/productcategory/ProductCategory';
 import { Toast } from 'react-bootstrap';
 
@@ -154,7 +155,8 @@ const Home = () => {
           </Toast.Body>
         </Toast>
       </div>
-      <MyCarousel />
+      {/* <MyCarousel /> */}
+      <CenterMode />
       <ProductCategory
         product={data}
         handleFilter={handleFilter}

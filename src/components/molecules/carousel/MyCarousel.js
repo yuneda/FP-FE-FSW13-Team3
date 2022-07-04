@@ -1,5 +1,5 @@
 import React from 'react';
-import OwlCarousel from 'react-owl-carousel';
+// import OwlCarousel from 'react-owl-carousel';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 import CardCarousel from './CardCarousel';
@@ -24,7 +24,7 @@ const Carousel = () => {
   const carouselContainer = {};
   return (
     <>
-      <OwlCarousel
+      <div
         className="owl-theme mt-5"
         loop={true}
         margin={100}
@@ -41,7 +41,7 @@ const Carousel = () => {
         <CardCarousel />
         <CardCarousel />
         <CardCarousel />
-      </OwlCarousel>
+      </div>
     </>
   );
 };
