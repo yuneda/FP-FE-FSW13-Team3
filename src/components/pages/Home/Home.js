@@ -1,50 +1,60 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import "./Home.css";
-import styles from "./Home.module.css";
-import Watch from "../../../assets/watch-offer.png";
-import MyNavbar from "../../molecules/navbar/Navbar";
-import MyCarousel from "../../molecules/carousel/MyCarousel";
-import ProductCategory from "../../molecules/productcategory/ProductCategory";
-import { Toast } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import './Home.css';
+import styles from './Home.module.css';
+import Watch from '../../../assets/watch-offer.png';
+import MyNavbar from '../../molecules/navbar/Navbar';
+import MyCarousel from '../../molecules/carousel/MyCarousel';
+import ProductCategory from '../../molecules/productcategory/ProductCategory';
+import { Toast } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 let result;
 const Home = () => {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
   const [data, setData] = useState(null);
   const [notif, setNotif] = useState(null);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [showA, setShowA] = useState(false);
+  const [idLogin, setIdLogin] = useState(null);
   const toggleShowA = async (e) => {
     e.preventDefault();
     try {
-      const url = "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/notif";
-      const response = await axios({
-        method: "get",
+      const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/notif';
+      let response = await axios({
+        method: 'get',
         url,
         headers: {
-          Authorization: "Bearer " + token,
+          Authorization: 'Bearer ' + token,
         },
       });
-      setNotif(response.data.data.data);
-      console.log(response.data.data.data);
+      response = response.data.data.data;
+      console.log(response);
+      setNotif(response);
+      console.log(notif);
     } catch (error) {
       console.log(error.message);
     }
     setShowA(!showA);
   };
   useEffect(() => {
-    const url = "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product";
+    const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product';
+    const urlUser = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user';
 
     const fetchData = async () => {
       try {
+        const responseUser = await axios.get(urlUser, {
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        });
+        setIdLogin(responseUser.data.data.id);
         const response = await fetch(url);
         const json = await response.json();
         result = json.data.product.data;
         setData(result);
       } catch (error) {
-        console.log("error adalah", error);
+        console.log('error adalah', error);
       }
     };
 
@@ -56,9 +66,9 @@ const Home = () => {
   };
   const handleFilter = async (e, filter) => {
     e.preventDefault();
-    const url = "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product";
+    const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product';
     const response = await axios({
-      method: "get",
+      method: 'get',
       url,
       params: {
         filter,
@@ -71,7 +81,7 @@ const Home = () => {
     e.preventDefault();
     console.log(search);
     const url =
-      "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product/search?name=" +
+      'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product/search?name=' +
       search;
     const response = await axios.post(url);
     console.log(response.data.data.product.data);
@@ -99,8 +109,8 @@ const Home = () => {
                   notif.map((notif, index) => (
                     <Link
                       key={index}
-                      to={`offer/${notif.id}`}
-                      style={{ color: "inherit", textDecoration: "inherit" }}
+                      to={notif.id_buyer == idLogin ? '/' : `offer/${notif.id}`}
+                      style={{ color: 'inherit', textDecoration: 'inherit' }}
                     >
                       <div key={index} className="row">
                         <div className="col-3">
@@ -114,42 +124,57 @@ const Home = () => {
                           <div className="row">
                             <div className="col-7 g-0  ps-3">
                               <div className="text-secondary">
-                                {notif.status == "created" &&
-                                  "Berhasil diterbitkan"}
-                                {notif.status == "offer" && "Penawaran produk"}
+                                {notif.status == 'created' &&
+                                  'Berhasil diterbitkan'}
+                                {notif.status !== 'created' &&
+                                  'Penawaran produk'}
                               </div>
                               <div className="fw-bold">
                                 {notif.Product.product_name}
                               </div>
-                              <div className="fw-bold">
-                                {Intl.NumberFormat("id-ID", {
-                                  style: "currency",
-                                  currency: "IDR",
+                              <div
+                                className="fw-bold"
+                                style={{
+                                  textDecoration:
+                                    notif.status == 'accept'
+                                      ? 'line-through'
+                                      : 'none',
+                                }}
+                              >
+                                {Intl.NumberFormat('id-ID', {
+                                  style: 'currency',
+                                  currency: 'IDR',
                                 }).format(notif.Product.product_price)}
                               </div>
-                              {notif.status == "offer" && (
+                              {notif.status !== 'created' && (
                                 <div className="fw-bold">
-                                  Ditawar{" "}
-                                  {Intl.NumberFormat("id-ID", {
-                                    style: "currency",
-                                    currency: "IDR",
+                                  Ditawar{' '}
+                                  {Intl.NumberFormat('id-ID', {
+                                    style: 'currency',
+                                    currency: 'IDR',
                                   }).format(notif.Offer.bid_price)}
                                 </div>
                               )}
                             </div>
                             <div className="col-5 g-0 ">
                               <div className="text-secondary">
-                                20 Apr, 14:04{" "}
+                                20 Apr, 14:04{' '}
                                 <i
                                   className="fa-solid fa-circle fa-xs"
                                   style={{
-                                    color: "red",
+                                    color: 'red',
                                   }}
                                 ></i>
                               </div>
                             </div>
+                            {notif.status == 'accept' && (
+                              <div className="text-secondary">
+                                Kamu akan dihubungi via WA
+                              </div>
+                            )}
                           </div>
                         </div>
+
                         <div className="col-12">
                           <hr />
                         </div>

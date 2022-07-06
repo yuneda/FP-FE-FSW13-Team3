@@ -1,34 +1,37 @@
-import React, { useState, useEffect } from "react";
-import MyNavbar from "../../molecules/navbarProfile/NavbarProfile";
-import styles from "./ProductOffer.module.css";
-import Buyer from "../../../assets/buyer.png";
-import Watch from "../../../assets/watch-offer.png";
-import "./ProductOffer.css";
-import MyAlert from "../../atoms/alert/Alert";
-import { useParams, Link } from "react-router-dom";
-import axios from "axios";
-import { wait } from "@testing-library/user-event/dist/utils";
+import React, { useState, useEffect } from 'react';
+import MyNavbar from '../../molecules/navbarProfile/NavbarProfile';
+import styles from './ProductOffer.module.css';
+import Buyer from '../../../assets/buyer.png';
+import Watch from '../../../assets/watch-offer.png';
+import './ProductOffer.css';
+import MyAlert from '../../atoms/alert/Alert';
+import { useParams, Link } from 'react-router-dom';
+import axios from 'axios';
+import { wait } from '@testing-library/user-event/dist/utils';
 
 const ProductOffer = () => {
   const [alert, setAlert] = useState(false);
   const [accept, setAccept] = useState(false);
   const [product, setProduct] = useState(null);
+  const [buyer, setBuyer] = useState(null);
   const [offer, setOffer] = useState(null);
   const [user, setUser] = useState(null);
+  const [status, setStatus] = useState('');
   const { id } = useParams();
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
-    const url = "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/history/" + id;
+    const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/history/' + id;
     const fetchData = async () => {
       try {
         const response = await axios({
-          method: "get",
+          method: 'get',
           url,
           headers: {
-            Authorization: "Bearer " + token,
+            Authorization: 'Bearer ' + token,
           },
         });
+        setBuyer(response.data.data);
         setProduct(response.data.data.Offer.Product);
         setOffer(response.data.data.Offer);
         setUser(response.data.data.Offer.User);
@@ -44,9 +47,52 @@ const ProductOffer = () => {
     e.preventDefault();
     setAlert(true);
   };
-
-  const handleAccept = (e) => {
+  const handleStatus = async (e) => {
     e.preventDefault();
+    console.log('status ai');
+    try {
+      const urlSold =
+        'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product/' +
+        product.id +
+        '/statussold';
+      const soldResponse = await axios({
+        method: 'put',
+        url: urlSold,
+        // data: {
+        //   status: 'sold',
+        // },
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      });
+      console.log(soldResponse);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleAccept = async (e) => {
+    e.preventDefault();
+
+    try {
+      const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/history';
+      const response = await axios({
+        method: 'post',
+        url,
+        data: {
+          id_product: product.id,
+          id_offer: offer.id,
+          id_buyer: buyer.id_buyer,
+          id_seller: buyer.id_buyer,
+        },
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
     setAccept(true);
   };
   return (
@@ -101,28 +147,28 @@ const ProductOffer = () => {
                               </div>
                               <div className="">{product.product_name}</div>
                               <div className="">
-                                {Intl.NumberFormat("id-ID", {
-                                  style: "currency",
-                                  currency: "IDR",
+                                {Intl.NumberFormat('id-ID', {
+                                  style: 'currency',
+                                  currency: 'IDR',
                                 }).format(product.product_price)}
                               </div>
                               <div className="">
-                                Ditawar{" "}
-                                {Intl.NumberFormat("id-ID", {
-                                  style: "currency",
-                                  currency: "IDR",
+                                Ditawar{' '}
+                                {Intl.NumberFormat('id-ID', {
+                                  style: 'currency',
+                                  currency: 'IDR',
                                 }).format(offer.bid_price)}
                               </div>
                             </div>
                             <div className="col-3 mt-3">
                               <div className="text-secondary">
                                 {new Date(offer.createdAt).toLocaleString(
-                                  "en-GB",
+                                  'en-GB',
                                   {
-                                    day: "2-digit",
-                                    month: "short",
-                                    hour: "numeric",
-                                    minute: "2-digit",
+                                    day: '2-digit',
+                                    month: 'short',
+                                    hour: 'numeric',
+                                    minute: '2-digit',
                                   }
                                 )}
                               </div>
@@ -135,27 +181,37 @@ const ProductOffer = () => {
                           <div className="col-6 justify-content-end d-flex mb-3">
                             <button
                               className={`me-3 btn border-radius btn-light px-5 py-2 ${styles.btnEdit}`}
+                              data-bs-toggle={accept ? 'modal' : ''}
+                              data-bs-target={accept ? '#staticBackdrop' : ''}
                             >
-                              {accept ? "Status" : "Tolak"}
+                              {accept ? 'Status' : 'Tolak'}
                             </button>
-                            <button
-                              className={
-                                accept
-                                  ? "btn border-radius btn-register px-4 py-2"
-                                  : "btn border-radius btn-register px-5 py-2"
-                              }
-                              data-bs-toggle="modal"
-                              data-bs-target="#staticBackdrop"
-                            >
-                              {accept ? (
-                                <>
-                                  Hubungi di{" "}
-                                  <i className="fa-brands fa-whatsapp"></i>
-                                </>
-                              ) : (
-                                "Terima"
-                              )}
-                            </button>
+                            {accept && (
+                              <button
+                                className={
+                                  accept
+                                    ? 'btn border-radius btn-register px-4 py-2'
+                                    : 'btn border-radius btn-register px-5 py-2'
+                                }
+                              >
+                                Hubungi di{' '}
+                                <i className="fa-brands fa-whatsapp"></i>
+                              </button>
+                            )}
+                            {!accept && (
+                              <button
+                                className={
+                                  accept
+                                    ? 'btn border-radius btn-register px-4 py-2'
+                                    : 'btn border-radius btn-register px-5 py-2'
+                                }
+                                // onClick={handleAccept}
+                                data-bs-toggle="modal"
+                                data-bs-target="#staticBackdrop"
+                              >
+                                Terima
+                              </button>
+                            )}
 
                             <>
                               {/* Modal */}
@@ -184,7 +240,11 @@ const ProductOffer = () => {
                                         className="btn-close"
                                         data-bs-dismiss="modal"
                                         aria-label="Close"
-                                        onClick={handleAccept}
+                                        onClick={(e) => {
+                                          if (!accept) {
+                                            handleAccept(e);
+                                          }
+                                        }}
                                       />
                                     </div>
                                     <div className="modal-body m-3 p-1">
@@ -203,6 +263,9 @@ const ProductOffer = () => {
                                                 id="exampleRadios1"
                                                 defaultValue="option1"
                                                 defaultChecked=""
+                                                onClick={() =>
+                                                  setStatus('sold')
+                                                }
                                               />
                                               <label
                                                 className="form-check-label "
@@ -226,6 +289,9 @@ const ProductOffer = () => {
                                                 id="exampleRadios2"
                                                 defaultValue="option1"
                                                 defaultChecked=""
+                                                onClick={() =>
+                                                  setStatus('reject')
+                                                }
                                               />
                                               <label
                                                 className="form-check-label"
@@ -242,6 +308,7 @@ const ProductOffer = () => {
                                           <div className={`col-12 mb-3 mt-4`}>
                                             <button
                                               className={`btn border-radius btn-register  px-4 py-3 ${styles.btnEditModal}`}
+                                              onClick={handleStatus}
                                             >
                                               Kirim
                                             </button>
