@@ -31,7 +31,7 @@ const Product = () => {
           },
         });
         setUser(responseUser.data.data);
-        console.log(responseUser.data.data);
+        // console.log(responseUser.data.data);
       } catch (error) {
         console.log('error adalah', error);
       }
@@ -110,7 +110,9 @@ const Product = () => {
       });
       setData(response.data.data.product);
       console.log(response);
+      console.log('like berhasil');
     } catch (error) {
+      console.log('like gagal');
       console.log(error);
     }
     setAll(false);
@@ -131,7 +133,10 @@ const Product = () => {
         },
       });
       setData(response.data.data.product);
+      console.log(response.data.data.product);
+      console.log('sold berhasil');
     } catch (error) {
+      console.log('sold gagal');
       console.log(error);
     }
     setAll(false);

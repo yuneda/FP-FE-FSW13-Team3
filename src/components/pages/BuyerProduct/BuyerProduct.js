@@ -28,7 +28,10 @@ const BuyerProduct = () => {
       <NavbarProduct onToggleClick={toggleShowA} />
       {offer && (
         <div className="container col-6">
-          <MyAlert title="Harga tawarmu berhasil dikirim ke penjual" />
+          <MyAlert
+            title="Harga tawarmu berhasil dikirim ke penjual"
+            color="success"
+          />
         </div>
       )}
       <div className="container position-relative">

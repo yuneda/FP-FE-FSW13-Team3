@@ -3,16 +3,21 @@ import axios from 'axios';
 import './Register.css';
 import { Icon } from 'react-icons-kit';
 import { eye } from 'react-icons-kit/feather/eye';
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { eyeOff } from 'react-icons-kit/feather/eyeOff';
 import BgRegister from '../../../assets/bg-register.png';
-import { Link } from 'react-router-dom';
+import MyAlert from '../../atoms/alert/Alert';
 
 const Register = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [failed, setFailed] = useState(false);
+  const [success, setSuccess] = useState(false);
   const [type, setType] = useState('password');
   const [icon, setIcon] = useState(eyeOff);
+  const navigate = useNavigate();
   var registerImage = {
     backgroundImage: 'url(' + BgRegister + ')',
     backgroundRepeat: 'no-repeat',
@@ -31,30 +36,20 @@ const Register = () => {
   const handleName = (event) => {
     event.preventDefault();
     setName(event.target.value);
+    setFailed(false);
   };
   const handlePassword = (event) => {
     event.preventDefault();
     setPassword(event.target.value);
+    setFailed(false);
   };
   const handleEmail = (event) => {
     event.preventDefault();
     setEmail(event.target.value);
+    setFailed(false);
   };
   const handleRegister = async (event) => {
     event.preventDefault();
-    // fetch('https://fp-be-fsw13-tim3.herokuapp.com/api/v1/register', {
-    //   method: 'POST',
-    //   body: JSON.stringify({
-    //     name,
-    //     email,
-    //     password,
-    //   }),
-    //   headers: {
-    //     'Content-type': 'application/json; charset=UTF-8',
-    //   },
-    // })
-    //   .then((response) => response.json())
-    //   .then((json) => console.log(json));
     try {
       const response = await axios.post(
         'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/register',
@@ -69,12 +64,22 @@ const Register = () => {
       setName('');
       setEmail('');
       setPassword('');
+      setSuccess(true);
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000);
     } catch (error) {
       console.log(error);
+      setFailed(true);
     }
   };
   return (
     <div className="container-fluid box">
+      {success && (
+        <div className="tes mx-auto">
+          <MyAlert title="Registration success" color="success" />
+        </div>
+      )}
       <div className="row">
         <div
           className="col-md-6 col-sm-12 col-12 left d-flex align-items-center fit-image"
@@ -151,6 +156,11 @@ const Register = () => {
                   </div>
                 </div>
               </div>
+              {failed && (
+                <div className="col-sm-9 fw-bold">
+                  <p style={{ color: 'red' }}>Email is already taken</p>
+                </div>
+              )}
               <div className="col-sm-9 mb-5">
                 <button
                   className="btn w-100 border-radius btn-register"
