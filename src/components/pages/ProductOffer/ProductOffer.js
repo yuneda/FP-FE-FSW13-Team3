@@ -31,11 +31,11 @@ const ProductOffer = () => {
             Authorization: 'Bearer ' + token,
           },
         });
+        console.log(response.data.data.Offer);
         setBuyer(response.data.data);
         setProduct(response.data.data.Offer.Product);
         setOffer(response.data.data.Offer);
         setUser(response.data.data.Offer.User);
-        console.log(response.data.data.Offer.createdAt);
       } catch (error) {
         console.log(error);
       }
@@ -83,7 +83,7 @@ const ProductOffer = () => {
           id_product: product.id,
           id_offer: offer.id,
           id_buyer: buyer.id_buyer,
-          id_seller: buyer.id_buyer,
+          id_seller: product.id_user,
         },
         headers: {
           Authorization: 'Bearer ' + token,
@@ -106,7 +106,10 @@ const ProductOffer = () => {
                 <i className=" fa-solid fa-arrow-left"></i>
               </div>
               <div className="col-10 mt-2">
-                <MyAlert title="Status produk berhasil diperbarui" />
+                <MyAlert
+                  title="Status produk berhasil diperbarui"
+                  color="success"
+                />
                 {user && (
                   <div className={`card mt-5 ${styles.cardDesc}`}>
                     <div className="row align-items-center">

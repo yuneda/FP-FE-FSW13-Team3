@@ -7,22 +7,48 @@ import "./Login.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { GoogleLogin } from "react-google-login";
+import { gapi } from "gapi-script";
+
+const clientId =
+  "623214781738-uv2700sfb46feke2a3bfg8k1lcmamr4l.apps.googleusercontent.com";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [failed, setFailed] = useState(false);
   const [type, setType] = useState("password");
   const [icon, setIcon] = useState(eyeOff);
   const navigate = useNavigate();
 
+  const onSuccess = (res) => {
+    console.log("LOGIN SUCCESS!", res);
+  };
+
+  const onFailure = (res) => {
+    console.log("LOGIN FAILED!", res);
+  };
+
+  useEffect(() => {
+    function start() {
+      gapi.client.init({
+        clientId: clientId,
+        scope: "",
+      });
+    }
+    gapi.load("client:auth2", start);
+  });
+
   const handleEmail = (event) => {
     event.preventDefault();
     setEmail(event.target.value);
+    setFailed(false);
   };
 
   const handlePassword = (event) => {
     event.preventDefault();
     setPassword(event.target.value);
+    setFailed(false);
   };
 
   const handleLogin = async (event) => {
@@ -44,6 +70,7 @@ const Login = () => {
 
       navigate("/");
     } catch (error) {
+      setFailed(true);
       console.log(error);
     }
   };
@@ -126,6 +153,11 @@ const Login = () => {
                   </div>
                 </div>
               </div>
+              {failed && (
+                <div className="col-sm-9 fw-bold">
+                  <p style={{ color: "red" }}>Email or Pasword is wrong</p>
+                </div>
+              )}
               <div className="col-sm-9 mb-5">
                 <button
                   onClick={handleLogin}
@@ -141,6 +173,18 @@ const Login = () => {
                     Daftar di sini
                   </Link>
                 </p>
+              </div>
+              <div className="col-sm-9 text-center">
+                <p>Masuk dengan </p>
+
+                <GoogleLogin
+                  clientId={clientId}
+                  buttonText="Login"
+                  onSuccess={onSuccess}
+                  onFailure={onFailure}
+                  cookiePolicy={"single_host_origin"}
+                  isSignedIn={true}
+                />
               </div>
             </div>
           </div>

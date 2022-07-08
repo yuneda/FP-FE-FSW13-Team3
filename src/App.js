@@ -1,14 +1,15 @@
 // import './App.css';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./components/pages/Login/Login";
-import Register from "./components/pages/Register/Register";
-import Home from "./components/pages/Home/Home";
-import Profile from "./components/pages/Profile/Profile";
-import CreateProduct from "./components/pages/CreateProduct/CreateProduct";
-import Product from "./components/pages/Product/Product";
-import ProductDetail from "./components/pages/ProductDetail/ProductDetail";
-import ProductOffer from "./components/pages/ProductOffer/ProductOffer";
-import BuyerProduct from "./components/pages/BuyerProduct/BuyerProduct";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Login from './components/pages/Login/Login';
+import Register from './components/pages/Register/Register';
+import Home from './components/pages/Home/Home';
+import Profile from './components/pages/Profile/Profile';
+import CreateProduct from './components/pages/CreateProduct/CreateProduct';
+import Product from './components/pages/Product/Product';
+import ProductDetail from './components/pages/ProductDetail/ProductDetail';
+import ProductOffer from './components/pages/ProductOffer/ProductOffer';
+import BuyerProduct from './components/pages/BuyerProduct/BuyerProduct';
+import Logout from './components/pages/Logout/Logout';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/logout" element={<Logout />} />
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/product" element={<Product />} />
