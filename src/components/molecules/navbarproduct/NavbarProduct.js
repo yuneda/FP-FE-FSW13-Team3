@@ -55,8 +55,8 @@ function NavbarProduct(props) {
               </button>
             </div>
           </Nav>
-          <Link to="/login">
-            <div style={colorActive}>
+          <Link to="/product">
+            <div style={{ color: 'black' }}>
               <i className="fa-solid fa-list-ul me-3"></i>
             </div>
           </Link>
