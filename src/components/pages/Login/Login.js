@@ -1,20 +1,43 @@
-import React, { useState, useEffect } from 'react';
-import { Icon } from 'react-icons-kit';
-import { eye } from 'react-icons-kit/feather/eye';
-import { eyeOff } from 'react-icons-kit/feather/eyeOff';
-import BgLogin from '../../../../src/assets/bg-login.png';
-import './Login.css';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Icon } from "react-icons-kit";
+import { eye } from "react-icons-kit/feather/eye";
+import { eyeOff } from "react-icons-kit/feather/eyeOff";
+import BgLogin from "../../../../src/assets/bg-login.png";
+import "./Login.css";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { GoogleLogin } from "react-google-login";
+import { gapi } from "gapi-script";
+
+const clientId =
+  "623214781738-uv2700sfb46feke2a3bfg8k1lcmamr4l.apps.googleusercontent.com";
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [failed, setFailed] = useState(false);
-  const [type, setType] = useState('password');
+  const [type, setType] = useState("password");
   const [icon, setIcon] = useState(eyeOff);
   const navigate = useNavigate();
+
+  const onSuccess = (res) => {
+    console.log("LOGIN SUCCESS!", res);
+  };
+
+  const onFailure = (res) => {
+    console.log("LOGIN FAILED!", res);
+  };
+
+  useEffect(() => {
+    function start() {
+      gapi.client.init({
+        clientId: clientId,
+        scope: "",
+      });
+    }
+    gapi.load("client:auth2", start);
+  });
 
   const handleEmail = (event) => {
     event.preventDefault();
@@ -32,20 +55,20 @@ const Login = () => {
     event.preventDefault();
     try {
       const response = await axios.post(
-        'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/login',
+        "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/login",
         {
           email,
           password,
         }
       );
 
-      localStorage.setItem('token', response.data.token);
+      localStorage.setItem("token", response.data.token);
       // console.log(response.data.token);
       // console.log(response.data.name);
-      setEmail('');
-      setPassword('');
+      setEmail("");
+      setPassword("");
 
-      navigate('/');
+      navigate("/");
     } catch (error) {
       setFailed(true);
       console.log(error);
@@ -54,18 +77,18 @@ const Login = () => {
 
   const handleToggle = (event) => {
     event.preventDefault();
-    if (type === 'password') {
+    if (type === "password") {
       setIcon(eye);
-      setType('text');
+      setType("text");
     } else {
       setIcon(eyeOff);
-      setType('password');
+      setType("password");
     }
   };
 
   var sectionStyle = {
-    backgroundImage: 'url(' + BgLogin + ')',
-    backgroundRepeat: 'no-repeat',
+    backgroundImage: "url(" + BgLogin + ")",
+    backgroundRepeat: "no-repeat",
   };
   return (
     <div className="container-fluid box">
@@ -89,7 +112,7 @@ const Login = () => {
               <div className="col-sm-9 mb-3">
                 <i
                   className="fit-font fa-solid fa-arrow-left mb-5"
-                  style={{ marginTop: '20px' }}
+                  style={{ marginTop: "20px" }}
                 ></i>
                 <h1>Masuk</h1>
               </div>
@@ -132,7 +155,7 @@ const Login = () => {
               </div>
               {failed && (
                 <div className="col-sm-9 fw-bold">
-                  <p style={{ color: 'red' }}>Email or Pasword is wrong</p>
+                  <p style={{ color: "red" }}>Email or Pasword is wrong</p>
                 </div>
               )}
               <div className="col-sm-9 mb-5">
@@ -145,11 +168,23 @@ const Login = () => {
               </div>
               <div className="col-sm-9 text-center">
                 <p>
-                  Belum punya akun ?{' '}
+                  Belum punya akun ?{" "}
                   <Link to="/register" className="font-color fw-bold">
                     Daftar di sini
                   </Link>
                 </p>
+              </div>
+              <div className="col-sm-9 text-center">
+                <p>Masuk dengan </p>
+
+                <GoogleLogin
+                  clientId={clientId}
+                  buttonText="Login"
+                  onSuccess={onSuccess}
+                  onFailure={onFailure}
+                  cookiePolicy={"single_host_origin"}
+                  isSignedIn={true}
+                />
               </div>
             </div>
           </div>
