@@ -23,7 +23,6 @@ const Login = () => {
 
   const onSuccess = (res) => {
     console.log('LOGIN SUCCESS!', res);
-    navigate('/');
   };
 
   const onFailure = (res) => {
