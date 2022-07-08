@@ -84,7 +84,7 @@ function MyNavbar(props) {
               >
                 <i className="fa-regular fa-bell me-3 text-black"></i>
               </div>
-              <Link to="/login">
+              <Link to="/profile">
                 <div>
                   <i className="fa-regular fa-user text-black"></i>
                 </div>
