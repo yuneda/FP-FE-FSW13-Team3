@@ -10,6 +10,9 @@ import ProductCatDesk from '../../molecules/productcatdesk/ProductCatDesk';
 import ProductList from '../../molecules/productlist/ProductList';
 import { Toast } from 'react-bootstrap';
 import axios from 'axios';
+import ButtonCarousel from '../../molecules/carousel/ButtonCarousel';
+import MyButtonCategory from '../../atoms/buttoncategory/MyButtonCategory';
+import { Link } from 'react-router-dom';
 
 const Product = () => {
   const [data, setData] = useState([]);
@@ -229,21 +232,44 @@ const Product = () => {
             <div className="col-12">
               <div className="card card-user p-2">
                 {user && (
+                  // <div className="d-flex justify-content-between align-items-center">
+                  //   <div className="col me-2">
+                  //     <img
+                  //       src={user.image}
+                  //       className="w-100 img-user img-fluid"
+                  //     />
+                  //   </div>
+                  //   <div className="col-10">
+                  //     <div>
+                  //       <p className="name-user">{user.name}</p>
+                  //       <p className="address-user">{user.city}</p>
+                  //     </div>
+                  //   </div>
+                  //   <div className="col">
+                  //   <Link to="/profile">
+                  //     <button className="btn-edit">Edit</button>
+                  //   </Link>
+                  //   </div>
+                  // </div>
+
+                  // Mobile
                   <div className="d-flex justify-content-between align-items-center">
-                    <div className="col me-2">
+                    <div className="col-3 me-1">
                       <img
                         src={user.image}
                         className="w-100 img-user img-fluid"
                       />
                     </div>
-                    <div className="col-10">
+                    <div className="col-6">
                       <div>
                         <p className="name-user">{user.name}</p>
                         <p className="address-user">{user.city}</p>
                       </div>
                     </div>
-                    <div className="col">
+                    <div className="col-2">
+                    <Link to="/profile">
                       <button className="btn-edit">Edit</button>
+                    </Link>
                     </div>
                   </div>
                 )}
@@ -253,7 +279,9 @@ const Product = () => {
               <div className="row">
                 <div className="col-3">
                   {/* <ProductCatDesk /> */}
-                  <div className="card-category card p-4">
+
+                  {/* Website */}
+                  {/* <div className="card-category card p-4">
                     <p className="name-user mb-3">Kategori</p>
                     <button
                       onClick={handleAll}
@@ -308,9 +336,16 @@ const Product = () => {
                         </div>
                       </div>
                     </button>
+                  </div> */}
+
+                  {/* Mobile */}
+                  <div className='btn-carousel tes1' style={{ width: '300px' }}>
+                    <ButtonCarousel />
                   </div>
+
                 </div>
-                <div className="col-9">
+                {/* Website */}
+                {/* <div className="col-9">
                   {all && <ProductList product={data} action={true} />}
                   {like && !data && (
                     <div className="text-center">
@@ -319,7 +354,7 @@ const Product = () => {
                   )}
                   {like && data.length > 0 && <ProductList product={data} />}
                   {sold && data.length > 0 && <ProductList product={data} />}
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
