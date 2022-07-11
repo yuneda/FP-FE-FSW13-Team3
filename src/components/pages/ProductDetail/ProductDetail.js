@@ -1,27 +1,30 @@
-import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
-import NavbarProduct from "../../molecules/navbarproduct/NavbarProduct";
-import styles from "./ProductDetail.module.css";
-import detailImg from "../../../assets/nothing.png";
-import user from "../../../assets/user.jpg";
-import SwiperProduct from "../../molecules/swiper/SwiperProduct";
-import Buyer from "../../../assets/buyer.png";
-import axios from "axios";
-import { useState } from "react";
+import React, { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import NavbarProduct from '../../molecules/navbarproduct/NavbarProduct';
+import styles from './ProductDetail.module.css';
+import detailImg from '../../../assets/nothing.png';
+import user from '../../../assets/user.jpg';
+import SwiperProduct from '../../molecules/swiper/SwiperProduct';
+import Buyer from '../../../assets/buyer.png';
+import axios from 'axios';
+import { useState } from 'react';
+import DesktopView from '../Responsive/DesktopView';
+import { useMediaQuery } from 'react-responsive';
 
 const ProductDetail = () => {
   const [product, setProduct] = useState(null);
   const [idLogin, setIdLogin] = useState(null);
   const [idSeller, setIdSeller] = useState(null);
   const { id } = useParams();
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
+  const notDesktop = useMediaQuery({ query: '(max-width: 991px)' });
   // Buyer
-  const [price, setPrice] = useState("");
+  const [price, setPrice] = useState('');
   const colorGrey = {
-    background: "#D0D0D0",
+    background: '#D0D0D0',
   };
   const colorPurple = {
-    background: "#7126B5",
+    background: '#7126B5',
   };
   const [offer, setOffer] = useState(false);
   const handlePrice = (e) => {
@@ -33,9 +36,9 @@ const ProductDetail = () => {
     setOffer(true);
     console.log(id, price, token);
     try {
-      const url = "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/offer";
+      const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/offer';
       const responseOffer = await axios({
-        method: "post",
+        method: 'post',
         url,
         data: {
           id_product: id,
@@ -43,7 +46,7 @@ const ProductDetail = () => {
           id_seller: product.id_user,
         },
         headers: {
-          Authorization: "Bearer " + token,
+          Authorization: 'Bearer ' + token,
         },
       });
       console.log(responseOffer);
@@ -52,24 +55,26 @@ const ProductDetail = () => {
     }
   };
   useEffect(() => {
-    const url = "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product/" + id;
-    const urlUser = "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user";
+    const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product/' + id;
+    const urlUser = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user';
 
     const fetchData = async () => {
       try {
         const response = await axios.get(url);
-        const responseUser = await axios.get(urlUser, {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        });
+        if (token) {
+          const responseUser = await axios.get(urlUser, {
+            headers: {
+              Authorization: 'Bearer ' + token,
+            },
+          });
+          setIdLogin(responseUser.data.data.id);
+        }
         setProduct(response.data.data);
         // console.log(response.data.data);
         setIdSeller(response.data.data.id_user);
-        setIdLogin(responseUser.data.data.id);
-        console.log(responseUser);
+        // console.log(responseUser);
       } catch (error) {
-        console.log("error adalah", error);
+        console.log('error adalah', error);
       }
     };
 
@@ -77,13 +82,21 @@ const ProductDetail = () => {
   }, []);
   return (
     <>
-      <NavbarProduct />
-      <div className="container">
+      <DesktopView>
+        <NavbarProduct />
+      </DesktopView>
+      <div className={notDesktop ? '' : 'container'}>
         <div className="row justify-content-center">
-          <div className="col-10">
+          <div className={notDesktop ? 'col-12' : 'col-10'}>
             {product && (
               <div className="row">
-                <div className="col-lg-8 col-md-12 mt-4">
+                <div
+                  className={
+                    notDesktop
+                      ? 'col-lg-8 col-md-12'
+                      : 'col-lg-8 col-md-12 mt-4'
+                  }
+                >
                   <div className="carousel">
                     <SwiperProduct
                       imgProduct={product ? product.image : detailImg}
@@ -95,12 +108,12 @@ const ProductDetail = () => {
                     <p className={styles.prodTitle}>{product.product_name}</p>
                     <p className="text-secondary">{product.category}</p>
                     <p>
-                      {Intl.NumberFormat("id-ID", {
-                        style: "currency",
-                        currency: "IDR",
+                      {Intl.NumberFormat('id-ID', {
+                        style: 'currency',
+                        currency: 'IDR',
                       }).format(product.product_price)}
                     </p>
-                    {idLogin == idSeller && (
+                    {idLogin && idLogin == idSeller && (
                       <>
                         <button className={`${styles.btnPublish} mb-2`}>
                           Terbitkan
@@ -108,7 +121,7 @@ const ProductDetail = () => {
                         <button className={styles.btnEdit}>Edit</button>
                       </>
                     )}
-                    {idLogin !== idSeller && (
+                    {idLogin && idLogin !== idSeller && (
                       <button
                         className={`${styles.btnPublish} mb-2`}
                         data-bs-toggle="modal"
@@ -117,8 +130,8 @@ const ProductDetail = () => {
                         disabled={offer}
                       >
                         {!offer
-                          ? "Saya tertarik dan ingin nego"
-                          : "Menunggu Respon Penjual"}
+                          ? 'Saya tertarik dan ingin nego'
+                          : 'Menunggu Respon Penjual'}
                       </button>
                     )}
                   </div>
@@ -201,9 +214,9 @@ const ProductDetail = () => {
                                     src={product.image[0]}
                                     // src={Buyer}
                                     style={{
-                                      width: "58.5px",
-                                      height: "58.5px",
-                                      objectFit: "cover",
+                                      width: '58.5px',
+                                      height: '58.5px',
+                                      objectFit: 'cover',
                                     }}
                                     alt=""
                                     className={`${styles.userImg} img-fluid`}
@@ -214,9 +227,9 @@ const ProductDetail = () => {
                                     {product.product_name}
                                   </div>
                                   <div className="">
-                                    {Intl.NumberFormat("id-ID", {
-                                      style: "currency",
-                                      currency: "IDR",
+                                    {Intl.NumberFormat('id-ID', {
+                                      style: 'currency',
+                                      currency: 'IDR',
                                     }).format(product.product_price)}
                                   </div>
                                 </div>

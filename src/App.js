@@ -10,6 +10,7 @@ import ProductDetail from './components/pages/ProductDetail/ProductDetail';
 import ProductOffer from './components/pages/ProductOffer/ProductOffer';
 import BuyerProduct from './components/pages/BuyerProduct/BuyerProduct';
 import Logout from './components/pages/Logout/Logout';
+import MyResponsive from './components/pages/Responsive/MyResp';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/product" element={<Product />} />
         <Route path="/create" element={<CreateProduct />} />
         <Route path="/offer/:id" element={<ProductOffer />} />
+        <Route path="/resp" element={<MyResponsive />} />
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/product/buyer" element={<BuyerProduct />} />
       </Routes>

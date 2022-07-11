@@ -14,13 +14,15 @@ import './SwiperProduct.css';
 
 // import required modules
 import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper';
+import { useMediaQuery } from 'react-responsive';
 
 export default function SwiperProduct({ imgProduct }) {
+  const notDesktop = useMediaQuery({ query: '(max-width: 991px)' });
   return (
     <>
       <Swiper
         cssMode={true}
-        navigation={true}
+        navigation={notDesktop ? false : true}
         pagination={{ clickable: true }}
         mousewheel={true}
         keyboard={true}
@@ -34,9 +36,9 @@ export default function SwiperProduct({ imgProduct }) {
               className="d-block w-100 img-fluid"
               alt="..."
               style={{
-                borderRadius: '16px',
-                maxHeight: '436px',
-                // height: '436px',
+                borderRadius: notDesktop ? '0px' : '16px',
+                // maxHeight: '436px',
+                height: '436px',
                 // objectFit: 'cover',
               }}
             />

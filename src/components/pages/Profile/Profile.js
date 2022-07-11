@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import './Profile.css';
 import Navbar from '../../molecules/navbarProfile/NavbarProfile';
