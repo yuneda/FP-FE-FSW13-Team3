@@ -138,12 +138,19 @@ const ProductCategory = ({ product, handleFilter, token }) => {
                       />
                       <p className="product-title mb-0">{data.product_name}</p>
                       <p className="desc mb-0">{data.category}</p>
-                      <p className="price">
-                        {Intl.NumberFormat('id-ID', {
-                          style: 'currency',
-                          currency: 'IDR',
-                        }).format(data.product_price)}
-                      </p>
+                      <div className='row'>
+                        <div className="col-9">
+                          <p className="price">
+                            {Intl.NumberFormat('id-ID', {
+                              style: 'currency',
+                              currency: 'IDR',
+                            }).format(data.product_price)}
+                          </p>
+                        </div>
+                        <div className="col-3">
+                          <i className="fa-regular fa-bookmark"></i>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </Link>

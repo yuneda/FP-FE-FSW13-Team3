@@ -11,6 +11,7 @@ import ProductOffer from './components/pages/ProductOffer/ProductOffer';
 import BuyerProduct from './components/pages/BuyerProduct/BuyerProduct';
 import Logout from './components/pages/Logout/Logout';
 import MyResponsive from './components/pages/Responsive/MyResp';
+import Whislist from './components/pages/Whislist/Whislist';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/resp" element={<MyResponsive />} />
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/product/buyer" element={<BuyerProduct />} />
+        <Route path="/wishlist" element={<Whislist />} />
       </Routes>
     </BrowserRouter>
   );
