@@ -4,8 +4,10 @@ import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 import CardCarousel from './CardCarousel';
 import './Carousel.css';
+import { useMediaQuery } from 'react-responsive';
 
 const Carousel = () => {
+  const notDesktop = useMediaQuery({ query: '(max-width: 991px)' });
   const resp = {
     0: {
       items: 1,
@@ -23,9 +25,9 @@ const Carousel = () => {
   };
   const carouselContainer = {};
   return (
-    <>
+    <div>
       <OwlCarousel
-        className="owl-theme mt-5"
+        className={`owl-theme`}
         loop={true}
         margin={100}
         // nav={true}
@@ -42,7 +44,7 @@ const Carousel = () => {
         <CardCarousel />
         <CardCarousel />
       </OwlCarousel>
-    </>
+    </div>
   );
 };
 

@@ -61,6 +61,13 @@ function MyNavbar(props) {
             </div>
           </Nav>
           {/* Not Login */}
+          {props.token && props.tokenExpired && (
+            <Link to="/login">
+              <button style={btnStyle}>
+                <i className="fa-solid fa-arrow-right-to-bracket"></i> Masuk
+              </button>
+            </Link>
+          )}
           {!props.token && (
             <Link to="/login">
               <button style={btnStyle}>
@@ -69,7 +76,7 @@ function MyNavbar(props) {
             </Link>
           )}
           {/* Login */}
-          {props.token && (
+          {props.token && !props.tokenExpired && (
             <>
               <Link to="/product">
                 <div style={colorInactive}>

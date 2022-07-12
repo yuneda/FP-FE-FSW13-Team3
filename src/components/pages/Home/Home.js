@@ -8,16 +8,24 @@ import MyCarousel from '../../molecules/carousel/MyCarousel';
 import ProductCategory from '../../molecules/productcategory/ProductCategory';
 import { Toast } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import MobileView from '../Responsive/MobileView';
+import TabletView from '../Responsive/TabletView';
+import DesktopView from '../Responsive/DesktopView';
+import { decodeToken, isExpired } from 'react-jwt';
+import NavbarToggle from 'react-bootstrap/esm/NavbarToggle';
+import { useMediaQuery } from 'react-responsive';
 
 let result;
 let address;
 const Home = () => {
   const token = localStorage.getItem('token');
+  const tokenExpired = isExpired(token);
   const [data, setData] = useState(null);
   const [notif, setNotif] = useState(null);
   const [search, setSearch] = useState('');
   const [showA, setShowA] = useState(false);
   const [idLogin, setIdLogin] = useState(null);
+  const notDesktop = useMediaQuery({ query: '(max-width: 991px)' });
   const toggleShowA = async (e) => {
     e.preventDefault();
     try {
@@ -44,7 +52,7 @@ const Home = () => {
 
     const fetchData = async () => {
       try {
-        if (token) {
+        if (!tokenExpired && token) {
           const responseUser = await axios.get(urlUser, {
             headers: {
               Authorization: 'Bearer ' + token,
@@ -52,6 +60,7 @@ const Home = () => {
           });
           setIdLogin(responseUser.data.data.id);
         }
+        console.log('yuneda');
         const response = await fetch(url);
         const json = await response.json();
         result = json.data.product.data;
@@ -92,13 +101,16 @@ const Home = () => {
   };
   return (
     <>
-      <MyNavbar
-        search={search}
-        handleSearch={handleSearch}
-        handleSubmitSearch={handleSubmitSearch}
-        token={token}
-        onToggleClick={toggleShowA}
-      />
+      <DesktopView>
+        <MyNavbar
+          search={search}
+          handleSearch={handleSearch}
+          handleSubmitSearch={handleSubmitSearch}
+          token={token}
+          onToggleClick={toggleShowA}
+          tokenExpired={tokenExpired}
+        />
+      </DesktopView>
       <div className="container position-relative">
         <Toast
           className={`${styles.cardNotif} p-1 bg-white`}
@@ -204,7 +216,9 @@ const Home = () => {
           </Toast.Body>
         </Toast>
       </div>
-      <MyCarousel />
+      <div className={notDesktop ? '' : 'mt-5'}>
+        <MyCarousel />
+      </div>
       <ProductCategory
         product={data}
         handleFilter={handleFilter}
