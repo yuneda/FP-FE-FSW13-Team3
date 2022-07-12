@@ -4,6 +4,7 @@ import ButtonCategory from '../../atoms/buttoncategory/ButtonCategory';
 import watch from '../../../assets/watch.png';
 import './ProductCategory.css';
 import data from '../../../docs/product.json';
+import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
 
 const ProductCategory = ({ product, handleFilter, token }) => {
   const [all, setAll] = useState(true);
@@ -68,50 +69,54 @@ const ProductCategory = ({ product, handleFilter, token }) => {
   };
   return (
     <>
-      <div className="container mt-5">
+      <div className="container mt-5" style={{ overflowX: 'auto' }}>
         <p className="title fw-bold">Telusuri Kategori</p>
-        <ButtonCategory
-          content="Semua"
-          isActive={all ? true : false}
-          handleFilter={handleFilter}
-          changeActive={setAll}
-          handleChange={handleAll}
-        />
-        <ButtonCategory
-          content="Hobi"
-          isActive={hobby ? true : false}
-          handleFilter={handleFilter}
-          changeActive={setHobby}
-          handleChange={handleHobby}
-        />
-        <ButtonCategory
-          content="Kendaraan"
-          isActive={vehicle ? true : false}
-          handleFilter={handleFilter}
-          changeActive={setVehicle}
-          handleChange={handleVehicle}
-        />
-        <ButtonCategory
-          content="Baju"
-          isActive={shirt ? true : false}
-          handleFilter={handleFilter}
-          changeActive={setShirt}
-          handleChange={handleShirt}
-        />
-        <ButtonCategory
-          content="Elektronik"
-          isActive={electronic ? true : false}
-          handleFilter={handleFilter}
-          changeActive={setElectronic}
-          handleChange={handleElectronic}
-        />
-        <ButtonCategory
-          content="Kesehatan"
-          isActive={health ? true : false}
-          handleFilter={handleFilter}
-          changeActive={setHealth}
-          handleChange={handleHealth}
-        />
+        <div className="">
+          <ScrollMenu>
+            <ButtonCategory
+              content="Semua"
+              isActive={all ? true : false}
+              handleFilter={handleFilter}
+              changeActive={setAll}
+              handleChange={handleAll}
+            />
+            <ButtonCategory
+              content="Hobi"
+              isActive={hobby ? true : false}
+              handleFilter={handleFilter}
+              changeActive={setHobby}
+              handleChange={handleHobby}
+            />
+            <ButtonCategory
+              content="Kendaraan"
+              isActive={vehicle ? true : false}
+              handleFilter={handleFilter}
+              changeActive={setVehicle}
+              handleChange={handleVehicle}
+            />
+            <ButtonCategory
+              content="Baju"
+              isActive={shirt ? true : false}
+              handleFilter={handleFilter}
+              changeActive={setShirt}
+              handleChange={handleShirt}
+            />
+            <ButtonCategory
+              content="Elektronik"
+              isActive={electronic ? true : false}
+              handleFilter={handleFilter}
+              changeActive={setElectronic}
+              handleChange={handleElectronic}
+            />
+            <ButtonCategory
+              content="Kesehatan"
+              isActive={health ? true : false}
+              handleFilter={handleFilter}
+              changeActive={setHealth}
+              handleChange={handleHealth}
+            />
+          </ScrollMenu>
+        </div>
         <div className="row justify-content-start g-2 row-cols-lg-6 row-cols-md-4 row-cols-sm-2 row-cols-1 my-5">
           {product &&
             product.map((data, index) => {
@@ -133,12 +138,19 @@ const ProductCategory = ({ product, handleFilter, token }) => {
                       />
                       <p className="product-title mb-0">{data.product_name}</p>
                       <p className="desc mb-0">{data.category}</p>
-                      <p className="price">
-                        {Intl.NumberFormat('id-ID', {
-                          style: 'currency',
-                          currency: 'IDR',
-                        }).format(data.product_price)}
-                      </p>
+                      <div className='row'>
+                        <div className="col-9">
+                          <p className="price">
+                            {Intl.NumberFormat('id-ID', {
+                              style: 'currency',
+                              currency: 'IDR',
+                            }).format(data.product_price)}
+                          </p>
+                        </div>
+                        <div className="col-3">
+                          <i className="fa-regular fa-bookmark"></i>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </Link>
@@ -148,7 +160,7 @@ const ProductCategory = ({ product, handleFilter, token }) => {
         </div>
       </div>
       <Link to={token ? '/create' : '/login'}>
-        <ButtonCategory content="Jual" isActive={true} css="btn-sell" />
+        <ButtonCategory content="Jual" isActive={true} css="btn-sell d-block" />
       </Link>
     </>
   );
