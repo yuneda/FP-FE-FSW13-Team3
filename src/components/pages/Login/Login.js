@@ -9,6 +9,13 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login';
 import { gapi } from 'gapi-script';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  loginUser,
+  selectUserStatus,
+  selectUserLogin,
+  selectUserError,
+} from '../../../redux/usersSlice';
 
 const clientId =
   '623214781738-uv2700sfb46feke2a3bfg8k1lcmamr4l.apps.googleusercontent.com';
@@ -20,6 +27,9 @@ const Login = () => {
   const [type, setType] = useState('password');
   const [icon, setIcon] = useState(eyeOff);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const userLogin = useSelector(selectUserLogin);
+  const userLoginStatus = useSelector(selectUserStatus);
 
   const onSuccess = (res) => {
     console.log('LOGIN SUCCESS!', res);
@@ -65,9 +75,12 @@ const Login = () => {
       localStorage.setItem('token', response.data.token);
       // console.log(response.data.token);
       // console.log(response.data.name);
+      // dispatch(loginUser({ email, password }));
       setEmail('');
       setPassword('');
-
+      // if (userLoginStatus === 'succeeded') {
+      //   console.log(userLogin);
+      // }
       navigate('/');
     } catch (error) {
       setFailed(true);
