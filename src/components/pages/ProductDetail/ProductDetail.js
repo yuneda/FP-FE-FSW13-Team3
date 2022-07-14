@@ -10,11 +10,13 @@ import axios from 'axios';
 import { useState } from 'react';
 import DesktopView from '../Responsive/DesktopView';
 import { useMediaQuery } from 'react-responsive';
+import { successAlert } from '../../../utils/alert';
 
 const ProductDetail = () => {
   const [product, setProduct] = useState(null);
   const [idLogin, setIdLogin] = useState(null);
   const [idSeller, setIdSeller] = useState(null);
+  const [wishlist, setWishlist] = useState(null);
   const { id } = useParams();
   const token = localStorage.getItem('token');
   const notDesktop = useMediaQuery({ query: '(max-width: 991px)' });
@@ -54,6 +56,30 @@ const ProductDetail = () => {
       console.log(error);
     }
   };
+  const handleWishlist = async (action) => {
+    let endPoint;
+    if (action) {
+      endPoint = 'deletewishlist';
+    } else {
+      endPoint = 'wishlist';
+    }
+    try {
+      const response = await axios({
+        method: 'put',
+        url: 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/' + endPoint,
+        data: {
+          id_product: product.id,
+        },
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      });
+      successAlert();
+      window.location.reload(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
     const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product/' + id;
     const urlUser = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user';
@@ -68,9 +94,10 @@ const ProductDetail = () => {
             },
           });
           setIdLogin(responseUser.data.data.id);
+          setWishlist(responseUser.data.data.wishlist);
+          console.log(responseUser.data.data.wishlist);
         }
         setProduct(response.data.data);
-        // console.log(response.data.data);
         setIdSeller(response.data.data.id_user);
         // console.log(responseUser);
       } catch (error) {
@@ -105,7 +132,26 @@ const ProductDetail = () => {
                 </div>
                 <div className={`col-lg-4 col-md-12 mt-4`}>
                   <div className={`card p-3 ${styles.cardDesc}`}>
-                    <p className={styles.prodTitle}>{product.product_name}</p>
+                    <div className="row d-flex justify-content-between">
+                      <div className="col">
+                        <p className={styles.prodTitle}>
+                          {product.product_name}
+                        </p>
+                      </div>
+                      <div className="col-2">
+                        <i
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleWishlist(wishlist.includes(product.id));
+                          }}
+                          className={
+                            wishlist.includes(product.id)
+                              ? 'fa-solid fa-bookmark'
+                              : 'fa-regular fa-bookmark'
+                          }
+                        ></i>
+                      </div>
+                    </div>
                     <p className="text-secondary">{product.category}</p>
                     <p>
                       {Intl.NumberFormat('id-ID', {

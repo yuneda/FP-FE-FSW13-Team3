@@ -5,14 +5,23 @@ import watch from '../../../assets/watch.png';
 import './ProductCategory.css';
 import data from '../../../docs/product.json';
 import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+import { successAlert } from '../../../utils/alert';
+import { decodeToken, isExpired } from 'react-jwt';
+
+const MySwal = withReactContent(Swal);
 
 const ProductCategory = ({ product, handleFilter, token }) => {
+  const tokenExpired = isExpired(token);
   const [all, setAll] = useState(true);
   const [hobby, setHobby] = useState(false);
   const [vehicle, setVehicle] = useState(false);
   const [shirt, setShirt] = useState(false);
   const [electronic, setElectronic] = useState(false);
   const [health, setHealth] = useState(false);
+  const [wishlist, setWishlist] = useState(null);
   const handleAll = (e) => {
     e.preventDefault();
     setAll(true);
@@ -66,6 +75,53 @@ const ProductCategory = ({ product, handleFilter, token }) => {
     setShirt(false);
     setElectronic(false);
     setHealth(true);
+  };
+  const handleAddWishlist = async (e) => {
+    MySwal.fire({
+      position: 'center',
+      icon: 'success',
+      title: 'Added to wishlist',
+      showConfirmButton: false,
+      timer: 2000,
+    });
+  };
+  useEffect(() => {
+    const urlUser = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user';
+    const fetchData = async () => {
+      try {
+        const responseUser = await axios.get(urlUser, {
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        });
+        setWishlist(responseUser.data.data.wishlist);
+      } catch (error) {}
+    };
+    fetchData();
+  });
+  const handleWishlist = async (action, id) => {
+    let endPoint;
+    if (action) {
+      endPoint = 'deletewishlist';
+    } else {
+      endPoint = 'wishlist';
+    }
+    try {
+      const response = await axios({
+        method: 'put',
+        url: 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/' + endPoint,
+        data: {
+          id_product: id,
+        },
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      });
+      successAlert();
+      window.location.reload(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <>
@@ -138,7 +194,7 @@ const ProductCategory = ({ product, handleFilter, token }) => {
                       />
                       <p className="product-title mb-0">{data.product_name}</p>
                       <p className="desc mb-0">{data.category}</p>
-                      <div className='row'>
+                      <div className="row">
                         <div className="col-9">
                           <p className="price">
                             {Intl.NumberFormat('id-ID', {
@@ -147,9 +203,32 @@ const ProductCategory = ({ product, handleFilter, token }) => {
                             }).format(data.product_price)}
                           </p>
                         </div>
-                        <div className="col-3">
-                          <i className="fa-regular fa-bookmark"></i>
-                        </div>
+                        {token && !tokenExpired && (
+                          <div className="col-3">
+                            <Link
+                              to="/"
+                              style={{
+                                color: 'inherit',
+                                textDecoration: 'inherit',
+                              }}
+                              onClick={async (e) => {
+                                e.preventDefault();
+                                handleWishlist(
+                                  wishlist.includes(data.id),
+                                  data.id
+                                );
+                              }}
+                            >
+                              <i
+                                className={
+                                  wishlist.includes(data.id)
+                                    ? 'fa-solid fa-bookmark'
+                                    : 'fa-regular fa-bookmark'
+                                }
+                              ></i>
+                            </Link>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>

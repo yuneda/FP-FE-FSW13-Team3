@@ -110,14 +110,16 @@ const Login = () => {
           className="col-md-6 col-sm-12 col-12 left d-flex align-items-center fit-image"
           style={sectionStyle}
         >
-          <div className="row justify-content-center">
-            <div className="col-10 title-login">
-              <h2 className="title-login">Second</h2>
+          <Link to="/" style={{ color: 'inherit', textDecoration: 'inherit' }}>
+            <div className="row justify-content-center">
+              <div className="col-10 title-login">
+                <h2 className="title-login">Second</h2>
+              </div>
+              <div className="col-sm-10">
+                <h2 className="title-login">Hand.</h2>
+              </div>
             </div>
-            <div className="col-sm-10">
-              <h2 className="title-login">Hand.</h2>
-            </div>
-          </div>
+          </Link>
         </div>
         <div className="col-md-6 col-sm-12 col-12 right d-flex align-items-center">
           <div className="fit-form-login">

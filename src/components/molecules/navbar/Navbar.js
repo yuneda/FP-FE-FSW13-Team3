@@ -91,11 +91,14 @@ function MyNavbar(props) {
               >
                 <i className="fa-regular fa-bell me-3 text-black"></i>
               </div>
-              <Link to="/profile">
-                <div>
-                  <i className="fa-regular fa-user text-black"></i>
-                </div>
-              </Link>
+              <div
+                onClick={props.onToggleMenu}
+                style={{
+                  cursor: 'pointer',
+                }}
+              >
+                <i className="fa-regular fa-user text-black"></i>
+              </div>
             </>
           )}
         </Navbar.Collapse>
