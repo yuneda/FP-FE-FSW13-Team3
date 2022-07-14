@@ -32,6 +32,6 @@
   width: 120px;
 }
 
-/* .wrapper-category::-webkit-scrollbar {
+.wrapper-category::-webkit-scrollbar {
   width: 0;
-} */
+}

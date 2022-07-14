@@ -7,7 +7,7 @@ import MyNavbar from '../../molecules/navbar/Navbar';
 import MyCarousel from '../../molecules/carousel/MyCarousel';
 import ProductCategory from '../../molecules/productcategory/ProductCategory';
 import { Toast } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import MobileView from '../Responsive/MobileView';
 import TabletView from '../Responsive/TabletView';
 import DesktopView from '../Responsive/DesktopView';
@@ -24,8 +24,14 @@ const Home = () => {
   const [notif, setNotif] = useState(null);
   const [search, setSearch] = useState('');
   const [showA, setShowA] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
   const [idLogin, setIdLogin] = useState(null);
   const notDesktop = useMediaQuery({ query: '(max-width: 991px)' });
+  const navigate = useNavigate();
+  const toggleMenu = (e) => {
+    e.preventDefault();
+    setShowMenu(!showMenu);
+  };
   const toggleShowA = async (e) => {
     e.preventDefault();
     try {
@@ -60,10 +66,8 @@ const Home = () => {
           });
           setIdLogin(responseUser.data.data.id);
         }
-        console.log('yuneda');
-        const response = await fetch(url);
-        const json = await response.json();
-        result = json.data.product.data;
+        const response = await axios.get(url);
+        result = response.data.data.product.data;
         setData(result);
       } catch (error) {
         console.log('error adalah', error);
@@ -108,10 +112,66 @@ const Home = () => {
           handleSubmitSearch={handleSubmitSearch}
           token={token}
           onToggleClick={toggleShowA}
+          onToggleMenu={toggleMenu}
           tokenExpired={tokenExpired}
         />
       </DesktopView>
       <div className="container position-relative">
+        <Toast
+          className={`${styles.cardNotif} p-1 bg-white`}
+          show={showMenu}
+          onClose={toggleMenu}
+        >
+          <Toast.Body>
+            <div className="fw-bold">Akun Saya</div>
+            <Link
+              to="/profile"
+              style={{ color: 'inherit', textDecoration: 'inherit' }}
+            >
+              <div>
+                <i
+                  className="fa-regular fa-bookmark me-2"
+                  style={{ color: '#7126B5' }}
+                ></i>
+                Ubah Akun
+              </div>
+            </Link>
+            <div>
+              <i
+                className="fa-solid fa-gear me-2"
+                style={{ color: '#7126B5' }}
+              ></i>
+              Pengaturan
+            </div>
+            <Link
+              to="/wishlist"
+              style={{ color: 'inherit', textDecoration: 'inherit' }}
+            >
+              <div>
+                <i
+                  className="fa-regular fa-bookmark me-2"
+                  style={{ color: '#7126B5' }}
+                ></i>
+                Daftar Simpan
+              </div>
+            </Link>
+            <div
+              onClick={(e) => {
+                e.preventDefault();
+                localStorage.removeItem('token');
+                navigate('/login');
+              }}
+              style={{ cursor: 'pointer' }}
+            >
+              <i
+                className="fa-regular fa-bookmark me-2"
+                style={{ color: '#7126B5' }}
+              ></i>
+              Keluar
+            </div>
+            <div className="row justify-content-center">Verson 1.0.0</div>
+          </Toast.Body>
+        </Toast>
         <Toast
           className={`${styles.cardNotif} p-1 bg-white`}
           show={showA}
