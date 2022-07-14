@@ -124,7 +124,10 @@ const Home = () => {
         >
           <Toast.Body>
             <div className="fw-bold">Akun Saya</div>
-            <Link to="/profile">
+            <Link
+              to="/profile"
+              style={{ color: 'inherit', textDecoration: 'inherit' }}
+            >
               <div>
                 <i
                   className="fa-regular fa-bookmark me-2"
@@ -140,13 +143,18 @@ const Home = () => {
               ></i>
               Pengaturan
             </div>
-            <div>
-              <i
-                className="fa-regular fa-bookmark me-2"
-                style={{ color: '#7126B5' }}
-              ></i>
-              Daftar Simpan
-            </div>
+            <Link
+              to="/wishlist"
+              style={{ color: 'inherit', textDecoration: 'inherit' }}
+            >
+              <div>
+                <i
+                  className="fa-regular fa-bookmark me-2"
+                  style={{ color: '#7126B5' }}
+                ></i>
+                Daftar Simpan
+              </div>
+            </Link>
             <div
               onClick={(e) => {
                 e.preventDefault();
