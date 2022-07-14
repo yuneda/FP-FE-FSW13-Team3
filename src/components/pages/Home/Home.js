@@ -68,6 +68,7 @@ const Home = () => {
         }
         const response = await axios.get(url);
         result = response.data.data.product.data;
+        console.log(result);
         setData(result);
       } catch (error) {
         console.log('error adalah', error);
