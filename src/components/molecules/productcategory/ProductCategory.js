@@ -138,7 +138,7 @@ const ProductCategory = ({ product, handleFilter, token }) => {
                       />
                       <p className="product-title mb-0">{data.product_name}</p>
                       <p className="desc mb-0">{data.category}</p>
-                      <div className='row'>
+                      <div className="row">
                         <div className="col-9">
                           <p className="price">
                             {Intl.NumberFormat('id-ID', {
