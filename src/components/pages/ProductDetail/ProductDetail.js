@@ -1,19 +1,20 @@
-import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import NavbarProduct from '../../molecules/navbarproduct/NavbarProduct';
-import styles from './ProductDetail.module.css';
-import detailImg from '../../../assets/nothing.png';
-import user from '../../../assets/user.jpg';
-import SwiperProduct from '../../molecules/swiper/SwiperProduct';
-import Buyer from '../../../assets/buyer.png';
-import axios from 'axios';
-import { useState } from 'react';
-import DesktopView from '../Responsive/DesktopView';
-import { useMediaQuery } from 'react-responsive';
-import { successAlert } from '../../../utils/alert';
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import NavbarProduct from "../../molecules/navbarproduct/NavbarProduct";
+// import styles from './ProductDetail.module.css';
+import styles from "./ProductDetail.module.scss";
+import detailImg from "../../../assets/nothing.png";
+import user from "../../../assets/user.jpg";
+import SwiperProduct from "../../molecules/swiper/SwiperProduct";
+import Buyer from "../../../assets/buyer.png";
+import axios from "axios";
+import { useState } from "react";
+import DesktopView from "../Responsive/DesktopView";
+import { useMediaQuery } from "react-responsive";
+import { successAlert } from "../../../utils/alert";
 
-import Button from 'react-bootstrap/Button';
-import Offcanvas from 'react-bootstrap/Offcanvas';
+import Button from "react-bootstrap/Button";
+import Offcanvas from "react-bootstrap/Offcanvas";
 
 const ProductDetail = () => {
   const [product, setProduct] = useState(null);
@@ -21,20 +22,20 @@ const ProductDetail = () => {
   const [idSeller, setIdSeller] = useState(null);
   const [wishlist, setWishlist] = useState(null);
   const { id } = useParams();
-  const token = localStorage.getItem('token');
-  const notDesktop = useMediaQuery({ query: '(max-width: 991px)' });
+  const token = localStorage.getItem("token");
+  const notDesktop = useMediaQuery({ query: "(max-width: 991px)" });
   // Buyer
-  const [price, setPrice] = useState('');
+  const [price, setPrice] = useState("");
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const colorGrey = {
-    background: '#D0D0D0',
+    background: "#D0D0D0",
   };
   const colorPurple = {
-    background: '#7126B5',
+    background: "#7126B5",
   };
   const [offer, setOffer] = useState(false);
   const handlePrice = (e) => {
@@ -46,9 +47,9 @@ const ProductDetail = () => {
     setOffer(true);
     console.log(id, price, token);
     try {
-      const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/offer';
+      const url = "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/offer";
       const responseOffer = await axios({
-        method: 'post',
+        method: "post",
         url,
         data: {
           id_product: id,
@@ -56,7 +57,7 @@ const ProductDetail = () => {
           id_seller: product.id_user,
         },
         headers: {
-          Authorization: 'Bearer ' + token,
+          Authorization: "Bearer " + token,
         },
       });
       console.log(responseOffer);
@@ -67,19 +68,19 @@ const ProductDetail = () => {
   const handleWishlist = async (action) => {
     let endPoint;
     if (action) {
-      endPoint = 'deletewishlist';
+      endPoint = "deletewishlist";
     } else {
-      endPoint = 'wishlist';
+      endPoint = "wishlist";
     }
     try {
       const response = await axios({
-        method: 'put',
-        url: 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/' + endPoint,
+        method: "put",
+        url: "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/" + endPoint,
         data: {
           id_product: product.id,
         },
         headers: {
-          Authorization: 'Bearer ' + token,
+          Authorization: "Bearer " + token,
         },
       });
       successAlert();
@@ -89,8 +90,8 @@ const ProductDetail = () => {
     }
   };
   useEffect(() => {
-    const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product/' + id;
-    const urlUser = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user';
+    const url = "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product/" + id;
+    const urlUser = "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user";
 
     const fetchData = async () => {
       try {
@@ -98,7 +99,7 @@ const ProductDetail = () => {
         if (token) {
           const responseUser = await axios.get(urlUser, {
             headers: {
-              Authorization: 'Bearer ' + token,
+              Authorization: "Bearer " + token,
             },
           });
           setIdLogin(responseUser.data.data.id);
@@ -109,7 +110,7 @@ const ProductDetail = () => {
         setIdSeller(response.data.data.id_user);
         // console.log(responseUser);
       } catch (error) {
-        console.log('error adalah', error);
+        console.log("error adalah", error);
       }
     };
 
@@ -120,16 +121,16 @@ const ProductDetail = () => {
       <DesktopView>
         <NavbarProduct />
       </DesktopView>
-      <div className={notDesktop ? '' : 'container'}>
+      <div className={notDesktop ? "" : "container"}>
         <div className="row justify-content-center">
-          <div className={notDesktop ? 'col-12' : 'col-10'}>
+          <div className={notDesktop ? "col-12" : "col-10"}>
             {product && (
               <div className="row">
                 <div
                   className={
                     notDesktop
-                      ? 'col-lg-8 col-md-12'
-                      : 'col-lg-8 col-md-12 mt-4'
+                      ? "col-lg-8 col-md-12"
+                      : "col-lg-8 col-md-12 mt-4"
                   }
                 >
                   <div className="carousel">
@@ -139,102 +140,103 @@ const ProductDetail = () => {
                   </div>
                 </div>
                 {/* <div className={ styles.descProduct }> // mobile */}
-                  <div className={`col-lg-4 col-md-12 mt-4`}>
-                    <div className={`card p-3 ${styles.cardDesc}`}>
-                      <div className="row d-flex justify-content-between">
-                        <div className="col">
-                          <p className={styles.prodTitle}>
-                            {product.product_name}
-                          </p>
-                        </div>
-                        <div className="col-2">
-                          <i
-                            onClick={(e) => {
-                              e.preventDefault();
-                              handleWishlist(wishlist.includes(product.id));
-                            }}
-                            className={
-                              wishlist.includes(product.id)
-                                ? 'fa-solid fa-bookmark'
-                                : 'fa-regular fa-bookmark'
-                            }
-                          ></i>
-                        </div>
+                <div className={`col-lg-4 col-md-12 mt-4`}>
+                  <div className={`card p-3 ${styles.cardDesc}`}>
+                    <div className="row d-flex justify-content-between">
+                      <div className="col">
+                        <p className={styles.prodTitle}>
+                          {product.product_name}
+                        </p>
                       </div>
-                      <p className="text-secondary">{product.category}</p>
-                      <p>
-                        {Intl.NumberFormat('id-ID', {
-                          style: 'currency',
-                          currency: 'IDR',
-                        }).format(product.product_price)}
-                      </p>
-                      {idLogin && idLogin == idSeller && (
-                        <>
-                          <button className={`${styles.btnPublish} mb-2`}>
-                            Terbitkan
-                          </button>
-                          <button className={styles.btnEdit}>Edit</button>
-                        </>
-                      )}
-                      {idLogin && idLogin !== idSeller && (
-                        // <button
-                        //   className={`${styles.btnPublish} mb-2`}
-                        //   data-bs-toggle="modal"
-                        //   data-bs-target="#staticBackdrop"
-                        //   style={!offer ? colorPurple : colorGrey}
-                        //   disabled={offer}
-                        // >
-                        //   {!offer
-                        //     ? 'Saya tertarik dan ingin nego'
-                        //     : 'Menunggu Respon Penjual'}
-                        // </button>
-                        <Button
-                          onClick={handleShow}
-                          className={`${styles.btnPublish} mb-2`}
-                          style={!offer ? colorPurple : colorGrey}
-                          disabled={offer}>
-                          {!offer
-                            ? 'Saya tertarik dan ingin nego'
-                            : 'Menunggu Respon Penjual'}
-                        </Button>
-                      )}
+                      <div className="col-2">
+                        <i
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleWishlist(wishlist.includes(product.id));
+                          }}
+                          className={
+                            wishlist.includes(product.id)
+                              ? "fa-solid fa-bookmark"
+                              : "fa-regular fa-bookmark"
+                          }
+                        ></i>
+                      </div>
                     </div>
-                    <div className={`card mt-3 p-2 ${styles.cardDesc}`}>
-                      <div className="row align-items-center">
-                        <div className="col-3">
-                          <img
-                            src={user}
-                            alt=""
-                            className={`${styles.userImg} img-fluid`}
-                          />
-                        </div>
-                        <div className="col-9 g-0">
-                          <div className="fw-bold">{product.User.name}</div>
-                          <div className="text-secondary">
-                            {product.User.city}
-                          </div>
+                    <p className="text-secondary">{product.category}</p>
+                    <p>
+                      {Intl.NumberFormat("id-ID", {
+                        style: "currency",
+                        currency: "IDR",
+                      }).format(product.product_price)}
+                    </p>
+                    {idLogin && idLogin == idSeller && (
+                      <>
+                        <button className={`${styles.btnPublish} mb-2`}>
+                          Terbitkan
+                        </button>
+                        <button className={styles.btnEdit}>Edit</button>
+                      </>
+                    )}
+                    {idLogin && idLogin !== idSeller && (
+                      // <button
+                      //   className={`${styles.btnPublish} mb-2`}
+                      //   data-bs-toggle="modal"
+                      //   data-bs-target="#staticBackdrop"
+                      //   style={!offer ? colorPurple : colorGrey}
+                      //   disabled={offer}
+                      // >
+                      //   {!offer
+                      //     ? 'Saya tertarik dan ingin nego'
+                      //     : 'Menunggu Respon Penjual'}
+                      // </button>
+                      <Button
+                        onClick={handleShow}
+                        className={`${styles.btnPublish} mb-2`}
+                        style={!offer ? colorPurple : colorGrey}
+                        disabled={offer}
+                      >
+                        {!offer
+                          ? "Saya tertarik dan ingin nego"
+                          : "Menunggu Respon Penjual"}
+                      </Button>
+                    )}
+                  </div>
+                  <div className={`card mt-3 p-2 ${styles.cardDesc}`}>
+                    <div className="row align-items-center">
+                      <div className="col-3">
+                        <img
+                          src={user}
+                          alt=""
+                          className={`${styles.userImg} img-fluid`}
+                        />
+                      </div>
+                      <div className="col-9 g-0">
+                        <div className="fw-bold">{product.User.name}</div>
+                        <div className="text-secondary">
+                          {product.User.city}
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div className="col-lg-8 col-md-12 mb-4">
-                    <div className={`card p-4 mt-4 ${styles.cardDesc}`}>
-                      <p className="fw-bold">Deskripsi</p>
-                      <p className="fw-light text-secondary">
-                        {product.description}
-                      </p>
-                      <p className="fw-light text-secondary">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore magna
-                        aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                        ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                        Duis aute irure dolor in reprehenderit in voluptate velit
-                        esse cillum dolore eu fugiat nulla pariatur. Excepteur
-                        sint occaecat cupidatat non proident, sunt in culpa qui
-                        officia deserunt mollit anim id est laborum.
-                      </p>
-                    </div>
+                </div>
+                <div className="col-lg-8 col-md-12 mb-4">
+                  <div className={`card p-4 mt-4 ${styles.cardDesc}`}>
+                    <p className="fw-bold">Deskripsi</p>
+                    <p className="fw-light text-secondary">
+                      {product.description}
+                    </p>
+                    <p className="fw-light text-secondary">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                      sed do eiusmod tempor incididunt ut labore et dolore magna
+                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                      ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                      Duis aute irure dolor in reprehenderit in voluptate velit
+                      esse cillum dolore eu fugiat nulla pariatur. Excepteur
+                      sint occaecat cupidatat non proident, sunt in culpa qui
+                      officia deserunt mollit anim id est laborum.
+                    </p>
                   </div>
+                </div>
                 {/* </div> */}
                 {/* Modal */}
                 <div
@@ -279,9 +281,9 @@ const ProductDetail = () => {
                                     src={product.image[0]}
                                     // src={Buyer}
                                     style={{
-                                      width: '58.5px',
-                                      height: '58.5px',
-                                      objectFit: 'cover',
+                                      width: "58.5px",
+                                      height: "58.5px",
+                                      objectFit: "cover",
                                     }}
                                     alt=""
                                     className={`${styles.userImg} img-fluid`}
@@ -292,9 +294,9 @@ const ProductDetail = () => {
                                     {product.product_name}
                                   </div>
                                   <div className="">
-                                    {Intl.NumberFormat('id-ID', {
-                                      style: 'currency',
-                                      currency: 'IDR',
+                                    {Intl.NumberFormat("id-ID", {
+                                      style: "currency",
+                                      currency: "IDR",
                                     }).format(product.product_price)}
                                   </div>
                                 </div>
@@ -332,15 +334,19 @@ const ProductDetail = () => {
                 </div>
 
                 {/* Offcanvas */}
-                <Offcanvas show={show} onHide={handleClose} placement='bottom' className={`${styles.offcancas} tes w-100 h-75`} name='bottom' >
+                <Offcanvas
+                  show={show}
+                  onHide={handleClose}
+                  placement="bottom"
+                  className={`${styles.offcancas} tes w-100 h-75`}
+                  name="bottom"
+                >
                   <Offcanvas.Header closeButton>
                     {/* <Offcanvas.Title>Offcanvas</Offcanvas.Title> */}
                   </Offcanvas.Header>
                   <Offcanvas.Body>
                     <>
-                      <div className="fw-bold">
-                        Masukkan Harga Tawaranmu
-                      </div>
+                      <div className="fw-bold">Masukkan Harga Tawaranmu</div>
                       <div className="text-secondary">
                         Harga tawaranmu akan diketahui penual, jika penjual
                         cocok kamu akan segera dihubungi penjual.
@@ -353,9 +359,9 @@ const ProductDetail = () => {
                                 src={product.image[0]}
                                 // src={Buyer}
                                 style={{
-                                  width: '58.5px',
-                                  height: '58.5px',
-                                  objectFit: 'cover',
+                                  width: "58.5px",
+                                  height: "58.5px",
+                                  objectFit: "cover",
                                 }}
                                 alt=""
                                 className={`${styles.userImg} img-fluid`}
@@ -366,9 +372,9 @@ const ProductDetail = () => {
                                 {product.product_name}
                               </div>
                               <div className="">
-                                {Intl.NumberFormat('id-ID', {
-                                  style: 'currency',
-                                  currency: 'IDR',
+                                {Intl.NumberFormat("id-ID", {
+                                  style: "currency",
+                                  currency: "IDR",
                                 }).format(product.product_price)}
                               </div>
                             </div>
