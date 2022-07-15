@@ -1,0 +1,103 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap");
+
+$font-stack: Poppins, sans-serif;
+$color-purple: #7126b5;
+$color-white: #ffffff;
+
+body {
+  font-family: $font-stack;
+  height: 100%;
+  margin: 0px;
+}
+
+.box {
+  height: 100vh;
+}
+
+.left {
+  padding: 0;
+  height: 100vh;
+}
+.right {
+  height: 100vh;
+}
+.img-bg {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.login-container {
+  height: 100%;
+}
+
+.border-radius {
+  border-radius: 16px;
+}
+
+.btn-login {
+  background-color: $color-purple;
+  color: $color-white;
+}
+
+.title-login {
+  color: $color-white;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 36px;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.input-field {
+  width: 100%;
+  border-radius: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.input-field input {
+  font-size: 16px;
+}
+
+.input-field button {
+  border: hidden;
+  outline: none;
+  background: transparent;
+  cursor: pointer;
+  margin-left: -500px;
+  margin-right: 10px;
+  color: #8a8a8a;
+}
+
+.font-color {
+  color: $color-purple;
+  text-decoration: none;
+}
+
+@media only screen and (max-width: 576px) {
+  .fit-image {
+    background-image: none !important;
+    width: 0%;
+  }
+
+  .fit-form-login {
+    margin-top: -180px;
+  }
+
+  input {
+    height: 50px;
+  }
+}
+
+@media screen and (min-width: 481px) {
+  .fit-font {
+    display: none;
+  }
+}
