@@ -3,46 +3,47 @@ import axios from 'axios';
 
 const loginUrl = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/login';
 const initialState = {
+  loading: false,
+  error: '',
   userLogin: null,
-  status: 'idle', //'idle' | 'loading' | 'succeeded' | 'failed'
-  error: null,
 };
 
 export const loginUser = createAsyncThunk(
   'users/login',
   async ({ email, password }) => {
-    console.log(email, password);
-    try {
-      const response = await axios.post(loginUrl, {
+    console.log(email);
+    console.log(password);
+    const response = await axios({
+      method: 'post',
+      url: loginUrl,
+      data: {
         email,
         password,
-      });
-      return response;
-    } catch (error) {
-      console.log(error);
-    }
+      },
+    });
+    return response;
   }
 );
 
 const userSlice = createSlice({
-  name: 'users',
+  name: 'user',
   initialState,
   extraReducers(builder) {
     builder
-      .addCase(loginUser.pending, (state, action) => {
-        state.status = 'loading';
-        console.log('pending');
-        console.log('pending');
+      .addCase(loginUser.pending, (state) => {
+        state.loading = true;
+        console.log('login pending');
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.loading = false;
         state.userLogin = action.payload;
-        console.log(action.payload);
+        localStorage.setItem('token', action.payload.data.token);
       })
       .addCase(loginUser.rejected, (state, action) => {
-        state.status = 'failed';
+        state.loading = false;
         state.error = action.error.message;
-        console.log('ditolak');
+        state.userLogin = null;
+        console.log('login rejected');
       });
   },
 });
