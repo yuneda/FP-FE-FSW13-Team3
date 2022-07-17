@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import NavbarProduct from '../../molecules/navbarproduct/NavbarProduct';
-import './Product.css';
-import styles from './Product.module.css';
-import userImage from '../../../assets/user.jpg';
-import likeImage from '../../../assets/liked.png';
-import Buyer from '../../../assets/buyer.png';
-import Watch from '../../../assets/watch-offer.png';
-import ProductCatDesk from '../../molecules/productcatdesk/ProductCatDesk';
-import ProductList from '../../molecules/productlist/ProductList';
-import { Toast } from 'react-bootstrap';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import NavbarProduct from "../../molecules/navbarproduct/NavbarProduct";
+// import './Product.css';
+import "./Product.scss";
+// import styles from "./Product.module.css";
+import styles from "./Product.module.scss";
+import userImage from "../../../assets/user.jpg";
+import likeImage from "../../../assets/liked.png";
+import Buyer from "../../../assets/buyer.png";
+import Watch from "../../../assets/watch-offer.png";
+import ProductCatDesk from "../../molecules/productcatdesk/ProductCatDesk";
+import ProductList from "../../molecules/productlist/ProductList";
+import { Toast } from "react-bootstrap";
+import axios from "axios";
 
 const Product = () => {
   const [data, setData] = useState([]);
@@ -18,22 +20,22 @@ const Product = () => {
   const [like, setLike] = useState(false);
   const [sold, setSold] = useState(false);
   const [user, setUser] = useState(null);
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   useEffect(() => {
     const fetchDataUser = async () => {
       try {
-        const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user';
+        const url = "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user";
         const responseUser = await axios({
-          method: 'get',
+          method: "get",
           url,
           headers: {
-            Authorization: 'Bearer ' + token,
+            Authorization: "Bearer " + token,
           },
         });
         setUser(responseUser.data.data);
         // console.log(responseUser.data.data);
       } catch (error) {
-        console.log('error adalah', error);
+        console.log("error adalah", error);
       }
     };
     fetchDataUser();
@@ -42,20 +44,20 @@ const Product = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/allproduct';
+        const url = "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/allproduct";
         const response = await axios({
-          method: 'post',
+          method: "post",
           url,
           data: {
-            status: 'available',
+            status: "available",
           },
           headers: {
-            Authorization: 'Bearer ' + token,
+            Authorization: "Bearer " + token,
           },
         });
         setData(response.data.data.product);
       } catch (error) {
-        console.log('error adalah', error);
+        console.log("error adalah", error);
       }
     };
     fetchData();
@@ -63,27 +65,27 @@ const Product = () => {
 
   const toggleShowA = () => setShowA(!showA);
   const title = {
-    fontWeight: '700',
-    fontSize: '20px',
-    lineHeight: '30px',
+    fontWeight: "700",
+    fontSize: "20px",
+    lineHeight: "30px",
   };
   const colorActive = {
-    color: '#7126B5',
+    color: "#7126B5",
   };
   const colorInactive = {
-    color: 'black',
+    color: "black",
   };
   const handleAll = async () => {
-    const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/allproduct';
+    const url = "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/allproduct";
     try {
       const response = await axios({
-        method: 'post',
+        method: "post",
         url,
         data: {
-          status: 'available',
+          status: "available",
         },
         headers: {
-          Authorization: 'Bearer ' + token,
+          Authorization: "Bearer " + token,
         },
       });
       setData(response.data.data.product);
@@ -96,23 +98,23 @@ const Product = () => {
     setSold(false);
   };
   const handleLike = async () => {
-    const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/allproduct';
+    const url = "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/allproduct";
     try {
       const response = await axios({
-        method: 'post',
+        method: "post",
         url,
         data: {
-          status: 'interested',
+          status: "interested",
         },
         headers: {
-          Authorization: 'Bearer ' + token,
+          Authorization: "Bearer " + token,
         },
       });
       setData(response.data.data.product);
       console.log(response);
-      console.log('like berhasil');
+      console.log("like berhasil");
     } catch (error) {
-      console.log('like gagal');
+      console.log("like gagal");
       console.log(error);
     }
     setAll(false);
@@ -120,23 +122,23 @@ const Product = () => {
     setSold(false);
   };
   const handleSold = async () => {
-    const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/allproduct';
+    const url = "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/allproduct";
     try {
       const response = await axios({
-        method: 'post',
+        method: "post",
         url,
         data: {
-          status: 'sold',
+          status: "sold",
         },
         headers: {
-          Authorization: 'Bearer ' + token,
+          Authorization: "Bearer " + token,
         },
       });
       setData(response.data.data.product);
       console.log(response.data.data.product);
-      console.log('sold berhasil');
+      console.log("sold berhasil");
     } catch (error) {
-      console.log('sold gagal');
+      console.log("sold gagal");
       console.log(error);
     }
     setAll(false);
@@ -173,11 +175,11 @@ const Product = () => {
                     </div>
                     <div className="col-5 g-0 ">
                       <div className="text-secondary">
-                        20 Apr, 14:04{' '}
+                        20 Apr, 14:04{" "}
                         <i
                           className="fa-solid fa-circle fa-xs"
                           style={{
-                            color: 'red',
+                            color: "red",
                           }}
                         ></i>
                       </div>
@@ -204,11 +206,11 @@ const Product = () => {
                     </div>
                     <div className="col-5 g-0 ">
                       <div className="text-secondary">
-                        20 Apr, 14:04{' '}
+                        20 Apr, 14:04{" "}
                         <i
                           className="fa-solid fa-circle fa-xs"
                           style={{
-                            color: 'red',
+                            color: "red",
                           }}
                         ></i>
                       </div>

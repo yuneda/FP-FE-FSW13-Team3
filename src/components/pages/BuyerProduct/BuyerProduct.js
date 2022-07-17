@@ -1,22 +1,23 @@
-import React, { useState } from 'react';
-import NavbarProduct from '../../molecules/navbarproduct/NavbarProduct';
-import styles from './BuyerProduct.module.css';
-import detailImg from '../../../assets/detail.png';
-import Buyer from '../../../assets/buyer.png';
-import Watch from '../../../assets/watch-offer.png';
-import user from '../../../assets/user.jpg';
-import SwiperProduct from '../../molecules/swiper/SwiperProduct';
-import MyAlert from '../../atoms/alert/Alert';
-import { Toast } from 'react-bootstrap';
+import React, { useState } from "react";
+import NavbarProduct from "../../molecules/navbarproduct/NavbarProduct";
+// import styles from "./BuyerProduct.module.css";
+import styles from "./BuyerProduct.module.scss";
+import detailImg from "../../../assets/detail.png";
+import Buyer from "../../../assets/buyer.png";
+import Watch from "../../../assets/watch-offer.png";
+import user from "../../../assets/user.jpg";
+import SwiperProduct from "../../molecules/swiper/SwiperProduct";
+import MyAlert from "../../atoms/alert/Alert";
+import { Toast } from "react-bootstrap";
 
 const BuyerProduct = () => {
   const [showA, setShowA] = useState(false);
   const toggleShowA = () => setShowA(!showA);
   const colorGrey = {
-    background: '#D0D0D0',
+    background: "#D0D0D0",
   };
   const colorPurple = {
-    background: '#7126B5',
+    background: "#7126B5",
   };
   const [offer, setOffer] = useState(false);
   const handleOffer = (e) => {
@@ -60,11 +61,11 @@ const BuyerProduct = () => {
                     </div>
                     <div className="col-5 g-0 ">
                       <div className="text-secondary">
-                        20 Apr, 14:04{' '}
+                        20 Apr, 14:04{" "}
                         <i
                           className="fa-solid fa-circle fa-xs"
                           style={{
-                            color: 'red',
+                            color: "red",
                           }}
                         ></i>
                       </div>
@@ -91,11 +92,11 @@ const BuyerProduct = () => {
                     </div>
                     <div className="col-5 g-0 ">
                       <div className="text-secondary">
-                        20 Apr, 14:04{' '}
+                        20 Apr, 14:04{" "}
                         <i
                           className="fa-solid fa-circle fa-xs"
                           style={{
-                            color: 'red',
+                            color: "red",
                           }}
                         ></i>
                       </div>
@@ -127,8 +128,8 @@ const BuyerProduct = () => {
                     disabled={offer}
                   >
                     {!offer
-                      ? 'Saya tertarik dan ingin nego'
-                      : 'Menunggu Respon Penjual'}
+                      ? "Saya tertarik dan ingin nego"
+                      : "Menunggu Respon Penjual"}
                   </button>
                 </div>
                 <div className={`card mt-3 p-2 ${styles.cardDesc}`}>

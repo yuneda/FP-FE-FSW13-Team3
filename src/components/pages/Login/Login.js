@@ -3,18 +3,20 @@ import { Icon } from 'react-icons-kit';
 import { eye } from 'react-icons-kit/feather/eye';
 import { eyeOff } from 'react-icons-kit/feather/eyeOff';
 import BgLogin from '../../../../src/assets/bg-login.png';
-import './Login.css';
+// import "./Login.css";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login';
 import { gapi } from 'gapi-script';
 import { useSelector, useDispatch } from 'react-redux';
+import './Login.scss';
+
 import {
-  loginUser,
   selectUserStatus,
   selectUserLogin,
   selectUserError,
+  loginUser,
 } from '../../../redux/usersSlice';
 
 const clientId =
@@ -28,11 +30,24 @@ const Login = () => {
   const [icon, setIcon] = useState(eyeOff);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const userLogin = useSelector(selectUserLogin);
-  const userLoginStatus = useSelector(selectUserStatus);
+  const user = useSelector((state) => state.users);
 
-  const onSuccess = (res) => {
+  const onSuccess = async (res) => {
     console.log('LOGIN SUCCESS!', res);
+    try {
+      const response = await axios({
+        method: 'post',
+        url: 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/googleregis',
+        data: {
+          tokenId: res.tokenId,
+        },
+      });
+      console.log(response);
+      localStorage.setItem('token', response.data.token);
+      navigate('/');
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   const onFailure = (res) => {
@@ -41,10 +56,14 @@ const Login = () => {
 
   useEffect(() => {
     function start() {
-      gapi.client.init({
+      gapi.auth2.init({
         clientId: clientId,
         scope: '',
       });
+      // gapi.client.init({
+      //   clientId: clientId,
+      //   scope: '',
+      // });
     }
     gapi.load('client:auth2', start);
   });
@@ -63,25 +82,19 @@ const Login = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault();
+    console.log(email);
+    console.log(password);
     try {
-      const response = await axios.post(
-        'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/login',
-        {
-          email,
-          password,
+      const data = {
+        email,
+        password,
+      };
+      dispatch(loginUser(data));
+      setTimeout(() => {
+        if (user.status === 'succeeded') {
+          navigate('/');
         }
-      );
-
-      localStorage.setItem('token', response.data.token);
-      // console.log(response.data.token);
-      // console.log(response.data.name);
-      // dispatch(loginUser({ email, password }));
-      setEmail('');
-      setPassword('');
-      // if (userLoginStatus === 'succeeded') {
-      //   console.log(userLogin);
-      // }
-      navigate('/');
+      }, 1500);
     } catch (error) {
       setFailed(true);
       console.log(error);
@@ -105,6 +118,7 @@ const Login = () => {
   };
   return (
     <div className="container-fluid box">
+      {user.status == 'succeeded' && navigate('/')}
       <div className="row">
         <div
           className="col-md-6 col-sm-12 col-12 left d-flex align-items-center fit-image"
@@ -168,9 +182,9 @@ const Login = () => {
                   </div>
                 </div>
               </div>
-              {failed && (
+              {user.error && (
                 <div className="col-sm-9 fw-bold">
-                  <p style={{ color: 'red' }}>Email or Pasword is wrong</p>
+                  <p style={{ color: 'red' }}>{user.error}</p>
                 </div>
               )}
               <div className="col-sm-9 mb-5">
@@ -198,7 +212,8 @@ const Login = () => {
                   onSuccess={onSuccess}
                   onFailure={onFailure}
                   cookiePolicy={'single_host_origin'}
-                  isSignedIn={true}
+                  isSignedIn={false}
+                  autoLoad={false}
                 />
               </div>
             </div>

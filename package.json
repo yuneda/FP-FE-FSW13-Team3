@@ -24,6 +24,7 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "react-slick": "^0.29.0",
+    "redux-logger": "^3.0.6",
     "slick-carousel": "^1.8.1",
     "sweetalert2": "^11.4.20",
     "sweetalert2-react-content": "^5.0.1",
@@ -53,5 +54,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "node-sass": "^7.0.1"
   }
 }

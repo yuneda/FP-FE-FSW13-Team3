@@ -10,12 +10,11 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import './Navbar.css';
 import { Link } from 'react-router-dom';
 
-function MyNavbar(props) {
+function MyNavbar2(props) {
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
   const notDesktop = useMediaQuery({ query: '(max-width: 991px)' });
-  const mobileView = useMediaQuery({ query: '(max-width: 767px)' });
   const colorActive = {
     color: '#7126B5',
   };
@@ -35,66 +34,25 @@ function MyNavbar(props) {
     top: '27px',
     background: '#4B1979',
   };
-  const expand = 'lg';
   return (
     <Navbar
-      expand="md"
+      expand="lg"
       style={{
-        borderBottom: mobileView ? 'none' : '3px solid #EEEEEE',
-        position: mobileView ? 'absolute' : 'relative',
-        zIndex: mobileView ? '2' : '0',
+        borderBottom: '3px solid #EEEEEE',
       }}
     >
-      <Container>
+      <Container fluid>
         <div className="logo"></div>
         <Navbar.Toggle
           aria-controls={
-            `offcanvasNavbar-expand-md`
-            // mobileView ? `offcanvasNavbar-expand-md` : '"navbarScroll"'
+            // notDesktop ? `offcanvasNavbar-expand-lg` : '"navbarScroll"'
+            notDesktop ? `offcanvasNavbar-expand-lg` : '"navbarScroll"'
           }
-          style={{
-            background: 'white',
-            borderRadius: '16px',
-            padding: '10px',
-          }}
-          onClick={handleShow}
         />
-        {mobileView && (
-          <div
-            className="ms-3 d-flex justify-content-between"
-            style={{
-              color: '#8a8a8a',
-              background: '#ffffff',
-              borderRadius: '16px',
-              padding: '2px 10px',
-            }}
-          >
-            <input
-              className="user-input"
-              placeholder="Cari di sini .."
-              type="text"
-              value={props.search}
-              onChange={props.handleSearch}
-              style={{
-                border: 'none',
-                background: 'none',
-                width: '100%',
-              }}
-            />
-            <button
-              onClick={props.handleSubmitSearch}
-              style={{
-                background: 'none',
-              }}
-            >
-              <i className="fa-solid fa-magnifying-glass me-2"></i>
-            </button>
-          </div>
-        )}
-        {!mobileView && (
+        {!notDesktop && (
           <Navbar.Collapse id="navbarScroll">
             <Nav
-              className="me-auto my-2 my-md-0"
+              className="me-auto my-2 my-lg-0"
               style={{ maxHeight: '100px' }}
               navbarScroll
             >
@@ -158,68 +116,53 @@ function MyNavbar(props) {
             )}
           </Navbar.Collapse>
         )}
-        {mobileView && (
-          <Offcanvas
-            className="w-50"
-            show={show}
-            onHide={handleClose}
-            {...props}
-          >
-            <Offcanvas.Header closeButton>
-              <Offcanvas.Title>Secondhand</Offcanvas.Title>
-            </Offcanvas.Header>
-            <Offcanvas.Body>
-              {props.token && props.tokenExpired && (
-                <Link to="/login">
-                  <button style={btnStyle}>
-                    <i className="fa-solid fa-arrow-right-to-bracket"></i> Masuk
-                  </button>
-                </Link>
-              )}
-              {!props.token && (
-                <Link to="/login">
-                  <button style={btnStyle}>
-                    <i className="fa-solid fa-arrow-right-to-bracket"></i> Masuk
-                  </button>
-                </Link>
-              )}
-              {props.token && !props.tokenExpired && (
-                <>
-                  <Link
-                    to="/product"
-                    style={{ color: 'inherit', textDecoration: 'inherit' }}
+        {notDesktop && (
+          <div className="w-50">
+            <Navbar.Offcanvas
+              id={`offcanvasNavbar-expand-expand`}
+              aria-labelledby={`offcanvasNavbarLabel-expand-expand`}
+              placement="start"
+              className="w-50"
+            >
+              <Offcanvas.Header closeButton>
+                <Offcanvas.Title id={`offcanvasNavbarLabel-expand-expand`}>
+                  Offcanvas
+                </Offcanvas.Title>
+              </Offcanvas.Header>
+              <Offcanvas.Body>
+                <Nav className="justify-content-end flex-grow-1 pe-3">
+                  <Nav.Link href="#action1">Home</Nav.Link>
+                  <Nav.Link href="#action2">Link</Nav.Link>
+                  <NavDropdown
+                    title="Dropdown"
+                    id={`offcanvasNavbarDropdown-expand-expand`}
                   >
-                    <div style={colorInactive}>Daftar Jual</div>
-                  </Link>
-                  <div
-                    onClick={props.onToggleClick}
-                    style={{
-                      cursor: 'pointer',
-                    }}
-                  >
-                    Notifikasi
-                  </div>
-                  <Link
-                    to="/profile"
-                    style={{ color: 'inherit', textDecoration: 'inherit' }}
-                  >
-                    <div
-                      onClick={props.onToggleMenu}
-                      style={{
-                        cursor: 'pointer',
-                      }}
-                    >
-                      Akun Saya
-                    </div>
-                  </Link>
-                </>
-              )}
-            </Offcanvas.Body>
-          </Offcanvas>
+                    <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
+                    <NavDropdown.Item href="#action4">
+                      Another action
+                    </NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item href="#action5">
+                      Something else here
+                    </NavDropdown.Item>
+                  </NavDropdown>
+                </Nav>
+                <Form className="d-flex">
+                  <Form.Control
+                    type="search"
+                    placeholder="Search"
+                    className="me-2"
+                    aria-label="Search"
+                  />
+                  <Button variant="outline-success">Search</Button>
+                </Form>
+              </Offcanvas.Body>
+            </Navbar.Offcanvas>
+          </div>
         )}
       </Container>
     </Navbar>
   );
 }
 
-export default MyNavbar;
+export default MyNavbar2;
