@@ -10,7 +10,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import './Navbar.css';
 import { Link } from 'react-router-dom';
 
-function MyNavbar(props) {
+function MyNavbar2(props) {
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
@@ -34,7 +34,6 @@ function MyNavbar(props) {
     top: '27px',
     background: '#4B1979',
   };
-  const expand = 'lg';
   return (
     <Navbar
       expand="lg"
@@ -42,14 +41,13 @@ function MyNavbar(props) {
         borderBottom: '3px solid #EEEEEE',
       }}
     >
-      <Container>
+      <Container fluid>
         <div className="logo"></div>
         <Navbar.Toggle
           aria-controls={
             // notDesktop ? `offcanvasNavbar-expand-lg` : '"navbarScroll"'
             notDesktop ? `offcanvasNavbar-expand-lg` : '"navbarScroll"'
           }
-          onClick={handleShow}
         />
         {!notDesktop && (
           <Navbar.Collapse id="navbarScroll">
@@ -119,70 +117,52 @@ function MyNavbar(props) {
           </Navbar.Collapse>
         )}
         {notDesktop && (
-          <Offcanvas
-            className="w-50"
-            show={show}
-            onHide={handleClose}
-            {...props}
-          >
-            <Offcanvas.Header closeButton>
-              <Offcanvas.Title>Secondhand</Offcanvas.Title>
-            </Offcanvas.Header>
-            <Offcanvas.Body>
-              {props.token && props.tokenExpired && (
-                <Link to="/login">
-                  <button style={btnStyle}>
-                    <i className="fa-solid fa-arrow-right-to-bracket"></i> Masuk
-                  </button>
-                </Link>
-              )}
-              {!props.token && (
-                <Link to="/login">
-                  <button style={btnStyle}>
-                    <i className="fa-solid fa-arrow-right-to-bracket"></i> Masuk
-                  </button>
-                </Link>
-              )}
-              {props.token && !props.tokenExpired && (
-                <>
-                  <Link
-                    to="/product"
-                    style={{ color: 'inherit', textDecoration: 'inherit' }}
+          <div className="w-50">
+            <Navbar.Offcanvas
+              id={`offcanvasNavbar-expand-expand`}
+              aria-labelledby={`offcanvasNavbarLabel-expand-expand`}
+              placement="start"
+              className="w-50"
+            >
+              <Offcanvas.Header closeButton>
+                <Offcanvas.Title id={`offcanvasNavbarLabel-expand-expand`}>
+                  Offcanvas
+                </Offcanvas.Title>
+              </Offcanvas.Header>
+              <Offcanvas.Body>
+                <Nav className="justify-content-end flex-grow-1 pe-3">
+                  <Nav.Link href="#action1">Home</Nav.Link>
+                  <Nav.Link href="#action2">Link</Nav.Link>
+                  <NavDropdown
+                    title="Dropdown"
+                    id={`offcanvasNavbarDropdown-expand-expand`}
                   >
-                    <div style={colorInactive}>
-                      {/* <i className="fa-solid fa-list-ul me-3"></i> */}
-                      Daftar Jual
-                    </div>
-                  </Link>
-                  <div
-                    onClick={props.onToggleClick}
-                    style={{
-                      cursor: 'pointer',
-                    }}
-                  >
-                    Notifikasi
-                  </div>
-                  <Link
-                    to="/profile"
-                    style={{ color: 'inherit', textDecoration: 'inherit' }}
-                  >
-                    <div
-                      onClick={props.onToggleMenu}
-                      style={{
-                        cursor: 'pointer',
-                      }}
-                    >
-                      Akun Saya
-                    </div>
-                  </Link>
-                </>
-              )}
-            </Offcanvas.Body>
-          </Offcanvas>
+                    <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
+                    <NavDropdown.Item href="#action4">
+                      Another action
+                    </NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item href="#action5">
+                      Something else here
+                    </NavDropdown.Item>
+                  </NavDropdown>
+                </Nav>
+                <Form className="d-flex">
+                  <Form.Control
+                    type="search"
+                    placeholder="Search"
+                    className="me-2"
+                    aria-label="Search"
+                  />
+                  <Button variant="outline-success">Search</Button>
+                </Form>
+              </Offcanvas.Body>
+            </Navbar.Offcanvas>
+          </div>
         )}
       </Container>
     </Navbar>
   );
 }
 
-export default MyNavbar;
+export default MyNavbar2;
