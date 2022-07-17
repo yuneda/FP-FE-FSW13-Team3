@@ -216,47 +216,50 @@ const ProductOffer = () => {
                               </button>
                             )}
                             {!accept && (
-                              // <button
-                              //   className={
-                              //     accept
-                              //       ? 'btn border-radius btn-register px-4 py-2'
-                              //       : 'btn border-radius btn-register px-5 py-2'
-                              //   }
-                              //   // onClick={handleAccept}
-                              //   data-bs-toggle="modal"
-                              //   data-bs-target="#staticBackdrop"
-                              // >
-                              //   Terima
-                              // </button>
-                              <Button
-                                onClick={handleShow}
-                                // className={`${styles.btnPublish} mb-2`}
-                                // style={!offer ? colorPurple : colorGrey}
-                                // disabled={offer}
+                              <button
                                 className={
                                   accept
                                     ? 'btn border-radius btn-register px-4 py-2'
                                     : 'btn border-radius btn-register px-5 py-2'
                                 }
+                                // onClick={handleAccept}
+                                data-bs-toggle="modal"
+                                data-bs-target="#staticBackdrop"
                               >
                                 Terima
-                              </Button>
+                              </button>
+                              // <Button
+                              //   onClick={handleShow}
+                              //   className={
+                              //     accept
+                              //       ? 'btn border-radius btn-register px-4 py-2'
+                              //       : 'btn border-radius btn-register px-5 py-2'
+                              //   }
+                              // >
+                              //   Terima
+                              // </Button>
                             )}
 
                             <>
-                              <Offcanvas show={show} onHide={handleClose} placement='bottom' className={`${styles.offcancas} tes w-100 h-75`} name='bottom' >
+                              <Offcanvas
+                                show={show}
+                                onHide={handleClose}
+                                placement="bottom"
+                                className={`${styles.offcancas} tes w-100 h-75`}
+                                name="bottom"
+                              >
                                 <Offcanvas.Header>
                                   <button
-                                        type="button"
-                                        className="btn-close"
-                                        // data-bs-dismiss="modal"
-                                        // aria-label="Close"
-                                        onClick={(e) => {
-                                          if (!accept) {
-                                            handleAccept(e);
-                                          }
-                                        }}
-                                      />
+                                    type="button"
+                                    className="btn-close"
+                                    // data-bs-dismiss="modal"
+                                    // aria-label="Close"
+                                    onClick={(e) => {
+                                      if (!accept) {
+                                        handleAccept(e);
+                                      }
+                                    }}
+                                  />
                                 </Offcanvas.Header>
                                 <Offcanvas.Body>
                                   <>
