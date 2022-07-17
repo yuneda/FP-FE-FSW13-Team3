@@ -28,12 +28,3 @@ class UserServices {
   }
 }
 export default new UserServices();
-
-// const response = await axios.post(
-//     'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/register',
-//     {
-//       name,
-//       email,
-//       password,
-//     }
-//   );

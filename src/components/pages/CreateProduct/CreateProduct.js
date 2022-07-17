@@ -1,26 +1,30 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import InputForm from "../../atoms/inputform/InputForm";
-import MyNavbar from "../../molecules/navbarProfile/NavbarProfile";
-import Form from "react-bootstrap/Form";
-import OptionInput from "../../atoms/OptionInput/OptionInput";
-import TextArea from "../../atoms/textArea/TextArea";
-import PicInput from "../../../assets/fi_camera.png";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import InputForm from '../../atoms/inputform/InputForm';
+import MyNavbar from '../../molecules/navbarProfile/NavbarProfile';
+import Form from 'react-bootstrap/Form';
+import OptionInput from '../../atoms/OptionInput/OptionInput';
+import TextArea from '../../atoms/textArea/TextArea';
+import PicInput from '../../../assets/fi_camera.png';
 // import './CreateProduct.css';
-import "./CreateProduct.scss";
-import MyAlert from "../../atoms/alert/Alert";
-import { useNavigate } from "react-router-dom";
+import './CreateProduct.scss';
+import MyAlert from '../../atoms/alert/Alert';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { makeStatusIdle, createProduct } from '../../../redux/productSlice';
 
 const CreateProduct = () => {
+  const dispatch = useDispatch();
+  const product = useSelector((state) => state.product);
   let imgContainer = [];
   let imgCount = 0;
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
   const [files, setFiles] = useState(null);
-  const [userId, setUserId] = useState("");
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-  const [category, setCategory] = useState("");
-  const [desc, setDesc] = useState("");
+  const [userId, setUserId] = useState('');
+  const [name, setName] = useState('');
+  const [price, setPrice] = useState('');
+  const [category, setCategory] = useState('');
+  const [desc, setDesc] = useState('');
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
   const handleName = (e) => {
@@ -49,19 +53,19 @@ const CreateProduct = () => {
     setFiles(imgContainer);
   };
   useEffect(() => {
+    dispatch(makeStatusIdle());
     async function fetchData() {
       let response = await axios.get(
-        "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user",
+        'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user',
         {
           headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: "Bearer " + token,
+            'Content-Type': 'multipart/form-data',
+            Authorization: 'Bearer ' + token,
           },
         }
       );
       response = response.data.data.id;
       setUserId(response);
-      // console.log(response);
     }
     fetchData();
   }, []);
@@ -70,29 +74,18 @@ const CreateProduct = () => {
     console.log(files.length);
     const form = new FormData();
     for (let index = 0; index < files.length; index++) {
-      form.append("files", files[index]);
+      form.append('files', files[index]);
     }
-    form.append("product_name", name);
-    form.append("product_price", price);
-    form.append("category", category);
-    form.append("description", desc);
-    form.append("status", "available");
-    try {
-      const url = "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product";
-      const response = await axios.post(url, form, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: "Bearer " + token,
-        },
-      });
-      console.log(response);
-      setSuccess(true);
-      setTimeout(() => {
-        navigate("/product");
-      }, 2000);
-    } catch (error) {
-      console.log(error.message);
-    }
+    form.append('product_name', name);
+    form.append('product_price', price);
+    form.append('category', category);
+    form.append('description', desc);
+    form.append('status', 'available');
+    const data = {
+      form,
+      token,
+    };
+    dispatch(createProduct(data));
   };
   return (
     <>
@@ -112,7 +105,7 @@ const CreateProduct = () => {
               <div className="row w-100 justify-content-center fit">
                 <i
                   className="fa-solid fa-arrow-left fit"
-                  style={{ marginTop: "20px" }}
+                  style={{ marginTop: '20px' }}
                 ></i>
                 <div className="col-sm-9 responsive-form">
                   <label className="d-flex justify-content-between">
@@ -167,7 +160,7 @@ const CreateProduct = () => {
                         type="file"
                         accept="image/*"
                         style={{
-                          display: "none",
+                          display: 'none',
                         }}
                         onChange={handleFiles}
                         multiple
@@ -191,6 +184,8 @@ const CreateProduct = () => {
                     Simpan
                   </button>
                 </div>
+                {product.status === 'loading' && <div>Loading...</div>}
+                {product.status === 'succeeded' && navigate('/product')}
               </div>
             </form>
           </div>
