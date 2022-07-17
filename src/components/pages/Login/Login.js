@@ -32,8 +32,22 @@ const Login = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.users);
 
-  const onSuccess = (res) => {
+  const onSuccess = async (res) => {
     console.log('LOGIN SUCCESS!', res);
+    try {
+      const response = await axios({
+        method: 'post',
+        url: 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/googleregis',
+        data: {
+          tokenId: res.tokenId,
+        },
+      });
+      console.log(response);
+      localStorage.setItem('token', response.data.token);
+      navigate('/');
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   const onFailure = (res) => {
@@ -42,10 +56,14 @@ const Login = () => {
 
   useEffect(() => {
     function start() {
-      gapi.client.init({
+      gapi.auth2.init({
         clientId: clientId,
         scope: '',
       });
+      // gapi.client.init({
+      //   clientId: clientId,
+      //   scope: '',
+      // });
     }
     gapi.load('client:auth2', start);
   });
@@ -64,15 +82,19 @@ const Login = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault();
+    console.log(email);
+    console.log(password);
     try {
-      dispatch(loginUser({ email, password }));
+      const data = {
+        email,
+        password,
+      };
+      dispatch(loginUser(data));
       setTimeout(() => {
-        if (user.loading == false && !user.error && user.userLogin !== null) {
-          setEmail('');
-          setPassword('');
+        if (user.status === 'succeeded') {
           navigate('/');
         }
-      }, 2000);
+      }, 1500);
     } catch (error) {
       setFailed(true);
       console.log(error);
@@ -96,6 +118,7 @@ const Login = () => {
   };
   return (
     <div className="container-fluid box">
+      {user.status == 'succeeded' && navigate('/')}
       <div className="row">
         <div
           className="col-md-6 col-sm-12 col-12 left d-flex align-items-center fit-image"
@@ -189,7 +212,8 @@ const Login = () => {
                   onSuccess={onSuccess}
                   onFailure={onFailure}
                   cookiePolicy={'single_host_origin'}
-                  isSignedIn={true}
+                  isSignedIn={false}
+                  autoLoad={false}
                 />
               </div>
             </div>
