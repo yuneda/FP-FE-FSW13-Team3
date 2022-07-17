@@ -7,6 +7,8 @@ import './ProductOffer.css';
 import MyAlert from '../../atoms/alert/Alert';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
+import Button from 'react-bootstrap/Button';
+import Offcanvas from 'react-bootstrap/Offcanvas';
 
 const ProductOffer = () => {
   const [alert, setAlert] = useState(false);
@@ -18,6 +20,9 @@ const ProductOffer = () => {
   const [status, setStatus] = useState('');
   const { id } = useParams();
   const token = localStorage.getItem('token');
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   useEffect(() => {
     const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/history/' + id;
@@ -189,6 +194,16 @@ const ProductOffer = () => {
                               {accept ? 'Status' : 'Tolak'}
                             </button>
                             {accept && (
+                              // <Button onClick={handleShow}
+                              //   className={
+                              //     accept
+                              //       ? 'btn border-radius btn-register px-4 py-2'
+                              //       : 'btn border-radius btn-register px-5 py-2'
+                              //   }
+                              // >
+                              //   Hubungi di{' '}
+                              //   <i className="fa-brands fa-whatsapp"></i>
+                              // </Button>
                               <button
                                 className={
                                   accept
@@ -201,21 +216,202 @@ const ProductOffer = () => {
                               </button>
                             )}
                             {!accept && (
-                              <button
+                              // <button
+                              //   className={
+                              //     accept
+                              //       ? 'btn border-radius btn-register px-4 py-2'
+                              //       : 'btn border-radius btn-register px-5 py-2'
+                              //   }
+                              //   // onClick={handleAccept}
+                              //   data-bs-toggle="modal"
+                              //   data-bs-target="#staticBackdrop"
+                              // >
+                              //   Terima
+                              // </button>
+                              <Button
+                                onClick={handleShow}
+                                // className={`${styles.btnPublish} mb-2`}
+                                // style={!offer ? colorPurple : colorGrey}
+                                // disabled={offer}
                                 className={
                                   accept
                                     ? 'btn border-radius btn-register px-4 py-2'
                                     : 'btn border-radius btn-register px-5 py-2'
                                 }
-                                // onClick={handleAccept}
-                                data-bs-toggle="modal"
-                                data-bs-target="#staticBackdrop"
                               >
                                 Terima
-                              </button>
+                              </Button>
                             )}
 
                             <>
+                              <Offcanvas show={show} onHide={handleClose} placement='bottom' className={`${styles.offcancas} tes w-100 h-75`} name='bottom' >
+                                <Offcanvas.Header>
+                                  <button
+                                        type="button"
+                                        className="btn-close"
+                                        // data-bs-dismiss="modal"
+                                        // aria-label="Close"
+                                        onClick={(e) => {
+                                          if (!accept) {
+                                            handleAccept(e);
+                                          }
+                                        }}
+                                      />
+                                </Offcanvas.Header>
+                                <Offcanvas.Body>
+                                  <>
+                                    <div className="modal-body m-3 p-1">
+                                      {accept ? (
+                                        <>
+                                          <div className="fw-bold">
+                                            Perbarui status penjualan produkmu
+                                          </div>
+
+                                          <div className={`col-12 mb-3 mt-4`}>
+                                            <div className="form-check">
+                                              <input
+                                                className="form-check-input custom-control-input"
+                                                type="radio"
+                                                name="exampleRadios"
+                                                id="exampleRadios1"
+                                                defaultValue="option1"
+                                                defaultChecked=""
+                                                onClick={() =>
+                                                  setStatus('sold')
+                                                }
+                                              />
+                                              <label
+                                                className="form-check-label "
+                                                htmlFor="exampleRadios1"
+                                              >
+                                                Berhasil terjual
+                                              </label>
+                                            </div>
+                                            <div className="ms-4">
+                                              Kamu telah sepakat menjual produk
+                                              ini kepada pembeli
+                                            </div>
+                                          </div>
+
+                                          <div className={`col-12 mb-3 mt-4 `}>
+                                            <div className="form-check">
+                                              <input
+                                                className="form-check-input custom-control-input"
+                                                type="radio"
+                                                name="exampleRadios"
+                                                id="exampleRadios2"
+                                                defaultValue="option1"
+                                                defaultChecked=""
+                                                onClick={() =>
+                                                  setStatus('reject')
+                                                }
+                                              />
+                                              <label
+                                                className="form-check-label"
+                                                htmlFor="exampleRadios2"
+                                              >
+                                                Batalkan transaksi
+                                              </label>
+                                            </div>
+                                            <div className="ms-4">
+                                              Kamu membatalkan transaksi produk
+                                              ini dengan pembeli
+                                            </div>
+                                          </div>
+                                          <div className={`col-12 mb-3 mt-4`}>
+                                            <button
+                                              className={`btn border-radius btn-register  px-4 py-3 ${styles.btnEditModal}`}
+                                              onClick={handleStatus}
+                                            >
+                                              Kirim
+                                            </button>
+                                          </div>
+                                        </>
+                                      ) : (
+                                        <>
+                                          <div className="fw-bold">
+                                            Yeay kamu berhasil mendapat harga
+                                            yang sesuai
+                                          </div>
+                                          <div className="text-secondary">
+                                            Segera hubungi pembeli melalui
+                                            whatsapp untuk transaksi selanjutnya
+                                          </div>
+                                          <div
+                                            className={`row mt-3 ${styles.modalBg}`}
+                                          >
+                                            <div className="col-12 fw-bold text-center">
+                                              Product Match
+                                            </div>
+                                            <div className={`mt-3`}>
+                                              <div className="row align-items-center">
+                                                <div className={`col-3`}>
+                                                  <img
+                                                    src={Buyer}
+                                                    alt=""
+                                                    className={`${styles.userImg} img-fluid`}
+                                                  />
+                                                </div>
+                                                <div className="col-9">
+                                                  <div className="fw-bold">
+                                                    Nama Penjual
+                                                  </div>
+                                                  <div className="text-secondary">
+                                                    Kota
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              <div
+                                                className={`${styles.cardOffer}`}
+                                              >
+                                                <div className="row align-items-center">
+                                                  <div className="col-3 ">
+                                                    <img
+                                                      src={Watch}
+                                                      alt=""
+                                                      className={`${styles.userImg} img-fluid`}
+                                                    />
+                                                  </div>
+                                                  <div className="col-9">
+                                                    <div className="row">
+                                                      <div className="col-9 mt-3">
+                                                        <div className="">
+                                                          Jam Tangan Casio
+                                                        </div>
+                                                        <div className="">
+                                                          Rp <s>250.000</s>
+                                                        </div>
+                                                        <div className="">
+                                                          Ditawar Rp 200.000
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div className={`col-12 mb-3 mt-4`}>
+                                            <a
+                                              href="https://wa.me/+628980023612"
+                                              rel="noopener"
+                                              target="_blank"
+                                            >
+                                              <button
+                                                className={`btn border-radius btn-register  px-4 py-3 ${styles.btnEditModal}`}
+                                              >
+                                                Hubungi via Whatsapp &nbsp;
+                                                <i className="fa-brands fa-whatsapp"></i>
+                                              </button>
+                                            </a>
+                                          </div>
+                                        </>
+                                      )}
+                                    </div>
+                                  </>
+                                </Offcanvas.Body>
+                              </Offcanvas>
+
                               {/* Modal */}
                               <div
                                 className="modal fade"

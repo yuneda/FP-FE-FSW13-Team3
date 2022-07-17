@@ -32,6 +32,11 @@
   width: 780px;
 }
 
+.offcancas {
+  border-radius: 20px 20px 0 0;
+  width: 780px;
+}
+
 .modalBg {
   background-color: #eeeeee;
   border-radius: 20px;
