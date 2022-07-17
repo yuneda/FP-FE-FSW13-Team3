@@ -9,7 +9,7 @@ import MyCarousel from '../../molecules/carousel/MyCarousel';
 import ProductCategory from '../../molecules/productcategory/ProductCategory';
 import { Toast } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-import MobileView from '../Responsive/MobileView';
+// import MobileView from '../Responsive/MobileView';
 import TabletView from '../Responsive/TabletView';
 import DesktopView from '../Responsive/DesktopView';
 import { decodeToken, isExpired } from 'react-jwt';
@@ -28,6 +28,7 @@ const Home = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [idLogin, setIdLogin] = useState(null);
   const notDesktop = useMediaQuery({ query: '(max-width: 991px)' });
+  const mobileView = useMediaQuery({ query: '(max-width: 767px)' });
   const navigate = useNavigate();
   const toggleMenu = (e) => {
     e.preventDefault();
@@ -278,7 +279,7 @@ const Home = () => {
           </Toast.Body>
         </Toast>
       </div>
-      <div className={notDesktop ? '' : 'mt-5'}>
+      <div className={mobileView ? '' : 'mt-5'}>
         <MyCarousel />
       </div>
       <ProductCategory
