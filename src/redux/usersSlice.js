@@ -43,7 +43,6 @@ const userSlice = createSlice({
         state.userLogin = action.payload;
         state.error = '';
         localStorage.setItem('token', action.payload.data.token);
-        console.log('login fulfilled');
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.status = 'failed';

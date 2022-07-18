@@ -20,7 +20,6 @@ const Home = () => {
   const user = useSelector((state) => state.users);
   const token = localStorage.getItem('token');
   const tokenExpired = isExpired(token);
-  const [data, setData] = useState(null);
   const [notif, setNotif] = useState(null);
   const [search, setSearch] = useState('');
   const [showA, setShowA] = useState(false);
@@ -77,7 +76,7 @@ const Home = () => {
       <div className={mobileView ? '' : 'mt-5'}>
         <MyCarousel />
       </div>
-      <ProductCategory product={data} handleFilter={handleFilter} token={token} />
+      <ProductCategory handleFilter={handleFilter} token={token} />
     </>
   );
 };
