@@ -11,6 +11,7 @@ import NotifDesktop from './molecules/NotifDesktop';
 
 import { getAllNotif } from '../../../redux/notifSlice';
 import { authUser } from '../../../redux/usersSlice';
+import { filterProduct } from '../../../redux/productSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 const Home = () => {
@@ -52,16 +53,17 @@ const Home = () => {
   };
   const handleFilter = async (e, filter) => {
     e.preventDefault();
-    const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product';
-    const response = await axios({
-      method: 'get',
-      url,
-      params: {
-        filter,
-      },
-    });
-    console.log(response.data.data.product);
-    setData(response.data.data.product.data);
+    dispatch(filterProduct(filter));
+    // const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product';
+    // const response = await axios({
+    //   method: 'get',
+    //   url,
+    //   params: {
+    //     filter,
+    //   },
+    // });
+    // console.log(response.data.data.product);
+    // setData(response.data.data.product.data);
   };
   const handleSubmitSearch = async (e) => {
     e.preventDefault();

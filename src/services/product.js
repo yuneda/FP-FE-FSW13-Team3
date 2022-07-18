@@ -13,5 +13,15 @@ class ProductServices {
     const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product';
     return axios.get(url);
   }
+  filter(filter) {
+    const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product';
+    return axios({
+      method: 'get',
+      url,
+      params: {
+        filter,
+      },
+    });
+  }
 }
 export default new ProductServices();
