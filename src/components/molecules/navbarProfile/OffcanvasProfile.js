@@ -24,7 +24,7 @@ function OffcanvasProfile(props) {
     <>
       <Navbar className="mb-3" expand='xl'>
         <Container fluid>
-          <i class="fa-solid fa-bars ms-3" onClick={handleShow}></i>
+          <i className="fa-solid fa-bars ms-3" onClick={handleShow}></i>
           <Navbar.Brand href="#" className='w-75 fw-bold'>{props.title}</Navbar.Brand>
           <Offcanvas
             className="w-50"
