@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
+import { registerUser, makeStatusIdle } from '../../../redux/usersSlice';
+
 import './Register.css';
 import { Icon } from 'react-icons-kit';
 import { eye } from 'react-icons-kit/feather/eye';
@@ -18,6 +21,9 @@ const Register = () => {
   const [type, setType] = useState('password');
   const [icon, setIcon] = useState(eyeOff);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.users);
+
   var registerImage = {
     backgroundImage: 'url(' + BgRegister + ')',
     backgroundRepeat: 'no-repeat',
@@ -51,30 +57,38 @@ const Register = () => {
   const handleRegister = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post(
-        'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/register',
-        {
-          name,
-          email,
-          password,
-        }
-      );
+      // const response = await axios.post(
+      //   'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/register',
+      //   {
+      //     name,
+      //     email,
+      //     password,
+      //   }
+      // );
+      const data = { name, email, password };
+      dispatch(registerUser(data));
+      // console.log(response);
 
-      console.log(response);
-      setName('');
-      setEmail('');
-      setPassword('');
-      setSuccess(true);
       setTimeout(() => {
-        navigate('/login');
+        if (user.status == 'succeeded') {
+          setName('');
+          setEmail('');
+          setPassword('');
+          setSuccess(true);
+          navigate('/login');
+        }
       }, 2000);
     } catch (error) {
       console.log(error);
       setFailed(true);
     }
   };
+  useEffect(() => {
+    dispatch(makeStatusIdle());
+  }, []);
   return (
     <div className="container-fluid box">
+      {user.status == 'succeeded' && navigate('/login')}
       {success && (
         <div className="tes mx-auto">
           <MyAlert title="Registration success" color="success" />

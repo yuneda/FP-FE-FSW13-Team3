@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import './Profile.css';
 import Navbar from '../../molecules/navbarProfile/NavbarProfile';
@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 const Profile = () => {
   const token = localStorage.getItem('token');
   const [file, setFile] = useState(null);
+  const [image, setImage] = useState();
   const [name, setName] = useState('');
   const [city, setCity] = useState('');
   const [address, setAddress] = useState('');
@@ -27,6 +28,7 @@ const Profile = () => {
     console.log(result.name);
     setName(result.name);
     setCity(result.city);
+    setImage(result.image);
     setAddress(result.address);
     setPhone(result.no_tlpn);
     console.log(result);
@@ -50,6 +52,7 @@ const Profile = () => {
   const handleFile = (e) => {
     e.preventDefault();
     setFile(e.target.files[0]);
+    setImage(URL.createObjectURL(e.target.files[0]));
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -94,6 +97,9 @@ const Profile = () => {
                   <label
                     htmlFor="file-upload"
                     className="bgImage user-upload-image"
+                    style={{
+                      position: 'relative',
+                    }}
                   >
                     <div className="my-2">
                       <input
@@ -109,12 +115,30 @@ const Profile = () => {
                       <div className="text-center py-2">
                         <img
                           src={PicInput}
-                          style={{ width: '26px', height: '26px' }}
+                          style={{
+                            width: '26px',
+                            height: '26px',
+                          }}
                         />
                       </div>
                     </div>
+                    <img
+                      src={image}
+                      alt=""
+                      style={{
+                        display: image ? 'block' : 'none',
+                        height: '78px',
+                        width: '96px',
+                        zIndex: '2',
+                        position: 'absolute',
+                        left: '0',
+                        top: '0',
+                        borderRadius: '12px',
+                      }}
+                    />
                   </label>
                 </div>
+                {/* <img src={image} alt="" /> */}
                 <div className="col-sm-9">
                   <label className="d-flex justify-content-between">
                     Nama*

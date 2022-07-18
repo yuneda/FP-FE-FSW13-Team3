@@ -6,11 +6,16 @@ import Form from 'react-bootstrap/Form';
 import OptionInput from '../../atoms/OptionInput/OptionInput';
 import TextArea from '../../atoms/textArea/TextArea';
 import PicInput from '../../../assets/fi_camera.png';
-import './CreateProduct.css';
+// import './CreateProduct.css';
+import './CreateProduct.scss';
 import MyAlert from '../../atoms/alert/Alert';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { makeStatusIdle, createProduct } from '../../../redux/productSlice';
 
 const CreateProduct = () => {
+  const dispatch = useDispatch();
+  const product = useSelector((state) => state.product);
   let imgContainer = [];
   let imgCount = 0;
   const token = localStorage.getItem('token');
@@ -48,6 +53,7 @@ const CreateProduct = () => {
     setFiles(imgContainer);
   };
   useEffect(() => {
+    dispatch(makeStatusIdle());
     async function fetchData() {
       let response = await axios.get(
         'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user',
@@ -60,7 +66,6 @@ const CreateProduct = () => {
       );
       response = response.data.data.id;
       setUserId(response);
-      // console.log(response);
     }
     fetchData();
   }, []);
@@ -76,22 +81,11 @@ const CreateProduct = () => {
     form.append('category', category);
     form.append('description', desc);
     form.append('status', 'available');
-    try {
-      const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product';
-      const response = await axios.post(url, form, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: 'Bearer ' + token,
-        },
-      });
-      console.log(response);
-      setSuccess(true);
-      setTimeout(() => {
-        navigate('/product');
-      }, 2000);
-    } catch (error) {
-      console.log(error.message);
-    }
+    const data = {
+      form,
+      token,
+    };
+    dispatch(createProduct(data));
   };
   return (
     <>
@@ -190,6 +184,8 @@ const CreateProduct = () => {
                     Simpan
                   </button>
                 </div>
+                {product.status === 'loading' && <div>Loading...</div>}
+                {product.status === 'succeeded' && navigate('/product')}
               </div>
             </form>
           </div>

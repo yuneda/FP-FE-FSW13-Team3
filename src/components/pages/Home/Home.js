@@ -1,94 +1,62 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './Home.css';
-import styles from './Home.module.css';
-import Watch from '../../../assets/watch-offer.png';
+import './Home.scss';
 import MyNavbar from '../../molecules/navbar/Navbar';
 import MyCarousel from '../../molecules/carousel/MyCarousel';
 import ProductCategory from '../../molecules/productcategory/ProductCategory';
-import { Toast } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { isExpired } from 'react-jwt';
+import { useMediaQuery } from 'react-responsive';
+import UserMenu from './molecules/UserMenu';
+import NotifDesktop from './molecules/NotifDesktop';
 
-let result;
-let address;
+import { getAllNotif } from '../../../redux/notifSlice';
+import { authUser } from '../../../redux/usersSlice';
+import { filterProduct, searchProduct } from '../../../redux/productSlice';
+import { useDispatch, useSelector } from 'react-redux';
+
 const Home = () => {
+  const dispatch = useDispatch();
+  const notifRedux = useSelector((state) => state.notif);
+  const user = useSelector((state) => state.users);
   const token = localStorage.getItem('token');
-  const [data, setData] = useState(null);
+  const tokenExpired = isExpired(token);
   const [notif, setNotif] = useState(null);
   const [search, setSearch] = useState('');
   const [showA, setShowA] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
   const [idLogin, setIdLogin] = useState(null);
+  const mobileView = useMediaQuery({ query: '(max-width: 767px)' });
+  const toggleMenu = (e) => {
+    e.preventDefault();
+    setShowMenu(!showMenu);
+  };
   const toggleShowA = async (e) => {
     e.preventDefault();
-    try {
-      const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/notif';
-      let response = await axios({
-        method: 'get',
-        url,
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-      });
-      response = response.data.data.data;
-      console.log(response);
-      setNotif(response);
-      console.log(notif);
-    } catch (error) {
-      console.log(error.message);
-    }
+    dispatch(getAllNotif(token));
     setShowA(!showA);
   };
   useEffect(() => {
-    const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product';
-    const urlUser = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user';
-
-    const fetchData = async () => {
-      try {
-        if (token) {
-          const responseUser = await axios.get(urlUser, {
-            headers: {
-              Authorization: 'Bearer ' + token,
-            },
-          });
-          setIdLogin(responseUser.data.data.id);
-        }
-        const response = await fetch(url);
-        const json = await response.json();
-        result = json.data.product.data;
-        setData(result);
-      } catch (error) {
-        console.log('error adalah', error);
-      }
-    };
-
-    fetchData();
-  }, []);
+    if (notifRedux.status == 'succeeded') {
+      setNotif(notifRedux.data);
+    }
+    if (!tokenExpired && token) {
+      dispatch(authUser(token));
+    }
+    if (user.auth) {
+      setIdLogin(user.auth.id);
+    }
+  }, [notifRedux, user]);
   const handleSearch = (e) => {
     e.preventDefault();
     setSearch(e.target.value);
   };
   const handleFilter = async (e, filter) => {
     e.preventDefault();
-    const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product';
-    const response = await axios({
-      method: 'get',
-      url,
-      params: {
-        filter,
-      },
-    });
-    console.log(response.data.data.product);
-    setData(response.data.data.product.data);
+    dispatch(filterProduct(filter));
   };
   const handleSubmitSearch = async (e) => {
     e.preventDefault();
-    console.log(search);
-    const url =
-      'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product/search?name=' +
-      search;
-    const response = await axios.post(url);
-    console.log(response.data.data.product.data);
-    setData(response.data.data.product.data);
+    dispatch(searchProduct(search));
   };
   return (
     <>
@@ -98,118 +66,17 @@ const Home = () => {
         handleSubmitSearch={handleSubmitSearch}
         token={token}
         onToggleClick={toggleShowA}
+        onToggleMenu={toggleMenu}
+        tokenExpired={tokenExpired}
       />
       <div className="container position-relative">
-        <Toast
-          className={`${styles.cardNotif} p-1 bg-white`}
-          show={showA}
-          onClose={toggleShowA}
-        >
-          <Toast.Body>
-            <div className={``}>
-              <div className="row">
-                {notif &&
-                  notif.map((notif, index) => {
-                    if (notif.status == 'created') {
-                      address = 'product/' + notif.id_product;
-                    } else if (notif.id_buyer == idLogin) {
-                      address = '/';
-                    } else {
-                      address = `offer/${notif.id}`;
-                    }
-                    return (
-                      <Link
-                        key={index}
-                        // to={
-                        //   notif.id_buyer == idLogin ? '/' : `offer/${notif.id}`
-                        // }
-                        to={address}
-                        style={{ color: 'inherit', textDecoration: 'inherit' }}
-                      >
-                        <div key={index} className="row">
-                          <div className="col-3">
-                            <img
-                              src={notif.Product.image[0]}
-                              alt=""
-                              className={`${styles.productImg} img-fluid`}
-                            />
-                          </div>
-                          <div className="col-9 g-0">
-                            <div className="row">
-                              <div className="col-7 g-0  ps-3">
-                                <div className="text-secondary">
-                                  {notif.status == 'created' &&
-                                    'Berhasil diterbitkan'}
-                                  {notif.status !== 'created' &&
-                                    'Penawaran produk'}
-                                </div>
-                                <div className="fw-bold">
-                                  {notif.Product.product_name}
-                                </div>
-                                <div
-                                  className="fw-bold"
-                                  style={{
-                                    textDecoration:
-                                      notif.status == 'accept'
-                                        ? 'line-through'
-                                        : 'none',
-                                  }}
-                                >
-                                  {Intl.NumberFormat('id-ID', {
-                                    style: 'currency',
-                                    currency: 'IDR',
-                                  }).format(notif.Product.product_price)}
-                                </div>
-                                {notif.status !== 'created' && (
-                                  <div className="fw-bold">
-                                    Ditawar{' '}
-                                    {Intl.NumberFormat('id-ID', {
-                                      style: 'currency',
-                                      currency: 'IDR',
-                                    }).format(notif.Offer.bid_price)}
-                                  </div>
-                                )}
-                              </div>
-                              <div className="col-5 g-0 ">
-                                <div className="text-secondary">
-                                  20 Apr, 14:04{' '}
-                                  <i
-                                    className="fa-solid fa-circle fa-xs"
-                                    style={{
-                                      color: 'red',
-                                    }}
-                                  ></i>
-                                </div>
-                              </div>
-                              {notif.status == 'accept' && (
-                                <div className="text-secondary">
-                                  {idLogin !== notif.id_seller &&
-                                    'Kamu akan dihubungi via WA'}
-                                  {idLogin == notif.id_seller &&
-                                    'Kamu menerima penawaran ini'}
-                                </div>
-                              )}
-                            </div>
-                          </div>
-
-                          <div className="col-12">
-                            <hr />
-                          </div>
-                        </div>
-                      </Link>
-                    );
-                  })}
-              </div>
-            </div>
-          </Toast.Body>
-        </Toast>
+        <UserMenu showMenu={showMenu} toggleMenu={toggleMenu} />
+        <NotifDesktop idLogin={idLogin} notif={notif} toggleShowA={toggleShowA} showA={showA} />
       </div>
-      <MyCarousel />
-      <ProductCategory
-        product={data}
-        handleFilter={handleFilter}
-        token={token}
-      />
+      <div className={mobileView ? '' : 'mt-5'}>
+        <MyCarousel />
+      </div>
+      <ProductCategory handleFilter={handleFilter} token={token} />
     </>
   );
 };
