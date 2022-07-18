@@ -118,28 +118,28 @@ const Carousel = () => {
       // }}
       >
         <MyButtonCategory
-          content="Product"
-          // isActive={all ? true : false}
-          handleFilter={handleAll}
+          content="Produk"
+          isActive={all ? true : false}
+          // handleFilter={handleAll}
           changeActive={setAll}
           handleChange={handleAll}
         />
         <MyButtonCategory
           content="Diminati"
-          // isActive={like ? true : false}
-          handleFilter={handleLike}
+          isActive={like ? true : false}
+          // handleFilter={handleLike}
           changeActive={setLike}
           handleChange={handleLike}
         />
         <MyButtonCategory
           content="Terjual"
-          // isActive={sold ? true : false}
-          handleFilter={handleSold}
+          isActive={sold ? true : false}
+          // handleFilter={handleSold}
           changeActive={setSold}
           handleChange={handleSold}
         />
       </OwlCarousel>
-      <div className="col-9">
+      <div className="d-flex justify-content-center my-3 tes">
         {all && <ProductList product={data} action={true} />}
         {like && !data && (
           <div className="text-center">

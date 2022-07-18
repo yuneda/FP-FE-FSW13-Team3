@@ -260,16 +260,16 @@ const Product = () => {
                         className="w-100 img-user img-fluid"
                       />
                     </div>
-                    <div className="col-6">
+                    <div className="col-6 p-2 tes">
                       <div>
                         <p className="name-user">{user.name}</p>
                         <p className="address-user">{user.city}</p>
                       </div>
                     </div>
-                    <div className="col-2">
-                    <Link to="/profile">
-                      <button className="btn-edit">Edit</button>
-                    </Link>
+                    <div className="col-2 tes mx-2 ">
+                      <Link to="/profile">
+                        <button className="btn-edit">Edit</button>
+                      </Link>
                     </div>
                   </div>
                 )}
@@ -277,6 +277,10 @@ const Product = () => {
             </div>
             <div className="col-12 my-3">
               <div className="row">
+                {/* Mobile */}
+                <div className='btn-carousel w-100'>
+                  <ButtonCarousel />
+                </div>
                 <div className="col-3">
                   {/* <ProductCatDesk /> */}
 
@@ -337,11 +341,6 @@ const Product = () => {
                       </div>
                     </button>
                   </div> */}
-
-                  {/* Mobile */}
-                  <div className='btn-carousel tes1' style={{ width: '300px' }}>
-                    <ButtonCarousel />
-                  </div>
 
                 </div>
                 {/* Website */}

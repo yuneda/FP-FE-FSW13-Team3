@@ -25,17 +25,16 @@ const MyButtonCategory = ({
       onClick={(e) => {
         changeActive(true);
         handleChange(e);
-        if (content === 'Semua') {
-          handleFilter(e, '');
-        } else {
-          handleFilter(e, content);
-        }
+        // if (content === 'Semua') {
+        //   handleFilter(e, '');
+        // } else {
+        //   handleFilter(e, content);
+        // }
       }}
     >
-      {content == 'Jual' && <i className="fa-solid fa-plus me-2"></i>}
-      {content !== 'Jual' && (
-        <i className="fa-solid fa-magnifying-glass me-2"></i>
-      )}
+      {content == 'Produk' && <i className="fa-regular fa-user me-2"></i>}
+      {content == 'Diminati' && <i className="me-2 fa-solid fa-heart"></i>}
+      {content == 'Terjual' && <i className="me-2 fa-solid fa-dollar-sign"></i>}
       {content}
     </button>
   );

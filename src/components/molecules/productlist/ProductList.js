@@ -16,7 +16,7 @@ const ProductList = ({ product, action }) => {
     <>
       <div className="row justify-content-start g-1 row-cols-lg-3">
         {action && (
-          <div className="col">
+          <div className="col d-flex justify-content-center tes">
             <label htmlFor="file-upload" className="file-upload">
               <div className="fileUploadButton">
                 <input
