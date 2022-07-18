@@ -23,5 +23,14 @@ class ProductServices {
       },
     });
   }
+  search(search) {
+    const url =
+      'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product/search?name=' +
+      search;
+    return axios({
+      method: 'post',
+      url,
+    });
+  }
 }
 export default new ProductServices();

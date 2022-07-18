@@ -19,12 +19,13 @@ export const getAllProduct = createAsyncThunk('product/getAll', async () => {
   return await ProductServices.getAll();
 });
 
-export const filterProduct = createAsyncThunk(
-  'product/filter',
-  async (data) => {
-    return await ProductServices.filter(data);
-  }
-);
+export const filterProduct = createAsyncThunk('product/filter', async (data) => {
+  return await ProductServices.filter(data);
+});
+
+export const searchProduct = createAsyncThunk('product/search', async (data) => {
+  return await ProductServices.search(data);
+});
 
 const productSlice = createSlice({
   name: 'product',
@@ -74,6 +75,15 @@ const productSlice = createSlice({
         state.data = action.payload.data.data.product.data;
         state.error = '';
         console.log('filterProduct fulfilled');
+      })
+      .addCase(searchProduct.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(searchProduct.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.data = action.payload.data.data.product.data;
+        state.error = '';
+        console.log('searchProduct fulfilled');
       });
   },
 });
