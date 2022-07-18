@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login';
 import { gapi } from 'gapi-script';
 import { useSelector, useDispatch } from 'react-redux';
+import { registerUser, makeStatusIdle } from '../../../redux/usersSlice';
 import './Login.scss';
 
 import {
@@ -19,8 +20,7 @@ import {
   loginUser,
 } from '../../../redux/usersSlice';
 
-const clientId =
-  '623214781738-uv2700sfb46feke2a3bfg8k1lcmamr4l.apps.googleusercontent.com';
+const clientId = '623214781738-uv2700sfb46feke2a3bfg8k1lcmamr4l.apps.googleusercontent.com';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -55,15 +55,12 @@ const Login = () => {
   };
 
   useEffect(() => {
+    dispatch(makeStatusIdle());
     function start() {
       gapi.auth2.init({
         clientId: clientId,
         scope: '',
       });
-      // gapi.client.init({
-      //   clientId: clientId,
-      //   scope: '',
-      // });
     }
     gapi.load('client:auth2', start);
   });
@@ -161,9 +158,7 @@ const Login = () => {
                 </div>
               </div>
               <div className="col-sm-9">
-                <label className="d-flex justify-content-between">
-                  Password
-                </label>
+                <label className="d-flex justify-content-between">Password</label>
                 <div className="input-group mb-3 wrapper">
                   <div className="input-field">
                     <input
@@ -188,10 +183,7 @@ const Login = () => {
                 </div>
               )}
               <div className="col-sm-9 mb-5">
-                <button
-                  onClick={handleLogin}
-                  className="btn w-100 border-radius btn-login"
-                >
+                <button onClick={handleLogin} className="btn w-100 border-radius btn-login">
                   Masuk
                 </button>
               </div>
