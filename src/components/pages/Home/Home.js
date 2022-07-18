@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 // import "./Home.css";
 import './Home.scss';
-import styles from './Home.module.css';
 import Watch from '../../../assets/watch-offer.png';
 import MyNavbar from '../../molecules/navbar/Navbar';
 import MyCarousel from '../../molecules/carousel/MyCarousel';
@@ -19,7 +18,6 @@ import UserMenu from './molecules/UserMenu';
 import NotifDesktop from './molecules/NotifDesktop';
 
 let result;
-let address;
 const Home = () => {
   const token = localStorage.getItem('token');
   const tokenExpired = isExpired(token);
@@ -110,7 +108,6 @@ const Home = () => {
   };
   return (
     <>
-      {/* <DesktopView> */}
       <MyNavbar
         search={search}
         handleSearch={handleSearch}
@@ -120,7 +117,6 @@ const Home = () => {
         onToggleMenu={toggleMenu}
         tokenExpired={tokenExpired}
       />
-      {/* </DesktopView> */}
       <div className="container position-relative">
         <UserMenu showMenu={showMenu} toggleMenu={toggleMenu} />
         <NotifDesktop

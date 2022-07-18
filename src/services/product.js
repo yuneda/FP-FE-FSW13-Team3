@@ -9,5 +9,6 @@ class ProductServices {
       },
     });
   }
+  filter() {}
 }
 export default new ProductServices();
