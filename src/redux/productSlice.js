@@ -7,11 +7,16 @@ const initialState = {
   status: 'idle', //'idle' | 'loading' | 'succeeded' | 'failed'
   error: '',
   createProduct: null,
+  data: [],
 };
 
 export const createProduct = createAsyncThunk('product/add', async (data) => {
   const { form, token } = data;
   return await ProductServices.create(form, token);
+});
+
+export const getAllProduct = createAsyncThunk('product/getAll', async () => {
+  return await ProductServices.getAll();
 });
 
 const productSlice = createSlice({
@@ -37,6 +42,21 @@ const productSlice = createSlice({
         state.status = 'failed';
         state.error = action.error.message;
         state.createProduct = null;
+        console.log(action.error.message);
+      })
+      .addCase(getAllProduct.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(getAllProduct.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.data = action.payload.data.data.product.data;
+        state.error = '';
+        console.log('getAllProduct fulfilled');
+      })
+      .addCase(getAllProduct.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+        state.data = [];
         console.log(action.error.message);
       });
   },

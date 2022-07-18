@@ -1,24 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-// import "./Home.css";
 import './Home.scss';
-import Watch from '../../../assets/watch-offer.png';
 import MyNavbar from '../../molecules/navbar/Navbar';
 import MyCarousel from '../../molecules/carousel/MyCarousel';
 import ProductCategory from '../../molecules/productcategory/ProductCategory';
-import { Toast } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
-// import MobileView from '../Responsive/MobileView';
-import TabletView from '../Responsive/TabletView';
-import DesktopView from '../Responsive/DesktopView';
-import { decodeToken, isExpired } from 'react-jwt';
-import NavbarToggle from 'react-bootstrap/esm/NavbarToggle';
+import { isExpired } from 'react-jwt';
 import { useMediaQuery } from 'react-responsive';
 import UserMenu from './molecules/UserMenu';
 import NotifDesktop from './molecules/NotifDesktop';
 
-let result;
+import { getAllNotif } from '../../../redux/notifSlice';
+import { useDispatch, useSelector } from 'react-redux';
+
 const Home = () => {
+  const dispatch = useDispatch();
+  const notifRedux = useSelector((state) => state.notif);
   const token = localStorage.getItem('token');
   const tokenExpired = isExpired(token);
   const [data, setData] = useState(null);
@@ -27,34 +23,20 @@ const Home = () => {
   const [showA, setShowA] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [idLogin, setIdLogin] = useState(null);
-  const notDesktop = useMediaQuery({ query: '(max-width: 991px)' });
   const mobileView = useMediaQuery({ query: '(max-width: 767px)' });
-  const navigate = useNavigate();
   const toggleMenu = (e) => {
     e.preventDefault();
     setShowMenu(!showMenu);
   };
   const toggleShowA = async (e) => {
     e.preventDefault();
-    try {
-      const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/notif';
-      let response = await axios({
-        method: 'get',
-        url,
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-      });
-      response = response.data.data.data;
-      console.log(response);
-      setNotif(response);
-      console.log(notif);
-    } catch (error) {
-      console.log(error.message);
-    }
+    dispatch(getAllNotif(token));
     setShowA(!showA);
   };
   useEffect(() => {
+    if (notifRedux.status == 'succeeded') {
+      setNotif(notifRedux.data);
+    }
     const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product';
     const urlUser = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user';
 
@@ -68,17 +50,13 @@ const Home = () => {
           });
           setIdLogin(responseUser.data.data.id);
         }
-        const response = await axios.get(url);
-        result = response.data.data.product.data;
-        console.log(result);
-        setData(result);
       } catch (error) {
         console.log('error adalah', error);
       }
     };
 
     fetchData();
-  }, []);
+  }, [notifRedux.status]);
   const handleSearch = (e) => {
     e.preventDefault();
     setSearch(e.target.value);

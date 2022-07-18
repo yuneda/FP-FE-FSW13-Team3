@@ -9,6 +9,9 @@ class ProductServices {
       },
     });
   }
-  filter() {}
+  getAll() {
+    const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product';
+    return axios.get(url);
+  }
 }
 export default new ProductServices();
