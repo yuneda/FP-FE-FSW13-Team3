@@ -37,7 +37,7 @@ const productSlice = createSlice({
         state.status = 'failed';
         state.error = action.error.message;
         state.createProduct = null;
-        console.log('createProduct rejected');
+        console.log(action.error.message);
       });
   },
 });
