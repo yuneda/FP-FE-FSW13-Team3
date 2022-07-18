@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
 import UserServices from '../services/user';
 
 const loginUrl = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/login';
@@ -8,6 +7,7 @@ const initialState = {
   error: '',
   userLogin: null,
   userRegister: false,
+  auth: null,
 };
 
 export const loginUser = createAsyncThunk('users/login', async (data) => {
@@ -18,6 +18,10 @@ export const loginUser = createAsyncThunk('users/login', async (data) => {
 export const registerUser = createAsyncThunk('users/register', async (data) => {
   const { name, email, password } = data;
   return await UserServices.register(name, email, password);
+});
+
+export const authUser = createAsyncThunk('users/auth', async (token) => {
+  return await UserServices.auth(token);
 });
 
 const userSlice = createSlice({
@@ -55,6 +59,9 @@ const userSlice = createSlice({
       })
       .addCase(registerUser.rejected, (state) => {
         state.status = 'failed';
+      })
+      .addCase(authUser.fulfilled, (state, action) => {
+        state.auth = action.payload.data.data;
       });
   },
 });

@@ -10,11 +10,13 @@ import UserMenu from './molecules/UserMenu';
 import NotifDesktop from './molecules/NotifDesktop';
 
 import { getAllNotif } from '../../../redux/notifSlice';
+import { authUser } from '../../../redux/usersSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 const Home = () => {
   const dispatch = useDispatch();
   const notifRedux = useSelector((state) => state.notif);
+  const user = useSelector((state) => state.users);
   const token = localStorage.getItem('token');
   const tokenExpired = isExpired(token);
   const [data, setData] = useState(null);
@@ -37,26 +39,13 @@ const Home = () => {
     if (notifRedux.status == 'succeeded') {
       setNotif(notifRedux.data);
     }
-    const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product';
-    const urlUser = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user';
-
-    const fetchData = async () => {
-      try {
-        if (!tokenExpired && token) {
-          const responseUser = await axios.get(urlUser, {
-            headers: {
-              Authorization: 'Bearer ' + token,
-            },
-          });
-          setIdLogin(responseUser.data.data.id);
-        }
-      } catch (error) {
-        console.log('error adalah', error);
-      }
-    };
-
-    fetchData();
-  }, [notifRedux.status]);
+    if (!tokenExpired && token) {
+      dispatch(authUser(token));
+    }
+    if (user.auth) {
+      setIdLogin(user.auth.id);
+    }
+  }, [notifRedux, user]);
   const handleSearch = (e) => {
     e.preventDefault();
     setSearch(e.target.value);
