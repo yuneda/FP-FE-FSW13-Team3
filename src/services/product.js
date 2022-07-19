@@ -24,12 +24,20 @@ class ProductServices {
     });
   }
   search(search) {
-    const url =
-      'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product/search?name=' +
-      search;
+    const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product/search?name=' + search;
     return axios({
       method: 'post',
       url,
+    });
+  }
+  query(status, token) {
+    const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/allproduct?status=' + status;
+    return axios({
+      method: 'get',
+      url,
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
     });
   }
 }
