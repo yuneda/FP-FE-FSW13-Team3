@@ -79,9 +79,11 @@ const Product = () => {
   };
   const colorActive = {
     color: '#7126B5',
+    backgroundColor: 'white',
   };
   const colorInactive = {
     color: 'black',
+    backgroundColor: 'white',
   };
   const handleAll = async () => {
     const data = { token, status: 'available' };
@@ -173,7 +175,7 @@ const Product = () => {
                     <div className="card-category card p-4">
                       <p className="name-user mb-3">Kategori</p>
                       <>
-                        <button onClick={handleAll}>
+                        <button onClick={handleAll} className="bg-white">
                           <div
                             className="d-flex justify-content-between"
                             style={all ? colorActive : colorInactive}
@@ -187,7 +189,7 @@ const Product = () => {
                           </div>
                         </button>
                         <hr />
-                        <button onClick={handleLike}>
+                        <button onClick={handleLike} className="bg-white">
                           <div
                             className="d-flex justify-content-between"
                             style={like ? colorActive : colorInactive}
@@ -202,7 +204,7 @@ const Product = () => {
                           </div>
                         </button>
                         <hr />
-                        <button onClick={handleSold}>
+                        <button onClick={handleSold} className="bg-white">
                           <div
                             className="d-flex justify-content-between"
                             style={sold ? colorActive : colorInactive}
