@@ -12,6 +12,14 @@ import ProductCatDesk from "../../molecules/productcatdesk/ProductCatDesk";
 import ProductList from "../../molecules/productlist/ProductList";
 import { Toast } from "react-bootstrap";
 import axios from "axios";
+import MyNavbar from '../../molecules/navbarProfile/OffcanvasProfile';
+import DesktopView from '../Responsive/DesktopView';
+import TabletView from '../Responsive/TabletView';
+import MobileView from '../Responsive/MobileView';
+import { useMediaQuery } from 'react-responsive';
+import { getAllNotif } from '../../../redux/notifSlice';
+import UserMenu from '../Home/molecules/UserMenu';
+import NotifDesktop from '../Home/molecules/NotifDesktop';
 
 const Product = () => {
   const [data, setData] = useState([]);
@@ -20,7 +28,11 @@ const Product = () => {
   const [like, setLike] = useState(false);
   const [sold, setSold] = useState(false);
   const [user, setUser] = useState(null);
+  const [notif, setNotif] = useState(null);
+  const [showMenu, setShowMenu] = useState(false);
+  const [idLogin, setIdLogin] = useState(null);
   const token = localStorage.getItem("token");
+  const notDesktop = useMediaQuery({ query: '(max-width: 991px)' });
   useEffect(() => {
     const fetchDataUser = async () => {
       try {
@@ -63,7 +75,7 @@ const Product = () => {
     fetchData();
   }, []);
 
-  const toggleShowA = () => setShowA(!showA);
+  // const toggleShowA = () => setShowA(!showA);
   const title = {
     fontWeight: "700",
     fontSize: "20px",
@@ -145,10 +157,33 @@ const Product = () => {
     setLike(false);
     setSold(true);
   };
+  const toggleMenu = (e) => {
+    e.preventDefault();
+    setShowMenu(!showMenu);
+  };
+  const toggleShowA = async (e) => {
+    e.preventDefault();
+    dispatch(getAllNotif(token));
+    setShowA(!showA);
+  };
 
   return (
     <>
-      <NavbarProduct onToggleClick={toggleShowA} />
+      <DesktopView>
+        <NavbarProduct onToggleClick={toggleShowA} onToggleUser={toggleMenu}/>
+      </DesktopView>
+      <TabletView>
+        <MyNavbar title="Daftar Jual Saya" />
+      </TabletView>
+      <MobileView>
+        <MyNavbar title="Daftar Jual Saya" />
+      </MobileView>
+
+      <div className="container position-relative">
+        <UserMenu showMenu={showMenu} toggleMenu={toggleMenu} />
+        <NotifDesktop idLogin={idLogin} notif={notif} toggleShowA={toggleShowA} showA={showA} />
+      </div>
+
       <div className="container position-relative">
         <Toast
           className={`${styles.cardNotif} p-1 bg-white`}
@@ -156,7 +191,7 @@ const Product = () => {
           onClose={toggleShowA}
         >
           <Toast.Body>
-            <div className={``}>
+            <div className={``} style={{overflowX: "hidden", maxHeight: "300px"}}>
               <div className="row">
                 <div className="col-3">
                   <img
@@ -226,7 +261,7 @@ const Product = () => {
         <div className="row justify-content-center">
           <div className="col-10">
             <div className="col-12 mt-4 mb-3">
-              <h2 style={title}>Daftar Jual Saya</h2>
+              <h2 style={title}>{notDesktop ? '' : 'Daftar Jual Saya'}</h2>
             </div>
             <div className="col-12">
               <div className="card card-user p-2">

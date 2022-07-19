@@ -68,11 +68,19 @@ function NavbarProduct(props) {
           >
             <i className="fa-regular fa-bell me-3 text-black"></i>
           </div>
-          <Link to="/login">
+          {/* <Link to="/login">
             <>
               <i className="fa-regular fa-user text-black"></i>
-            </>
-          </Link>
+            </> */}
+            <div
+              onClick={props.onToggleUser}
+              style={{
+                cursor: 'pointer',
+              }}
+            >
+              <i className="fa-regular fa-user text-black"></i>
+            </div>
+          {/* </Link> */}
         </Navbar.Collapse>
       </Container>
     </Navbar>

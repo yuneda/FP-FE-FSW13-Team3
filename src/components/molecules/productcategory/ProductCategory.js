@@ -8,6 +8,7 @@ import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import ScaleLoader from 'react-spinners/ScaleLoader';
 import { successAlert } from '../../../utils/alert';
 import { decodeToken, isExpired } from 'react-jwt';
 import { useSelector, useDispatch } from 'react-redux';
@@ -26,6 +27,7 @@ const ProductCategory = ({ handleFilter, token }) => {
   const [electronic, setElectronic] = useState(false);
   const [health, setHealth] = useState(false);
   const [wishlist, setWishlist] = useState([]);
+  const [loading, setLoading] = useState(false);
   const handleAll = (e) => {
     e.preventDefault();
     setAll(true);
@@ -103,6 +105,12 @@ const ProductCategory = ({ handleFilter, token }) => {
       } catch (error) {}
     };
     fetchData();
+  }, []);
+  useEffect(() => {
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+    },5000)
   }, []);
   const handleWishlist = async (action, id) => {
     let endPoint;
@@ -241,7 +249,9 @@ const ProductCategory = ({ handleFilter, token }) => {
                 </Link>
               );
             })}
-          {product.status == 'loading' && <div>Loading</div>}
+          {product.status == 'loading' && 
+            <ScaleLoader color={'#7126B5'} loading={loading} size={50} className='mx-auto' />
+          }
         </div>
       </div>
       <Link to={token ? '/create' : '/login'}>

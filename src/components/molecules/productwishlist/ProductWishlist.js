@@ -1,18 +1,20 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 // import { Toast, Row, Col, Button } from "react-bootstrap";
-import userImage from '../../../assets/user.jpg';
+import NoWishlist from '../../../assets/no_wishlist.png';
 // import data from '../../../docs/product.json';
-import './ProductList.css';
+import './ProductWishlist.css';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
 const MySwal = withReactContent(Swal);
 
-const ProductList = ({ product, action }) => {
+const ProductWishlist = ({ action }) => {
   const token = localStorage.getItem('token');
+  const product = useSelector((state) => state.product);
   const [showA, setShowA] = useState(true);
   const [data, setData] = useState([]);
   const toggleShowA = () => setShowA(!showA);
@@ -126,9 +128,19 @@ const ProductList = ({ product, action }) => {
               </Link>
             );
           })}
+        {/* {console.log(product.status)} */}
+        {/* {product.status == 'idle' &&
+        {data == [] &&
+          <>
+            <img
+              src={NoWishlist}
+              className='row m-auto w-75'
+            />
+          </>
+        } */}
       </div>
     </>
   );
 };
 
-export default ProductList;
+export default ProductWishlist;
