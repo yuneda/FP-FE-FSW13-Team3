@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import ButtonCategory from '../../atoms/buttoncategory/ButtonCategory';
 import watch from '../../../assets/watch.png';
 import './ProductCategory.css';
-// import data from '../../../docs/product.json';
+import Aos from 'aos';
+import 'aos/dist/aos.css';
 import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -112,6 +113,10 @@ const ProductCategory = ({ handleFilter, token }) => {
       setLoading(false)
     },5000)
   }, []);
+  useEffect(() => {
+    Aos.init({ duration: 2000 });
+    Aos.refresh();
+  }, []);
   const handleWishlist = async (action, id) => {
     let endPoint;
     if (action) {
@@ -138,7 +143,7 @@ const ProductCategory = ({ handleFilter, token }) => {
   };
   return (
     <>
-      <div className="container mt-5" style={{ overflowX: 'auto' }}>
+      <div className="container mt-5">
         <p className="title fw-bold">Telusuri Kategori</p>
         <div className="">
           <ScrollMenu>
@@ -195,7 +200,7 @@ const ProductCategory = ({ handleFilter, token }) => {
                   to={`product/${data.id}`}
                   style={{ color: 'inherit', textDecoration: 'inherit' }}
                 >
-                  <div key={index} className="col">
+                  <div key={index} className="col" data-aos='fade-up'>
                     <div className="card p-2">
                       <img
                         src={data.image[0]}

@@ -5,6 +5,8 @@ import { Toast, Row, Col, Button } from 'react-bootstrap';
 import userImage from '../../../assets/user.jpg';
 import './ProductList.css';
 import axios from 'axios';
+import Aos from 'aos';
+import 'aos/dist/aos.css';
 
 const ProductList = ({ product, action }) => {
   const [showA, setShowA] = useState(true);
@@ -13,9 +15,13 @@ const ProductList = ({ product, action }) => {
     height: '100px',
     objectFit: 'cover',
   };
+  useEffect(() => {
+    Aos.init({ duration: 2000 });
+    Aos.refresh();
+  }, []);
   return (
     <>
-      <div className="row justify-content-start g-1 row-cols-lg-3">
+      <div className="row justify-content-start g-1 row-cols-lg-3" data-aos='fade-up'>
         {action && (
           <Link to="/create" style={{ color: 'inherit', textDecoration: 'inherit' }}>
             <div className="col d-flex justify-content-center">

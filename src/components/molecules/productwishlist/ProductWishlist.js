@@ -9,6 +9,8 @@ import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import Aos from 'aos';
+import 'aos/dist/aos.css';
 
 const MySwal = withReactContent(Swal);
 
@@ -72,10 +74,14 @@ const ProductWishlist = ({ action }) => {
     };
     fetchWishList();
   }, []);
+  useEffect(() => {
+    Aos.init({ duration: 2000 });
+    Aos.refresh();
+  }, []);
 
   return (
     <>
-      <div className="row justify-content-start g-1 row-cols-lg-3 row-cols-sm-2 row-cols-1">
+      <div className="row justify-content-start g-1 row-cols-lg-3 row-cols-sm-2 row-cols-1" data-aos='fade-up'>
         {data &&
           data.map((data, index) => {
             return (

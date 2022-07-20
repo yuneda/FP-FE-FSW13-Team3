@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Watch from '../../../assets/watch-offer.png';
 import MyNavbar from '../../molecules/navbarProfile/OffcanvasProfile';
+import MailBox from '../../../assets/mailbox.png'
 
 const Notification = () => {
   return (
