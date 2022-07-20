@@ -27,6 +27,14 @@ export const searchProduct = createAsyncThunk('product/search', async (data) => 
   return await ProductServices.search(data);
 });
 
+export const queryProduct = createAsyncThunk('product/query', async (data) => {
+  // console.log(status);
+  // console.log(token);
+  const { status, token } = data;
+  // console.log(tkoe);
+  return await ProductServices.query(status, token);
+});
+
 const productSlice = createSlice({
   name: 'product',
   initialState,
@@ -84,6 +92,17 @@ const productSlice = createSlice({
         state.data = action.payload.data.data.product.data;
         state.error = '';
         console.log('searchProduct fulfilled');
+      })
+      .addCase(queryProduct.pending, (state) => {
+        state.status = 'loading';
+        state.data = [];
+      })
+      .addCase(queryProduct.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.data = action.payload.data.data.product;
+        state.error = '';
+        console.log('queryProduct fulfilled');
+        console.log(action.payload.data.data.product);
       });
   },
 });

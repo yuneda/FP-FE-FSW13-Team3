@@ -12,7 +12,7 @@ const NotifDesktop = ({ showA, toggleShowA, notif, idLogin }) => {
       onClose={toggleShowA}
     >
       <Toast.Body>
-        <div className={``}>
+        <div className={``} style={{overflowX: "hidden", maxHeight: "300px"}}>
           <div className="row">
             {notif &&
               notif.map((notif, index) => {

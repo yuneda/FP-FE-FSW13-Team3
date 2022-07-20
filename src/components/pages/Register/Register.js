@@ -57,17 +57,8 @@ const Register = () => {
   const handleRegister = async (event) => {
     event.preventDefault();
     try {
-      // const response = await axios.post(
-      //   'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/register',
-      //   {
-      //     name,
-      //     email,
-      //     password,
-      //   }
-      // );
       const data = { name, email, password };
       dispatch(registerUser(data));
-      // console.log(response);
 
       setTimeout(() => {
         if (user.status == 'succeeded') {
@@ -111,10 +102,7 @@ const Register = () => {
         <div className="col-md-6 col-sm-12 col-12 right d-flex align-items-center">
           <form autoComplete="off" className="fit-form">
             <div className="row w-100 justify-content-center">
-              <i
-                className="fit-font fa-solid fa-arrow-left mb-5"
-                style={{ marginTop: '20px' }}
-              ></i>
+              <i className="fit-font fa-solid fa-arrow-left mb-5" style={{ marginTop: '20px' }}></i>
               <div className="col-sm-9 mb-3 text justify-content-start d-flex">
                 <h1>Daftar</h1>
               </div>
@@ -149,9 +137,7 @@ const Register = () => {
                 </div>
               </div>
               <div className="col-sm-9">
-                <label className="d-flex justify-content-between">
-                  Password
-                </label>
+                <label className="d-flex justify-content-between">Password</label>
                 <div className="input-group mb-3 wrapper">
                   <div className="input-field">
                     <input
@@ -176,10 +162,7 @@ const Register = () => {
                 </div>
               )}
               <div className="col-sm-9 mb-5">
-                <button
-                  className="btn w-100 border-radius btn-register"
-                  onClick={handleRegister}
-                >
+                <button className="btn w-100 border-radius btn-register" onClick={handleRegister}>
                   Daftar
                 </button>
               </div>
