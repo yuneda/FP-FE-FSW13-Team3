@@ -108,10 +108,10 @@ const ProductCategory = ({ handleFilter, token }) => {
     fetchData();
   }, []);
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     setTimeout(() => {
-      setLoading(false)
-    },5000)
+      setLoading(false);
+    }, 5000);
   }, []);
   useEffect(() => {
     Aos.init({ duration: 2000 });
@@ -200,7 +200,7 @@ const ProductCategory = ({ handleFilter, token }) => {
                   to={`product/${data.id}`}
                   style={{ color: 'inherit', textDecoration: 'inherit' }}
                 >
-                  <div key={index} className="col" data-aos='fade-up'>
+                  <div key={index} className="col" data-aos="fade-up">
                     <div className="card p-2">
                       <img
                         src={data.image[0]}
@@ -231,10 +231,7 @@ const ProductCategory = ({ handleFilter, token }) => {
                               }}
                               onClick={async (e) => {
                                 e.preventDefault();
-                                handleWishlist(
-                                  wishlist.includes(data.id),
-                                  data.id
-                                );
+                                handleWishlist(wishlist.includes(data.id), data.id);
                               }}
                             >
                               <i
@@ -254,9 +251,9 @@ const ProductCategory = ({ handleFilter, token }) => {
                 </Link>
               );
             })}
-          {product.status == 'loading' && 
-            <ScaleLoader color={'#7126B5'} loading={loading} size={50} className='mx-auto' />
-          }
+          {product.status == 'loading' && (
+            <ScaleLoader color={'#7126B5'} loading={loading} size={50} className="mx-auto" />
+          )}
         </div>
       </div>
       <Link to={token ? '/create' : '/login'}>

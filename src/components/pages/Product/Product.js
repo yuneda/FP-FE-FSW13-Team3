@@ -122,7 +122,7 @@ const Product = () => {
   return (
     <>
       <DesktopView>
-        <NavbarProduct onToggleClick={toggleShowA} onToggleUser={toggleMenu}/>
+        <NavbarProduct onToggleClick={toggleShowA} onToggleUser={toggleMenu} />
       </DesktopView>
       <TabletView>
         <MyNavbar title="Daftar Jual Saya" />
@@ -251,7 +251,7 @@ const Product = () => {
                 {/* Website */}
                 <div className="col-12 col-lg-9">
                   {all && product.data && <ProductList product={product.data} action={true} />}
-                  {like && !data && (
+                  {(all || like || sold) && product.data.length == 0 && (
                     <div className="text-center">
                       <img src={likeImage} alt="" className="" />
                     </div>

@@ -11,3 +11,11 @@ export const successAlert = () => {
     timer: 2000,
   });
 };
+
+export const errorAlert = (text) => {
+  return Swal.fire({
+    icon: 'error',
+    title: 'Oops...',
+    text,
+  });
+};
