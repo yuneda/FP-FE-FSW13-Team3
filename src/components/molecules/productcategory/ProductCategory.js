@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ButtonCategory from '../../atoms/buttoncategory/ButtonCategory';
-import watch from '../../../assets/watch.png';
+import not_found from '../../../assets/not_found.png';
 import './ProductCategory.css';
 import Aos from 'aos';
 import 'aos/dist/aos.css';
@@ -102,16 +102,20 @@ const ProductCategory = ({ handleFilter, token }) => {
             Authorization: 'Bearer ' + token,
           },
         });
-        setWishlist(responseUser.data.data.wishlist);
-      } catch (error) {}
+        if (responseUser.data.data.wishlist) {
+          setWishlist(responseUser.data.data.wishlist);
+        }
+      } catch (error) {
+        console.log(error);
+      }
     };
     fetchData();
   }, []);
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     setTimeout(() => {
-      setLoading(false)
-    },5000)
+      setLoading(false);
+    }, 5000);
   }, []);
   useEffect(() => {
     Aos.init({ duration: 2000 });
@@ -200,7 +204,7 @@ const ProductCategory = ({ handleFilter, token }) => {
                   to={`product/${data.id}`}
                   style={{ color: 'inherit', textDecoration: 'inherit' }}
                 >
-                  <div key={index} className="col" data-aos='fade-up'>
+                  <div key={index} className="col" data-aos="fade-up">
                     <div className="card p-2">
                       <img
                         src={data.image[0]}
@@ -231,10 +235,7 @@ const ProductCategory = ({ handleFilter, token }) => {
                               }}
                               onClick={async (e) => {
                                 e.preventDefault();
-                                handleWishlist(
-                                  wishlist.includes(data.id),
-                                  data.id
-                                );
+                                handleWishlist(wishlist.includes(data.id), data.id);
                               }}
                             >
                               <i
@@ -254,9 +255,14 @@ const ProductCategory = ({ handleFilter, token }) => {
                 </Link>
               );
             })}
-          {product.status == 'loading' && 
-            <ScaleLoader color={'#7126B5'} loading={loading} size={50} className='mx-auto' />
-          }
+          {product.status == 'succeeded' && product.data.length == 0 && (
+            <div>
+              <img src={not_found} alt="" />
+            </div>
+          )}
+          {product.status == 'loading' && (
+            <ScaleLoader color={'#7126B5'} loading={loading} size={50} className="mx-auto" />
+          )}
         </div>
       </div>
       <Link to={token ? '/create' : '/login'}>

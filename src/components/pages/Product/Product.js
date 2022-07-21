@@ -8,6 +8,7 @@ import TabletView from '../Responsive/TabletView';
 import DesktopView from '../Responsive/DesktopView';
 import MobileView from '../Responsive/MobileView';
 import MyNavbar from '../../molecules/navbarProfile/OffcanvasProfile';
+import MyNavbarDesktop from '../../molecules/navbar/Navbar';
 import UserMenu from '../Home/molecules/UserMenu';
 import NotifDesktop from '../Home/molecules/NotifDesktop';
 import NotifProduct from './molecules/NotifProduct';
@@ -17,12 +18,14 @@ import { Toast } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { isExpired } from 'react-jwt';
 import { queryProduct } from '../../../redux/productSlice';
+import { getAllNotif } from '../../../redux/notifSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
 
 const Product = () => {
-  const [data, setData] = useState([]);
   const product = useSelector((state) => state.product);
+  const notifRedux = useSelector((state) => state.notif);
+  const [data, setData] = useState([]);
   const [showA, setShowA] = useState(false);
   const [all, setAll] = useState(true);
   const [like, setLike] = useState(false);
@@ -39,6 +42,9 @@ const Product = () => {
   const tabletView = useMediaQuery({ query: '(max-width: 991px)' });
 
   useEffect(() => {
+    if (notifRedux.status == 'succeeded') {
+      setNotif(notifRedux.data);
+    }
     const data = { token, status: 'available' };
     dispatch(queryProduct(data));
     console.log(token);
@@ -62,7 +68,7 @@ const Product = () => {
       }
     };
     fetchDataUser();
-  }, [token, tokenExpired]);
+  }, [token, tokenExpired, notifRedux]);
 
   // const toggleShowA = () => setShowA(!showA);
   const title = {
@@ -122,7 +128,12 @@ const Product = () => {
   return (
     <>
       <DesktopView>
-        <NavbarProduct onToggleClick={toggleShowA} onToggleUser={toggleMenu}/>
+        <MyNavbarDesktop
+          token={token}
+          tokenExpired={tokenExpired}
+          onToggleClick={toggleShowA}
+          onToggleMenu={toggleMenu}
+        />
       </DesktopView>
       <TabletView>
         <MyNavbar title="Daftar Jual Saya" />
@@ -137,7 +148,7 @@ const Product = () => {
       </div>
 
       <div className="container position-relative">
-        <NotifProduct showA={showA} toggleShowA={toggleShowA} />
+        {/* <NotifProduct showA={showA} toggleShowA={toggleShowA} /> */}
       </div>
       <div className="container">
         <div className="row justify-content-center">
@@ -251,7 +262,7 @@ const Product = () => {
                 {/* Website */}
                 <div className="col-12 col-lg-9">
                   {all && product.data && <ProductList product={product.data} action={true} />}
-                  {like && !data && (
+                  {(all || like || sold) && product.data.length == 0 && (
                     <div className="text-center">
                       <img src={likeImage} alt="" className="" />
                     </div>

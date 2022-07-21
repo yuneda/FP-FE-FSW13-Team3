@@ -2,17 +2,14 @@ import React from 'react';
 import { Toast } from 'react-bootstrap';
 import styles from '../Home.module.css';
 import { Link, useNavigate } from 'react-router-dom';
+import zonk from '../../../../assets/mailbox.png';
 
 const NotifDesktop = ({ showA, toggleShowA, notif, idLogin }) => {
   let address;
   return (
-    <Toast
-      className={`${styles.cardNotif} p-1 bg-white`}
-      show={showA}
-      onClose={toggleShowA}
-    >
+    <Toast className={`${styles.cardNotif} p-1 bg-white`} show={showA} onClose={toggleShowA}>
       <Toast.Body>
-        <div className={``} style={{overflowX: "hidden", maxHeight: "300px"}}>
+        <div className={``} style={{ overflowX: 'hidden', maxHeight: '300px' }}>
           <div className="row">
             {notif &&
               notif.map((notif, index) => {
@@ -41,20 +38,14 @@ const NotifDesktop = ({ showA, toggleShowA, notif, idLogin }) => {
                         <div className="row">
                           <div className="col-7 g-0  ps-3">
                             <div className="text-secondary">
-                              {notif.status == 'created' &&
-                                'Berhasil diterbitkan'}
+                              {notif.status == 'created' && 'Berhasil diterbitkan'}
                               {notif.status !== 'created' && 'Penawaran produk'}
                             </div>
-                            <div className="fw-bold">
-                              {notif.Product.product_name}
-                            </div>
+                            <div className="fw-bold">{notif.Product.product_name}</div>
                             <div
                               className="fw-bold"
                               style={{
-                                textDecoration:
-                                  notif.status == 'accept'
-                                    ? 'line-through'
-                                    : 'none',
+                                textDecoration: notif.status == 'accept' ? 'line-through' : 'none',
                               }}
                             >
                               {Intl.NumberFormat('id-ID', {
@@ -85,10 +76,8 @@ const NotifDesktop = ({ showA, toggleShowA, notif, idLogin }) => {
                           </div>
                           {notif.status == 'accept' && (
                             <div className="text-secondary">
-                              {idLogin !== notif.id_seller &&
-                                'Kamu akan dihubungi via WA'}
-                              {idLogin == notif.id_seller &&
-                                'Kamu menerima penawaran ini'}
+                              {idLogin !== notif.id_seller && 'Kamu akan dihubungi via WA'}
+                              {idLogin == notif.id_seller && 'Kamu menerima penawaran ini'}
                             </div>
                           )}
                         </div>
@@ -101,6 +90,11 @@ const NotifDesktop = ({ showA, toggleShowA, notif, idLogin }) => {
                   </Link>
                 );
               })}
+            {notif && notif.length == 0 && (
+              <div>
+                <img src={zonk} alt="kosong" className="img-fluid" />
+              </div>
+            )}
           </div>
         </div>
       </Toast.Body>

@@ -4,6 +4,8 @@ import axios from 'axios';
 import ProductWishlist from '../../molecules/productwishlist/ProductWishlist';
 import data from '../../../docs/product.json';
 import './Whislist.css';
+import { queryProduct } from '../../../redux/productSlice';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { useParams, Link } from 'react-router-dom';
 
