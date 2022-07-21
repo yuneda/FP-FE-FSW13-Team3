@@ -4,7 +4,8 @@ import { errorAlert } from '../utils/alert';
 
 const loginUrl = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/login';
 const initialState = {
-  status: 'idle', //'idle' | 'loading' | 'succeeded' | 'failed'
+  status: 'idle',
+  statusRegister: 'idle', //'idle' | 'loading' | 'succeeded' | 'failed'
   error: '',
   userLogin: null,
   userRegister: false,
@@ -31,6 +32,7 @@ const userSlice = createSlice({
   reducers: {
     makeStatusIdle: (state) => {
       state.status = 'idle';
+      state.statusRegister = 'idle';
     },
   },
   extraReducers(builder) {
@@ -53,13 +55,15 @@ const userSlice = createSlice({
         console.log(action.error);
       })
       .addCase(registerUser.pending, (state) => {
-        state.status = 'loading';
+        state.statusRegister = 'loading';
       })
       .addCase(registerUser.fulfilled, (state) => {
-        state.status = 'succeeded';
+        state.statusRegister = 'succeeded';
       })
-      .addCase(registerUser.rejected, (state) => {
-        state.status = 'failed';
+      .addCase(registerUser.rejected, (state, action) => {
+        state.statusRegister = 'failed';
+        console.log(action.payload);
+        errorAlert('Email is already used');
       })
       .addCase(authUser.fulfilled, (state, action) => {
         state.auth = action.payload.data.data;
