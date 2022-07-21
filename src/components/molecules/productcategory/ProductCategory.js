@@ -122,6 +122,7 @@ const ProductCategory = ({ handleFilter, token }) => {
     Aos.refresh();
   }, []);
   const handleWishlist = async (action, id) => {
+    console.log(action);
     let endPoint;
     if (action) {
       endPoint = 'deletewishlist';
