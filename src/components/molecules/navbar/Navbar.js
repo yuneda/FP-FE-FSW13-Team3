@@ -99,7 +99,7 @@ function MyNavbar(props) {
               navbarScroll
             >
               <Link to="/">
-              <div style={logo} className="mt-2"></div>
+                <div style={logo} className="mt-2"></div>
               </Link>
               <div className="ms-3 search-input d-flex justify-content-between">
                 <input
@@ -193,23 +193,28 @@ function MyNavbar(props) {
                   >
                     <div style={colorInactive}>Daftar Jual</div>
                   </Link>
-                  <div
-                    onClick={props.onToggleClick}
-                    style={{
-                      cursor: 'pointer',
-                    }}
+                  <Link
+                    to="/notification"
+                    style={{ color: 'inherit', textDecoration: 'inherit' }}
                   >
-                    Notifikasi
-                  </div>
+                    <div
+                      // onClick={props.onToggleClick}
+                      // style={{
+                      //   cursor: 'pointer',
+                      // }}
+                    >
+                      Notifikasi
+                    </div>
+                  </Link>
                   <Link
                     to="/profile"
                     style={{ color: 'inherit', textDecoration: 'inherit' }}
                   >
                     <div
-                      onClick={props.onToggleMenu}
-                      style={{
-                        cursor: 'pointer',
-                      }}
+                      // onClick={props.onToggleMenu}
+                      // style={{
+                      //   cursor: 'pointer',
+                      // }}
                     >
                       Akun Saya
                     </div>

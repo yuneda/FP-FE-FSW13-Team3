@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStatusIdle, createProduct } from '../../../redux/productSlice';
 import ScaleLoader from 'react-spinners/ScaleLoader';
+import { Link } from 'react-router-dom';
 
 const CreateProduct = () => {
   const dispatch = useDispatch();
@@ -106,7 +107,9 @@ const CreateProduct = () => {
             >
               {success && <MyAlert title="Successfully created product" color="success" />}
               <div className="row w-100 justify-content-center fit">
-                <i className="fa-solid fa-arrow-left fit" style={{ marginTop: '20px' }}></i>
+                <Link to="/" style={{ color: 'inherit', textDecoration: 'inherit' }}>
+                  <i className="fa-solid fa-arrow-left fit" style={{ marginTop: '20px' }}></i>
+                </Link>
                 <div className="col-sm-9 responsive-form">
                   <label className="d-flex justify-content-between">Nama Produk</label>
                   <div className="input-group mt-2 mb-3">
