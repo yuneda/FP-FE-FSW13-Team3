@@ -6,11 +6,17 @@ import Form from 'react-bootstrap/Form';
 import OptionInput from '../../atoms/OptionInput/OptionInput';
 import TextArea from '../../atoms/textArea/TextArea';
 import PicInput from '../../../assets/fi_camera.png';
-import './CreateProduct.css';
+// import './CreateProduct.css';
+import './CreateProduct.scss';
 import MyAlert from '../../atoms/alert/Alert';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { makeStatusIdle, createProduct } from '../../../redux/productSlice';
+import ScaleLoader from 'react-spinners/ScaleLoader';
 
 const CreateProduct = () => {
+  const dispatch = useDispatch();
+  const product = useSelector((state) => state.product);
   let imgContainer = [];
   let imgCount = 0;
   const token = localStorage.getItem('token');
@@ -21,6 +27,7 @@ const CreateProduct = () => {
   const [category, setCategory] = useState('');
   const [desc, setDesc] = useState('');
   const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const handleName = (e) => {
     e.preventDefault();
@@ -48,21 +55,24 @@ const CreateProduct = () => {
     setFiles(imgContainer);
   };
   useEffect(() => {
+    dispatch(makeStatusIdle());
     async function fetchData() {
-      let response = await axios.get(
-        'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user',
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            Authorization: 'Bearer ' + token,
-          },
-        }
-      );
+      let response = await axios.get('https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user', {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: 'Bearer ' + token,
+        },
+      });
       response = response.data.data.id;
       setUserId(response);
-      // console.log(response);
     }
     fetchData();
+  }, []);
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 5000);
   }, []);
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -76,22 +86,11 @@ const CreateProduct = () => {
     form.append('category', category);
     form.append('description', desc);
     form.append('status', 'available');
-    try {
-      const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product';
-      const response = await axios.post(url, form, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: 'Bearer ' + token,
-        },
-      });
-      console.log(response);
-      setSuccess(true);
-      setTimeout(() => {
-        navigate('/product');
-      }, 2000);
-    } catch (error) {
-      console.log(error.message);
-    }
+    const data = {
+      form,
+      token,
+    };
+    dispatch(createProduct(data));
   };
   return (
     <>
@@ -105,18 +104,11 @@ const CreateProduct = () => {
               encType="multipart/form-data"
               className="justify-content-center d-flex"
             >
-              {success && (
-                <MyAlert title="Successfully created product" color="success" />
-              )}
+              {success && <MyAlert title="Successfully created product" color="success" />}
               <div className="row w-100 justify-content-center fit">
-                <i
-                  className="fa-solid fa-arrow-left fit"
-                  style={{ marginTop: '20px' }}
-                ></i>
+                <i className="fa-solid fa-arrow-left fit" style={{ marginTop: '20px' }}></i>
                 <div className="col-sm-9 responsive-form">
-                  <label className="d-flex justify-content-between">
-                    Nama Produk
-                  </label>
+                  <label className="d-flex justify-content-between">Nama Produk</label>
                   <div className="input-group mt-2 mb-3">
                     <input
                       type="text"
@@ -156,10 +148,7 @@ const CreateProduct = () => {
                 </div>
 
                 <div className="col-sm-9 justify-content-start d-flex mb-5 input-file">
-                  <label
-                    htmlFor="file-upload"
-                    className="product-upload-image px-5 py-5 "
-                  >
+                  <label htmlFor="file-upload" className="product-upload-image px-5 py-5 ">
                     <div className="">
                       <input
                         id="file-upload"
@@ -177,19 +166,20 @@ const CreateProduct = () => {
                     </div>
                   </label>
                 </div>
+                {product.status === 'loading' && (
+                  <ScaleLoader color={'#7126B5'} loading={true} size={50} className="mx-auto tes" />
+                )}
                 <div className="col-4 mb-5 button-size d-flex justify-content-start ">
                   <button className="btn border-radius">Preview</button>
                 </div>
                 <div className="col-1"></div>
 
                 <div className="col-4 mb-5 button-size d-flex justify-content-end ">
-                  <button
-                    type="submit"
-                    className="btn border-radius btn-register "
-                  >
+                  <button type="submit" className="btn border-radius btn-register ">
                     Simpan
                   </button>
                 </div>
+                {product.status === 'succeeded' && navigate('/product')}
               </div>
             </form>
           </div>

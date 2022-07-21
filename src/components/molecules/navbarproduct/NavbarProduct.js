@@ -30,15 +30,12 @@ function NavbarProduct(props) {
       }}
     >
       <Container>
-        <div className="logo"></div>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
-          <Nav
-            className="me-auto my-2 my-lg-0"
-            style={{ maxHeight: '100px' }}
-            navbarScroll
-          >
-            <div style={logo} className="mt-2"></div>
+          <Nav className="me-auto my-2 my-lg-0" style={{ maxHeight: '100px' }} navbarScroll>
+            <Link to="/">
+              <div style={logo} className="mt-2"></div>
+            </Link>
             <div className="ms-3 search-input d-flex justify-content-between">
               <input
                 className="user-input"
@@ -68,11 +65,19 @@ function NavbarProduct(props) {
           >
             <i className="fa-regular fa-bell me-3 text-black"></i>
           </div>
-          <Link to="/login">
+          {/* <Link to="/login">
             <>
               <i className="fa-regular fa-user text-black"></i>
-            </>
-          </Link>
+            </> */}
+            <div
+              onClick={props.onToggleUser}
+              style={{
+                cursor: 'pointer',
+              }}
+            >
+              <i className="fa-regular fa-user text-black"></i>
+            </div>
+          {/* </Link> */}
         </Navbar.Collapse>
       </Container>
     </Navbar>

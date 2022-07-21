@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
+import { registerUser, makeStatusIdle } from '../../../redux/usersSlice';
+
 import './Register.css';
 import { Icon } from 'react-icons-kit';
 import { eye } from 'react-icons-kit/feather/eye';
@@ -18,6 +21,9 @@ const Register = () => {
   const [type, setType] = useState('password');
   const [icon, setIcon] = useState(eyeOff);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.users);
+
   var registerImage = {
     backgroundImage: 'url(' + BgRegister + ')',
     backgroundRepeat: 'no-repeat',
@@ -51,30 +57,29 @@ const Register = () => {
   const handleRegister = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post(
-        'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/register',
-        {
-          name,
-          email,
-          password,
-        }
-      );
+      const data = { name, email, password };
+      dispatch(registerUser(data));
 
-      console.log(response);
-      setName('');
-      setEmail('');
-      setPassword('');
-      setSuccess(true);
       setTimeout(() => {
-        navigate('/login');
+        if (user.status == 'succeeded') {
+          setName('');
+          setEmail('');
+          setPassword('');
+          setSuccess(true);
+          navigate('/login');
+        }
       }, 2000);
     } catch (error) {
       console.log(error);
       setFailed(true);
     }
   };
+  useEffect(() => {
+    dispatch(makeStatusIdle());
+  }, []);
   return (
     <div className="container-fluid box">
+      {user.status == 'succeeded' && navigate('/login')}
       {success && (
         <div className="tes mx-auto">
           <MyAlert title="Registration success" color="success" />
@@ -97,10 +102,7 @@ const Register = () => {
         <div className="col-md-6 col-sm-12 col-12 right d-flex align-items-center">
           <form autoComplete="off" className="fit-form">
             <div className="row w-100 justify-content-center">
-              <i
-                className="fit-font fa-solid fa-arrow-left mb-5"
-                style={{ marginTop: '20px' }}
-              ></i>
+              <i className="fit-font fa-solid fa-arrow-left mb-5" style={{ marginTop: '20px' }}></i>
               <div className="col-sm-9 mb-3 text justify-content-start d-flex">
                 <h1>Daftar</h1>
               </div>
@@ -135,9 +137,7 @@ const Register = () => {
                 </div>
               </div>
               <div className="col-sm-9">
-                <label className="d-flex justify-content-between">
-                  Password
-                </label>
+                <label className="d-flex justify-content-between">Password</label>
                 <div className="input-group mb-3 wrapper">
                   <div className="input-field">
                     <input
@@ -162,10 +162,7 @@ const Register = () => {
                 </div>
               )}
               <div className="col-sm-9 mb-5">
-                <button
-                  className="btn w-100 border-radius btn-register"
-                  onClick={handleRegister}
-                >
+                <button className="btn w-100 border-radius btn-register" onClick={handleRegister}>
                   Daftar
                 </button>
               </div>

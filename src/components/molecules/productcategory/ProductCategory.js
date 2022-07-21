@@ -1,19 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ButtonCategory from '../../atoms/buttoncategory/ButtonCategory';
-import watch from '../../../assets/watch.png';
+import not_found from '../../../assets/not_found.png';
 import './ProductCategory.css';
-import data from '../../../docs/product.json';
+import Aos from 'aos';
+import 'aos/dist/aos.css';
 import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import ScaleLoader from 'react-spinners/ScaleLoader';
 import { successAlert } from '../../../utils/alert';
 import { decodeToken, isExpired } from 'react-jwt';
+import { useSelector, useDispatch } from 'react-redux';
+import { getAllProduct } from '../../../redux/productSlice';
 
 const MySwal = withReactContent(Swal);
 
-const ProductCategory = ({ product, handleFilter, token }) => {
+const ProductCategory = ({ handleFilter, token }) => {
+  const dispatch = useDispatch();
+  const product = useSelector((state) => state.product);
   const tokenExpired = isExpired(token);
   const [all, setAll] = useState(true);
   const [hobby, setHobby] = useState(false);
@@ -21,7 +27,8 @@ const ProductCategory = ({ product, handleFilter, token }) => {
   const [shirt, setShirt] = useState(false);
   const [electronic, setElectronic] = useState(false);
   const [health, setHealth] = useState(false);
-  const [wishlist, setWishlist] = useState(null);
+  const [wishlist, setWishlist] = useState([]);
+  const [loading, setLoading] = useState(false);
   const handleAll = (e) => {
     e.preventDefault();
     setAll(true);
@@ -86,6 +93,7 @@ const ProductCategory = ({ product, handleFilter, token }) => {
     });
   };
   useEffect(() => {
+    dispatch(getAllProduct());
     const urlUser = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user';
     const fetchData = async () => {
       try {
@@ -94,11 +102,25 @@ const ProductCategory = ({ product, handleFilter, token }) => {
             Authorization: 'Bearer ' + token,
           },
         });
-        setWishlist(responseUser.data.data.wishlist);
-      } catch (error) {}
+        if (responseUser.data.data.wishlist) {
+          setWishlist(responseUser.data.data.wishlist);
+        }
+      } catch (error) {
+        console.log(error);
+      }
     };
     fetchData();
-  });
+  }, []);
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 5000);
+  }, []);
+  useEffect(() => {
+    Aos.init({ duration: 2000 });
+    Aos.refresh();
+  }, []);
   const handleWishlist = async (action, id) => {
     let endPoint;
     if (action) {
@@ -125,7 +147,7 @@ const ProductCategory = ({ product, handleFilter, token }) => {
   };
   return (
     <>
-      <div className="container mt-5" style={{ overflowX: 'auto' }}>
+      <div className="container mt-5">
         <p className="title fw-bold">Telusuri Kategori</p>
         <div className="">
           <ScrollMenu>
@@ -174,15 +196,15 @@ const ProductCategory = ({ product, handleFilter, token }) => {
           </ScrollMenu>
         </div>
         <div className="row justify-content-start g-2 row-cols-lg-6 row-cols-md-4 row-cols-sm-2 row-cols-1 my-5">
-          {product &&
-            product.map((data, index) => {
+          {product.status == 'succeeded' &&
+            product.data.map((data, index) => {
               return (
                 <Link
                   key={index}
                   to={`product/${data.id}`}
                   style={{ color: 'inherit', textDecoration: 'inherit' }}
                 >
-                  <div key={index} className="col">
+                  <div key={index} className="col" data-aos="fade-up">
                     <div className="card p-2">
                       <img
                         src={data.image[0]}
@@ -213,16 +235,14 @@ const ProductCategory = ({ product, handleFilter, token }) => {
                               }}
                               onClick={async (e) => {
                                 e.preventDefault();
-                                handleWishlist(
-                                  wishlist.includes(data.id),
-                                  data.id
-                                );
+                                handleWishlist(wishlist.includes(data.id), data.id);
                               }}
                             >
                               <i
                                 className={
                                   wishlist.includes(data.id)
-                                    ? 'fa-solid fa-bookmark'
+                                    ? // [1, 2, 3].includes(data.id)
+                                      'fa-solid fa-bookmark'
                                     : 'fa-regular fa-bookmark'
                                 }
                               ></i>
@@ -235,7 +255,14 @@ const ProductCategory = ({ product, handleFilter, token }) => {
                 </Link>
               );
             })}
-          {!product && <div>No found data</div>}
+          {product.status == 'succeeded' && product.data.length == 0 && (
+            <div>
+              <img src={not_found} alt="" />
+            </div>
+          )}
+          {product.status == 'loading' && (
+            <ScaleLoader color={'#7126B5'} loading={loading} size={50} className="mx-auto" />
+          )}
         </div>
       </div>
       <Link to={token ? '/create' : '/login'}>

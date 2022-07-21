@@ -1,0 +1,28 @@
+.image-label {
+  cursor: pointer;
+}
+
+.picture-field {
+  display: none;
+}
+
+.bgImage {
+  width: 96px;
+  padding: 10px;
+  background-color: #e2d4f0;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.option-field {
+  color: #8a8a8a;
+  padding: 10px;
+  border-radius: 25px;
+}
+
+@media only screen and (max-width: 576px) {
+  .fit {
+    margin-top: -70px;
+    z-index: 10;
+  }
+}

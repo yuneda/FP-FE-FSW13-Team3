@@ -1,25 +1,56 @@
 import React, { useState, useEffect } from 'react';
 import NavbarProduct from '../../molecules/navbarproduct/NavbarProduct';
 import './Product.css';
-import styles from './Product.module.css';
-import userImage from '../../../assets/user.jpg';
 import likeImage from '../../../assets/liked.png';
-import Buyer from '../../../assets/buyer.png';
-import Watch from '../../../assets/watch-offer.png';
-import ProductCatDesk from '../../molecules/productcatdesk/ProductCatDesk';
 import ProductList from '../../molecules/productlist/ProductList';
-import { Toast } from 'react-bootstrap';
 import axios from 'axios';
+import TabletView from '../Responsive/TabletView';
+import DesktopView from '../Responsive/DesktopView';
+import MobileView from '../Responsive/MobileView';
+import MyNavbar from '../../molecules/navbarProfile/OffcanvasProfile';
+import MyNavbarDesktop from '../../molecules/navbar/Navbar';
+import UserMenu from '../Home/molecules/UserMenu';
+import NotifDesktop from '../Home/molecules/NotifDesktop';
+import NotifProduct from './molecules/NotifProduct';
+import UserProduct from './molecules/UserProduct';
+import Spinner from 'react-bootstrap/Spinner';
+import { Toast } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom';
+import { isExpired } from 'react-jwt';
+import { queryProduct } from '../../../redux/productSlice';
+import { getAllNotif } from '../../../redux/notifSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { useMediaQuery } from 'react-responsive';
 
 const Product = () => {
+  const product = useSelector((state) => state.product);
+  const notifRedux = useSelector((state) => state.notif);
   const [data, setData] = useState([]);
   const [showA, setShowA] = useState(false);
-  const [all, setAll] = useState(false);
+  const [all, setAll] = useState(true);
   const [like, setLike] = useState(false);
   const [sold, setSold] = useState(false);
   const [user, setUser] = useState(null);
+  const [notif, setNotif] = useState(null);
+  const [showMenu, setShowMenu] = useState(false);
+  const [idLogin, setIdLogin] = useState(null);
+  const notDesktop = useMediaQuery({ query: '(max-width: 991px)' });
   const token = localStorage.getItem('token');
+  const tokenExpired = isExpired(token);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const tabletView = useMediaQuery({ query: '(max-width: 991px)' });
+
   useEffect(() => {
+    if (notifRedux.status == 'succeeded') {
+      setNotif(notifRedux.data);
+    }
+    const data = { token, status: 'available' };
+    dispatch(queryProduct(data));
+    console.log(token);
+    if (!token || tokenExpired) {
+      navigate('/login');
+    }
     const fetchDataUser = async () => {
       try {
         const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user';
@@ -31,294 +62,213 @@ const Product = () => {
           },
         });
         setUser(responseUser.data.data);
-        // console.log(responseUser.data.data);
+        console.log(responseUser.data.data);
       } catch (error) {
         console.log('error adalah', error);
       }
     };
     fetchDataUser();
-  }, []);
+  }, [token, tokenExpired, notifRedux]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/allproduct';
-        const response = await axios({
-          method: 'post',
-          url,
-          data: {
-            status: 'available',
-          },
-          headers: {
-            Authorization: 'Bearer ' + token,
-          },
-        });
-        setData(response.data.data.product);
-      } catch (error) {
-        console.log('error adalah', error);
-      }
-    };
-    fetchData();
-  }, []);
-
-  const toggleShowA = () => setShowA(!showA);
+  // const toggleShowA = () => setShowA(!showA);
   const title = {
     fontWeight: '700',
     fontSize: '20px',
     lineHeight: '30px',
   };
+  const colorActiveMobile = {
+    color: 'white',
+    backgroundColor: '#7126B5',
+    borderRadius: '14px',
+  };
+  const colorInactiveMobile = {
+    backgroundColor: '#E2D4F0',
+    color: '#3C3C3C',
+    borderRadius: '14px',
+  };
   const colorActive = {
     color: '#7126B5',
+    backgroundColor: 'white',
   };
   const colorInactive = {
     color: 'black',
+    backgroundColor: 'white',
   };
   const handleAll = async () => {
-    const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/allproduct';
-    try {
-      const response = await axios({
-        method: 'post',
-        url,
-        data: {
-          status: 'available',
-        },
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-      });
-      setData(response.data.data.product);
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
+    const data = { token, status: 'available' };
+    dispatch(queryProduct(data));
     setAll(true);
     setLike(false);
     setSold(false);
   };
   const handleLike = async () => {
-    const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/allproduct';
-    try {
-      const response = await axios({
-        method: 'post',
-        url,
-        data: {
-          status: 'interested',
-        },
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-      });
-      setData(response.data.data.product);
-      console.log(response);
-      console.log('like berhasil');
-    } catch (error) {
-      console.log('like gagal');
-      console.log(error);
-    }
+    const data = { token, status: 'interested' };
+    dispatch(queryProduct(data));
     setAll(false);
     setLike(true);
     setSold(false);
   };
   const handleSold = async () => {
-    const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/allproduct';
-    try {
-      const response = await axios({
-        method: 'post',
-        url,
-        data: {
-          status: 'sold',
-        },
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-      });
-      setData(response.data.data.product);
-      console.log(response.data.data.product);
-      console.log('sold berhasil');
-    } catch (error) {
-      console.log('sold gagal');
-      console.log(error);
-    }
+    const data = { token, status: 'sold' };
+    dispatch(queryProduct(data));
     setAll(false);
     setLike(false);
     setSold(true);
   };
+  const toggleMenu = (e) => {
+    e.preventDefault();
+    setShowMenu(!showMenu);
+  };
+  const toggleShowA = async (e) => {
+    e.preventDefault();
+    dispatch(getAllNotif(token));
+    setShowA(!showA);
+  };
 
   return (
     <>
-      <NavbarProduct onToggleClick={toggleShowA} />
+      <DesktopView>
+        <MyNavbarDesktop
+          token={token}
+          tokenExpired={tokenExpired}
+          onToggleClick={toggleShowA}
+          onToggleMenu={toggleMenu}
+        />
+      </DesktopView>
+      <TabletView>
+        <MyNavbar title="Daftar Jual Saya" />
+      </TabletView>
+      <MobileView>
+        <MyNavbar title="Daftar Jual Saya" />
+      </MobileView>
+
       <div className="container position-relative">
-        <Toast
-          className={`${styles.cardNotif} p-1 bg-white`}
-          show={showA}
-          onClose={toggleShowA}
-        >
-          <Toast.Body>
-            <div className={``}>
-              <div className="row">
-                <div className="col-3">
-                  <img
-                    src={Watch}
-                    alt=""
-                    className={`${styles.productImg} img-fluid`}
-                  />
-                </div>
-                <div className="col-9 g-0 ">
-                  <div className="row">
-                    <div className="col-7 g-0  ps-3">
-                      <div className="text-secondary">Penawaran produk</div>
-                      <div className="fw-bold">Jam Tangan Casio</div>
-                      <div className="fw-bold">Rp 250.000</div>
-                      <div className="fw-bold">Ditawar Rp 200.000</div>
-                    </div>
-                    <div className="col-5 g-0 ">
-                      <div className="text-secondary">
-                        20 Apr, 14:04{' '}
-                        <i
-                          className="fa-solid fa-circle fa-xs"
-                          style={{
-                            color: 'red',
-                          }}
-                        ></i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-12">
-                  <hr />
-                </div>
-                <div className="col-3">
-                  <img
-                    src={Watch}
-                    alt=""
-                    className={`${styles.productImg} img-fluid`}
-                  />
-                </div>
-                <div className="col-9 g-0 ">
-                  <div className="row">
-                    <div className="col-7 g-0  ps-3">
-                      <div className="text-secondary">Penawaran produk</div>
-                      <div className="fw-bold">Jam Tangan Casio</div>
-                      <div className="fw-bold">Rp 250.000</div>
-                      <div className="fw-bold">Ditawar Rp 200.000</div>
-                    </div>
-                    <div className="col-5 g-0 ">
-                      <div className="text-secondary">
-                        20 Apr, 14:04{' '}
-                        <i
-                          className="fa-solid fa-circle fa-xs"
-                          style={{
-                            color: 'red',
-                          }}
-                        ></i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Toast.Body>
-        </Toast>
+        <UserMenu showMenu={showMenu} toggleMenu={toggleMenu} />
+        <NotifDesktop idLogin={idLogin} notif={notif} toggleShowA={toggleShowA} showA={showA} />
+      </div>
+
+      <div className="container position-relative">
+        {/* <NotifProduct showA={showA} toggleShowA={toggleShowA} /> */}
       </div>
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-10">
             <div className="col-12 mt-4 mb-3">
-              <h2 style={title}>Daftar Jual Saya</h2>
+              <h2 style={title}>{notDesktop ? '' : 'Daftar Jual Saya'}</h2>
             </div>
             <div className="col-12">
-              <div className="card card-user p-2">
-                {user && (
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div className="col me-2">
-                      <img
-                        src={user.image}
-                        className="w-100 img-user img-fluid"
-                      />
-                    </div>
-                    <div className="col-10">
-                      <div>
-                        <p className="name-user">{user.name}</p>
-                        <p className="address-user">{user.city}</p>
-                      </div>
-                    </div>
-                    <div className="col">
-                      <button className="btn-edit">Edit</button>
-                    </div>
-                  </div>
-                )}
+              <div className="card card-user p-2 ">
+                {user && <UserProduct user={user} />}
+                {!user && <Spinner animation="border" variant="secondary" />}
               </div>
             </div>
             <div className="col-12 my-3">
               <div className="row">
-                <div className="col-3">
-                  {/* <ProductCatDesk /> */}
-                  <div className="card-category card p-4">
-                    <p className="name-user mb-3">Kategori</p>
-                    <button
-                      onClick={handleAll}
-                      className="btn-category-product"
-                    >
-                      <div
-                        className="d-flex justify-content-between"
-                        style={all ? colorActive : colorInactive}
-                      >
-                        <div>
-                          <i className="me-2 fa-regular fa-user"></i>Semua
-                          Produk
+                {/* Mobile */}
+                <div className="btn-carousel w-100">
+                  {/* <ButtonCarousel /> */}
+                  {tabletView && (
+                    <>
+                      <button onClick={handleAll} className="btn-category-product-mobile me-2">
+                        <div
+                          className="d-flex justify-content-between px-3 py-2"
+                          style={all ? colorActiveMobile : colorInactiveMobile}
+                        >
+                          <div>
+                            <i className="bi bi-box me-2"></i>Produk
+                          </div>
                         </div>
-                        <div>
-                          <i className="fa-solid fa-angle-right"></i>
+                      </button>
+                      <button onClick={handleLike} className="btn-category-product-mobile me-2">
+                        <div
+                          className="d-flex justify-content-between px-3 py-2"
+                          style={like ? colorActiveMobile : colorInactiveMobile}
+                        >
+                          <div>
+                            <i className="me-2 fa-regular fa-heart"></i>
+                            Diminati
+                          </div>
                         </div>
-                      </div>
-                    </button>
-                    <hr />
-                    <button
-                      onClick={handleLike}
-                      className="btn-category-product"
-                    >
-                      <div
-                        className="d-flex justify-content-between"
-                        style={like ? colorActive : colorInactive}
-                      >
-                        <div>
-                          <i className="me-2 fa-solid fa-heart"></i>
-                          Diminati
+                      </button>
+                      <button onClick={handleSold} className="btn-category-product-mobile me-2">
+                        <div
+                          className="d-flex justify-content-between px-3 py-2"
+                          style={sold ? colorActiveMobile : colorInactiveMobile}
+                        >
+                          <div>
+                            <i className="fa-regular fa-dollar-sign me-2"></i>
+                            Terjual
+                          </div>
                         </div>
-                        <div>
-                          <i className="fa-solid fa-angle-right"></i>
-                        </div>
-                      </div>
-                    </button>
-                    <hr />
-                    <button
-                      onClick={handleSold}
-                      className="btn-category-product"
-                    >
-                      <div
-                        className="d-flex justify-content-between"
-                        style={sold ? colorActive : colorInactive}
-                      >
-                        <div>
-                          <i className="me-2 fa-solid fa-dollar-sign"></i>
-                          Terjual
-                        </div>
-                        <div>
-                          <i className="fa-solid fa-angle-right"></i>
-                        </div>
-                      </div>
-                    </button>
-                  </div>
+                      </button>
+                    </>
+                  )}
                 </div>
-                <div className="col-9">
-                  {all && <ProductList product={data} action={true} />}
-                  {like && !data && (
+                {!tabletView && (
+                  <div className="col-12 col-lg-3">
+                    {/* <ProductCatDesk /> */}
+
+                    {/* Website */}
+                    <div className="card-category card p-4">
+                      <p className="name-user mb-3">Kategori</p>
+                      <>
+                        <button onClick={handleAll} className="bg-white">
+                          <div
+                            className="d-flex justify-content-between"
+                            style={all ? colorActive : colorInactive}
+                          >
+                            <div>
+                              <i className="me-2 fa-regular fa-user"></i>Semua Produk
+                            </div>
+                            <div>
+                              <i className="fa-solid fa-angle-right"></i>
+                            </div>
+                          </div>
+                        </button>
+                        <hr />
+                        <button onClick={handleLike} className="bg-white">
+                          <div
+                            className="d-flex justify-content-between"
+                            style={like ? colorActive : colorInactive}
+                          >
+                            <div>
+                              <i className="me-2 fa-solid fa-heart"></i>
+                              Diminati
+                            </div>
+                            <div>
+                              <i className="fa-solid fa-angle-right"></i>
+                            </div>
+                          </div>
+                        </button>
+                        <hr />
+                        <button onClick={handleSold} className="bg-white">
+                          <div
+                            className="d-flex justify-content-between"
+                            style={sold ? colorActive : colorInactive}
+                          >
+                            <div>
+                              <i className="me-2 fa-solid fa-dollar-sign"></i>
+                              Terjual
+                            </div>
+                            <div>
+                              <i className="fa-solid fa-angle-right"></i>
+                            </div>
+                          </div>
+                        </button>
+                      </>
+                    </div>
+                  </div>
+                )}
+                {/* Website */}
+                <div className="col-12 col-lg-9">
+                  {all && product.data && <ProductList product={product.data} action={true} />}
+                  {(all || like || sold) && product.data.length == 0 && (
                     <div className="text-center">
                       <img src={likeImage} alt="" className="" />
                     </div>
                   )}
-                  {like && data.length > 0 && <ProductList product={data} />}
-                  {sold && data.length > 0 && <ProductList product={data} />}
+                  {like && product.data && <ProductList product={product.data} />}
+                  {sold && product.data && <ProductList product={product.data} />}
                 </div>
               </div>
             </div>

@@ -49,6 +49,10 @@
   border-radius: 16px;
 }
 
+.btn-carousel {
+  width: 100%;
+}
+
 @media screen and (min-width: 992px) {
   .cardAction {
     margin-top: -20px;
