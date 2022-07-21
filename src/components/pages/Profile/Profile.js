@@ -89,10 +89,12 @@ const Profile = () => {
           <div className="col-md-6 col-sm-12 col-12 right d-flex">
             <form autoComplete="off" onSubmit={handleSubmit}>
               <div className="row w-100 justify-content-center fit">
-                <i
-                  className="fa-solid fa-arrow-left"
-                  style={{ marginTop: '20px' }}
-                ></i>
+                <Link to="/">
+                  <i
+                    className="fa-solid fa-arrow-left"
+                    style={{ marginTop: '20px', color: 'black' }}
+                  ></i>
+                </Link>
                 <div className="col-sm-4 mt-3 justify-content-center d-flex">
                   <label
                     htmlFor="file-upload"
