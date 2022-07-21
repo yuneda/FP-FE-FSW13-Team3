@@ -1,11 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Profile from "../../../../assets/profile.png";
 
 const UserProduct = ({ user }) => {
   return (
     <div className="d-flex justify-content-start align-items-center">
       <div className="col-3 col-md-1 me-2 ">
-        <img src={user.image} className="w-100 img-user img-fluid" />
+        {user.image ? 
+        <img src={user.image} className="w-100 img-user img-fluid" /> : 
+        <img src={Profile} className="w-100 img-user img-fluid" />}
       </div>
       <div className="col-md-10 col-6 ">
         <div>

@@ -166,9 +166,11 @@ const CreateProduct = () => {
                     </div>
                   </label>
                 </div>
-                {product.status === 'loading' && (
-                  <ScaleLoader color={'#7126B5'} loading={true} size={50} className="mx-auto tes" />
-                )}
+                <div className='d-flex justify-content-center'>
+                  {product.status === 'loading' && (
+                    <ScaleLoader color={'#7126B5'} loading={true} size={100} className="mx-auto loading-icon" />
+                  )}
+                </div>
                 <div className="col-4 mb-5 button-size d-flex justify-content-start ">
                   <button className="btn border-radius">Preview</button>
                 </div>

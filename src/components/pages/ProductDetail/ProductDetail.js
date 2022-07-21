@@ -7,8 +7,12 @@ import styles from './ProductDetail.module.scss';
 import detailImg from '../../../assets/nothing.png';
 import user from '../../../assets/user.jpg';
 import SwiperProduct from '../../molecules/swiper/SwiperProduct';
+import UserMenu from '../Home/molecules/UserMenu';
+import NotifDesktop from '../Home/molecules/NotifDesktop';
 import Buyer from '../../../assets/buyer.png';
+import Profile from "../../../assets/profile.png";
 import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
 import { isExpired } from 'react-jwt';
 import { useState } from 'react';
 import DesktopView from '../Responsive/DesktopView';
@@ -22,6 +26,9 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 
 const ProductDetail = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const productState = useSelector((state) => state.product);
+  const notifRedux = useSelector((state) => state.notif);
   const [product, setProduct] = useState(null);
   const [idLogin, setIdLogin] = useState(null);
   const [idSeller, setIdSeller] = useState(null);
@@ -32,9 +39,9 @@ const ProductDetail = () => {
   const tokenExpired = isExpired(token);
   const notDesktop = useMediaQuery({ query: '(max-width: 991px)' });
   const mobileView = useMediaQuery({ query: '(max-width: 767px)' });
-  // Buyer
+  const [notif, setNotif] = useState(null);
+  const [showMenu, setShowMenu] = useState(false);
   const [price, setPrice] = useState('');
-
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -49,6 +56,11 @@ const ProductDetail = () => {
   const toggleMenu = (e) => {
     e.preventDefault();
     setShowMenu(!showMenu);
+  };
+  const toggleShowA = async (e) => {
+    e.preventDefault();
+    dispatch(getAllNotif(token));
+    setShowA(!showA);
   };
   const handlePrice = (e) => {
     e.preventDefault();
@@ -127,14 +139,15 @@ const ProductDetail = () => {
         console.log('error adalah', error);
       }
     };
-
+    if (!token || tokenExpired) {
+      navigate('/login');
+    }
+    if (notifRedux.status == 'succeeded') {
+      setNotif(notifRedux.data);
+    }
     fetchData();
-  }, []);
-  const toggleShowA = async (e) => {
-    e.preventDefault();
-    dispatch(getAllNotif(token));
-    setShowA(!showA);
-  };
+  }, [token, tokenExpired, notifRedux]);
+
   return (
     <>
       <DesktopView>
@@ -146,6 +159,10 @@ const ProductDetail = () => {
           onToggleMenu={toggleMenu}
         />
       </DesktopView>
+      <div className="container position-relative">
+        <UserMenu showMenu={showMenu} toggleMenu={toggleMenu} />
+        <NotifDesktop idLogin={idLogin} notif={notif} toggleShowA={toggleShowA} showA={showA} />
+      </div>
       <div className={notDesktop ? '' : 'container'}>
         <div className="row justify-content-center">
           <div className={notDesktop ? 'col-12' : 'col-10'}>
@@ -215,7 +232,11 @@ const ProductDetail = () => {
                     <div className={`card mt-3 p-2 ${styles.cardDesc}`}>
                       <div className="row align-items-center">
                         <div className="col-3">
-                          <img src={user} alt="" className={`${styles.userImg} img-fluid`} />
+                          {console.log(product.User)}
+                          {product.User.image ?
+                            <img src={product.User.image} alt="" className={`${styles.userImg} img-fluid`} /> :
+                            <img src={Profile} alt="" className={`${styles.userImg} img-fluid`} />
+                          }
                         </div>
                         <div className="col-9 g-0">
                           <div className="fw-bold">{product.User.name}</div>

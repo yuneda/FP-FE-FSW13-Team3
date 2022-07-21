@@ -262,9 +262,9 @@ const Product = () => {
                 {/* Website */}
                 <div className="col-12 col-lg-9">
                   {all && product.data && <ProductList product={product.data} action={true} />}
-                  {(all || like || sold) && product.data.length == 0 && (
+                  {(like || sold) && product.data.length == 0 && (
                     <div className="text-center">
-                      <img src={likeImage} alt="" className="" />
+                      <img src={likeImage} alt="" className="w-50" />
                     </div>
                   )}
                   {like && product.data && <ProductList product={product.data} />}
