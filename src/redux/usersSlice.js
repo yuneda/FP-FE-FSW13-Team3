@@ -6,6 +6,7 @@ const loginUrl = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/login';
 const initialState = {
   status: 'idle',
   statusRegister: 'idle', //'idle' | 'loading' | 'succeeded' | 'failed'
+  statusAuth: 'idle', //'idle' | 'loading' | 'succeeded' | 'failed'
   error: '',
   userLogin: null,
   userRegister: false,
@@ -67,6 +68,7 @@ const userSlice = createSlice({
       })
       .addCase(authUser.fulfilled, (state, action) => {
         state.auth = action.payload.data.data;
+        state.statusAuth = 'succeeded';
       });
   },
 });
