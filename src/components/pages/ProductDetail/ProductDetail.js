@@ -10,7 +10,7 @@ import SwiperProduct from '../../molecules/swiper/SwiperProduct';
 import UserMenu from '../Home/molecules/UserMenu';
 import NotifDesktop from '../Home/molecules/NotifDesktop';
 import Buyer from '../../../assets/buyer.png';
-import Profile from "../../../assets/profile.png";
+import Profile from '../../../assets/profile.png';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { isExpired } from 'react-jwt';
@@ -20,6 +20,8 @@ import { useMediaQuery } from 'react-responsive';
 import { successAlert } from '../../../utils/alert';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAllNotif } from '../../../redux/notifSlice';
+import { addOffer, makeStatusIdle, handlewishlist } from '../../../redux/transactionSlice';
+import { authUser } from '../../../redux/usersSlice';
 
 import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
@@ -29,6 +31,8 @@ const ProductDetail = () => {
   const navigate = useNavigate();
   const productState = useSelector((state) => state.product);
   const notifRedux = useSelector((state) => state.notif);
+  const userRedux = useSelector((state) => state.users);
+  const offerRedux = useSelector((state) => state.transaction);
   const [product, setProduct] = useState(null);
   const [idLogin, setIdLogin] = useState(null);
   const [idSeller, setIdSeller] = useState(null);
@@ -70,24 +74,13 @@ const ProductDetail = () => {
     e.preventDefault();
     setOffer(true);
     console.log(id, price, token);
-    try {
-      const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/offer';
-      const responseOffer = await axios({
-        method: 'post',
-        url,
-        data: {
-          id_product: id,
-          bid_price: price,
-          id_seller: product.id_user,
-        },
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-      });
-      console.log(responseOffer);
-    } catch (error) {
-      console.log(error);
-    }
+    const data = {
+      id_product: id,
+      bid_price: price,
+      id_seller: product.id_user,
+      token,
+    };
+    dispatch(addOffer(data));
   };
   const handleWishlist = async (action) => {
     let endPoint;
@@ -96,49 +89,29 @@ const ProductDetail = () => {
     } else {
       endPoint = 'wishlist';
     }
-    try {
-      const response = await axios({
-        method: 'put',
-        url: 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/' + endPoint,
-        data: {
-          id_product: product.id,
-        },
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-      });
-      successAlert();
-      window.location.reload(false);
-    } catch (error) {
-      console.log(error);
-    }
+    const data = {
+      token,
+      id_product: product.id,
+      endPoint,
+    };
+    dispatch(handlewishlist(data));
   };
   useEffect(() => {
+    dispatch(makeStatusIdle());
     const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product/' + id;
     const urlUser = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user';
-
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(url);
-        if (token) {
-          const responseUser = await axios.get(urlUser, {
-            headers: {
-              Authorization: 'Bearer ' + token,
-            },
-          });
-          setIdLogin(responseUser.data.data.id);
-          if (responseUser.data.data.wishlist) {
-            setWishlist(responseUser.data.data.wishlist);
-          }
-          console.log(responseUser.data.data.wishlist);
-        }
-        setProduct(response.data.data);
-        setIdSeller(response.data.data.id_user);
-        // console.log(responseUser);
-      } catch (error) {
-        console.log('error adalah', error);
+    if (userRedux.statusAuth == 'succeeded') {
+      setIdLogin(userRedux.auth.id);
+      if (userRedux.auth.wishlist) {
+        setWishlist(userRedux.auth.wishlist);
       }
-    };
+    }
+    async function fetchData() {
+      const response = await axios.get(url);
+      setProduct(response.data.data);
+      setIdSeller(response.data.data.id_user);
+    }
+    dispatch(authUser(token));
     if (!token || tokenExpired) {
       navigate('/login');
     }
@@ -146,7 +119,7 @@ const ProductDetail = () => {
       setNotif(notifRedux.data);
     }
     fetchData();
-  }, [token, tokenExpired, notifRedux]);
+  }, [token, tokenExpired, notifRedux, userRedux]);
 
   return (
     <>
@@ -168,7 +141,7 @@ const ProductDetail = () => {
           <div className={notDesktop ? 'col-12' : 'col-10'}>
             {product && (
               <div className="row">
-                <div className={notDesktop ? 'col-lg-8 col-md-12' : 'col-lg-8 col-md-12 mt-4'}>
+                <div className={notDesktop ? 'col-lg-8 col-md-12' : 'col-lg-8 col-md-12 mt-4 tes'}>
                   <div className="carousel">
                     <SwiperProduct imgProduct={product ? product.image : detailImg} />
                   </div>
@@ -233,10 +206,15 @@ const ProductDetail = () => {
                       <div className="row align-items-center">
                         <div className="col-3">
                           {console.log(product.User)}
-                          {product.User.image ?
-                            <img src={product.User.image} alt="" className={`${styles.userImg} img-fluid`} /> :
+                          {product.User.image ? (
+                            <img
+                              src={product.User.image}
+                              alt=""
+                              className={`${styles.userImg} img-fluid`}
+                            />
+                          ) : (
                             <img src={Profile} alt="" className={`${styles.userImg} img-fluid`} />
-                          }
+                          )}
                         </div>
                         <div className="col-9 g-0">
                           <div className="fw-bold">{product.User.name}</div>
@@ -245,7 +223,7 @@ const ProductDetail = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="col-lg-8 col-md-12 mb-4">
+                  <div className={`col-lg-8 col-md-12 mb-4`}>
                     <div className={`card p-4 mt-4 ${styles.cardDesc}`}>
                       <p className="fw-bold">Deskripsi</p>
                       <p className="fw-light text-secondary">{product.description}</p>
