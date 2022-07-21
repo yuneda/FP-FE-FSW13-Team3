@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ButtonCategory from '../../atoms/buttoncategory/ButtonCategory';
-import watch from '../../../assets/watch.png';
+import not_found from '../../../assets/not_found.png';
 import './ProductCategory.css';
 import Aos from 'aos';
 import 'aos/dist/aos.css';
@@ -102,8 +102,12 @@ const ProductCategory = ({ handleFilter, token }) => {
             Authorization: 'Bearer ' + token,
           },
         });
-        setWishlist(responseUser.data.data.wishlist);
-      } catch (error) {}
+        if (responseUser.data.data.wishlist) {
+          setWishlist(responseUser.data.data.wishlist);
+        }
+      } catch (error) {
+        console.log(error);
+      }
     };
     fetchData();
   }, []);
@@ -251,6 +255,11 @@ const ProductCategory = ({ handleFilter, token }) => {
                 </Link>
               );
             })}
+          {product.status == 'succeeded' && product.data.length == 0 && (
+            <div>
+              <img src={not_found} alt="" />
+            </div>
+          )}
           {product.status == 'loading' && (
             <ScaleLoader color={'#7126B5'} loading={loading} size={50} className="mx-auto" />
           )}

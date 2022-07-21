@@ -60,7 +60,7 @@ const Login = () => {
       navigate('/');
     }
     console.log('yuneda');
-  }, [dispatch]);
+  }, [dispatch, user]);
 
   const handleEmail = (event) => {
     event.preventDefault();
