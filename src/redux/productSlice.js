@@ -35,6 +35,10 @@ export const queryProduct = createAsyncThunk('product/query', async (data) => {
   return await ProductServices.query(status, token);
 });
 
+export const wishlistProduct = createAsyncThunk('product/wishlist', async (data) => {
+  return await ProductServices.wishlist(data);
+});
+
 const productSlice = createSlice({
   name: 'product',
   initialState,
@@ -103,6 +107,12 @@ const productSlice = createSlice({
         state.error = '';
         console.log('queryProduct fulfilled');
         console.log(action.payload.data.data.product);
+      })
+      .addCase(wishlistProduct.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.data = action.payload.data.data.data;
+        state.error = '';
+        console.log('wishlistProduct fulfilled');
       });
   },
 });

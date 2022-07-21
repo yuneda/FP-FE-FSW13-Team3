@@ -45,7 +45,7 @@ const Home = () => {
     if (user.auth) {
       setIdLogin(user.auth.id);
     }
-  }, [notifRedux, user]);
+  }, [notifRedux]);
   const handleSearch = (e) => {
     e.preventDefault();
     setSearch(e.target.value);

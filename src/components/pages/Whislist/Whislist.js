@@ -4,6 +4,8 @@ import axios from 'axios';
 import ProductWishlist from '../../molecules/productwishlist/ProductWishlist';
 import data from '../../../docs/product.json';
 import './Whislist.css';
+import { queryProduct } from '../../../redux/productSlice';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { useParams, Link } from 'react-router-dom';
 
@@ -18,7 +20,7 @@ const Whislist = () => {
             <div className="row w-100 justify-content-center">
               <div className="col-1 mt-5">
                 <Link to='/'>
-                  <i className=" fa-solid fa-arrow-left"></i>
+                  <i className=" fa-solid fa-arrow-left" style={{color: "black"}}></i>
                 </Link>
               </div>
               <div className="col-10 mt-5">

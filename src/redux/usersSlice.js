@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import UserServices from '../services/user';
+import { errorAlert } from '../utils/alert';
 
 const loginUrl = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/login';
 const initialState = {
@@ -45,10 +46,11 @@ const userSlice = createSlice({
         localStorage.setItem('token', action.payload.data.token);
       })
       .addCase(loginUser.rejected, (state, action) => {
+        errorAlert('Email or password wrong');
         state.status = 'failed';
         state.error = action.error.message;
         state.userLogin = null;
-        console.log('login rejected');
+        console.log(action.error);
       })
       .addCase(registerUser.pending, (state) => {
         state.status = 'loading';

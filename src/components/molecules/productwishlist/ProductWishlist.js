@@ -7,7 +7,9 @@ import './ProductWishlist.css';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { isExpired } from 'react-jwt';
+import { wishlistProduct } from '../../../redux/productSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import Aos from 'aos';
 import 'aos/dist/aos.css';
@@ -16,10 +18,13 @@ const MySwal = withReactContent(Swal);
 
 const ProductWishlist = ({ action }) => {
   const token = localStorage.getItem('token');
+  const tokenExpired = isExpired(token);
   const product = useSelector((state) => state.product);
   const [showA, setShowA] = useState(true);
   const [data, setData] = useState([]);
   const toggleShowA = () => setShowA(!showA);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const imgStyle = {
     height: '100px',
     objectFit: 'cover',
@@ -57,6 +62,10 @@ const ProductWishlist = ({ action }) => {
     }
   };
   useEffect(() => {
+    dispatch(wishlistProduct(token));
+    if (!token || tokenExpired) {
+      navigate('/login');
+    }
     const fetchWishList = async () => {
       try {
         const response = await axios({
@@ -135,15 +144,16 @@ const ProductWishlist = ({ action }) => {
             );
           })}
         {/* {console.log(product.status)} */}
-        {/* {product.status == 'idle' &&
-        {data == [] &&
+        {console.log(product.data)}
+        {/* {product.status == 'idle' &&         */}
+        {product.data.length == 0 &&
           <>
             <img
               src={NoWishlist}
               className='row m-auto w-75'
             />
           </>
-        } */}
+        }
       </div>
     </>
   );

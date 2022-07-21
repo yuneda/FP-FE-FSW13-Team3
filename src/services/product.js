@@ -40,5 +40,15 @@ class ProductServices {
       },
     });
   }
+  wishlist(token) {
+    const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/productWishlist';
+    return axios({
+      method: 'get',
+      url,
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    })
+  }
 }
 export default new ProductServices();

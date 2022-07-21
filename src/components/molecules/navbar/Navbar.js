@@ -98,7 +98,9 @@ function MyNavbar(props) {
               style={{ maxHeight: '100px' }}
               navbarScroll
             >
+              <Link to="/">
               <div style={logo} className="mt-2"></div>
+              </Link>
               <div className="ms-3 search-input d-flex justify-content-between">
                 <input
                   className="user-input"
