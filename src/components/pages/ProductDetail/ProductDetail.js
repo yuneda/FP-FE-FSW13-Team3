@@ -136,6 +136,13 @@ const ProductDetail = () => {
         <UserMenu showMenu={showMenu} toggleMenu={toggleMenu} />
         <NotifDesktop idLogin={idLogin} notif={notif} toggleShowA={toggleShowA} showA={showA} />
       </div>
+      {mobileView &&
+        <Link to="/" className='tes'>
+          <i
+            className={`fa-solid fa-arrow-left ${styles.back}`}
+          ></i>
+        </Link>
+      }
       <div className={notDesktop ? '' : 'container'}>
         <div className="row justify-content-center">
           <div className={notDesktop ? 'col-12' : 'col-10'}>
@@ -146,7 +153,7 @@ const ProductDetail = () => {
                     <SwiperProduct imgProduct={product ? product.image : detailImg} />
                   </div>
                 </div>
-                <div className={mobileView ? `col-lg-4 col-md-12 mt-4 ${styles.userProduct}` : `col-lg-4 col-md-12 mt-4`}>
+                <div className={mobileView ? `col-lg-4 col-md-12 mt-4 ${styles.descProduct}` : `col-lg-4 col-md-12 mt-4`}>
                   <div className={`card p-3 ${styles.cardDesc}`}>
                     <div className="row d-flex justify-content-between">
                       <div className="col">
