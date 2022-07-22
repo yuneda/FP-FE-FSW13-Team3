@@ -141,101 +141,99 @@ const ProductDetail = () => {
           <div className={notDesktop ? 'col-12' : 'col-10'}>
             {product && (
               <div className="row">
-                <div className={notDesktop ? 'col-lg-8 col-md-12' : 'col-lg-8 col-md-12 mt-4 tes'}>
+                <div className={notDesktop ? 'col-lg-8 col-md-12' : 'col-lg-8 col-md-12 mt-4'}>
                   <div className="carousel">
                     <SwiperProduct imgProduct={product ? product.image : detailImg} />
                   </div>
                 </div>
-                <div className={mobileView ? styles.descProduct : ''}>
-                  <div className={`col-lg-4 col-md-12 mt-4`}>
-                    <div className={`card p-3 ${styles.cardDesc}`}>
-                      <div className="row d-flex justify-content-between">
-                        <div className="col">
-                          <p className={styles.prodTitle}>{product.product_name}</p>
-                        </div>
-                        <div className="col-2">
-                          <i
-                            onClick={(e) => {
-                              e.preventDefault();
-                              handleWishlist(wishlist.includes(product.id));
-                            }}
-                            className={
-                              wishlist.includes(product.id)
-                                ? 'fa-solid fa-bookmark'
-                                : 'fa-regular fa-bookmark'
-                            }
-                          ></i>
-                        </div>
+                <div className={mobileView ? `col-lg-4 col-md-12 mt-4 ${styles.userProduct}` : `col-lg-4 col-md-12 mt-4`}>
+                  <div className={`card p-3 ${styles.cardDesc}`}>
+                    <div className="row d-flex justify-content-between">
+                      <div className="col">
+                        <p className={styles.prodTitle}>{product.product_name}</p>
                       </div>
-                      <p className="text-secondary">{product.category}</p>
-                      <p>
-                        {Intl.NumberFormat('id-ID', {
-                          style: 'currency',
-                          currency: 'IDR',
-                        }).format(product.product_price)}
-                      </p>
-                      {idLogin && idLogin == idSeller && (
-                        <>
-                          <button className={`${styles.btnPublish} mb-2`}>Terbitkan</button>
-                          <button className={styles.btnEdit}>Edit</button>
-                        </>
-                      )}
-                      {idLogin && idLogin !== idSeller && (
-                        // <button
-                        //   className={`${styles.btnPublish} mb-2`}
-                        //   data-bs-toggle="modal"
-                        //   data-bs-target="#staticBackdrop"
-                        //   style={!offer ? colorPurple : colorGrey}
-                        //   disabled={offer}
-                        // >
-                        //   {!offer
-                        //     ? 'Saya tertarik dan ingin nego'
-                        //     : 'Menunggu Respon Penjual'}
-                        // </button>
-                        <Button
-                          onClick={handleShow}
-                          className={`${styles.btnPublish} mb-2`}
-                          style={!offer ? colorPurple : colorGrey}
-                          disabled={offer}
-                        >
-                          {!offer ? 'Saya tertarik dan ingin nego' : 'Menunggu Respon Penjual'}
-                        </Button>
-                      )}
+                      <div className="col-2">
+                        <i
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleWishlist(wishlist.includes(product.id));
+                          }}
+                          className={
+                            wishlist.includes(product.id)
+                              ? 'fa-solid fa-bookmark'
+                              : 'fa-regular fa-bookmark'
+                          }
+                        ></i>
+                      </div>
                     </div>
-                    <div className={`card mt-3 p-2 ${styles.cardDesc}`}>
-                      <div className="row align-items-center">
-                        <div className="col-3">
-                          {console.log(product.User)}
-                          {product.User.image ? (
-                            <img
-                              src={product.User.image}
-                              alt=""
-                              className={`${styles.userImg} img-fluid`}
-                            />
-                          ) : (
-                            <img src={Profile} alt="" className={`${styles.userImg} img-fluid`} />
-                          )}
-                        </div>
-                        <div className="col-9 g-0">
-                          <div className="fw-bold">{product.User.name}</div>
-                          <div className="text-secondary">{product.User.city}</div>
-                        </div>
+                    <p className="text-secondary">{product.category}</p>
+                    <p>
+                      {Intl.NumberFormat('id-ID', {
+                        style: 'currency',
+                        currency: 'IDR',
+                      }).format(product.product_price)}
+                    </p>
+                    {idLogin && idLogin == idSeller && (
+                      <>
+                        <button className={`${styles.btnPublish} mb-2`}>Terbitkan</button>
+                        <button className={styles.btnEdit}>Edit</button>
+                      </>
+                    )}
+                    {idLogin && idLogin !== idSeller && (
+                      // <button
+                      //   className={`${styles.btnPublish} mb-2`}
+                      //   data-bs-toggle="modal"
+                      //   data-bs-target="#staticBackdrop"
+                      //   style={!offer ? colorPurple : colorGrey}
+                      //   disabled={offer}
+                      // >
+                      //   {!offer
+                      //     ? 'Saya tertarik dan ingin nego'
+                      //     : 'Menunggu Respon Penjual'}
+                      // </button>
+                      <Button
+                        onClick={handleShow}
+                        className={`${styles.btnPublish} mb-2`}
+                        style={!offer ? colorPurple : colorGrey}
+                        disabled={offer}
+                      >
+                        {!offer ? 'Saya tertarik dan ingin nego' : 'Menunggu Respon Penjual'}
+                      </Button>
+                    )}
+                  </div>
+                  <div className={`card mt-3 p-2 ${styles.cardDesc}`}>
+                    <div className="row align-items-center">
+                      <div className="col-3">
+                        {console.log(product.User)}
+                        {product.User.image ? (
+                          <img
+                            src={product.User.image}
+                            alt=""
+                            className={`${styles.userImg} img-fluid`}
+                          />
+                        ) : (
+                          <img src={Profile} alt="" className={`${styles.userImg} img-fluid`} />
+                        )}
+                      </div>
+                      <div className="col-9 g-0">
+                        <div className="fw-bold">{product.User.name}</div>
+                        <div className="text-secondary">{product.User.city}</div>
                       </div>
                     </div>
                   </div>
-                  <div className={`col-lg-8 col-md-12 mb-4`}>
-                    <div className={`card p-4 mt-4 ${styles.cardDesc}`}>
-                      <p className="fw-bold">Deskripsi</p>
-                      <p className="fw-light text-secondary">{product.description}</p>
-                      <p className="fw-light text-secondary">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                        non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                      </p>
-                    </div>
+                </div>
+                <div className={mobileView ? `col-lg-8 col-md-12 mb-4 ${styles.descProduct}` : `col-lg-8 col-md-12 mb-4`}>
+                  <div className={`card p-4 mt-4 ${styles.cardDesc}`}>
+                    <p className="fw-bold">Deskripsi</p>
+                    <p className="fw-light text-secondary">{product.description}</p>
+                    <p className="fw-light text-secondary">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                      cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+                      non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    </p>
                   </div>
                 </div>
                 {/* Modal */}

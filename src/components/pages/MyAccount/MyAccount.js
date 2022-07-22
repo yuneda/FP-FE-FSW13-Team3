@@ -96,8 +96,8 @@ const MyAccount = () => {
         <p className='text-version'>Version 1.0.0</p>
       </div>
       <div className='row sticky border'>
-        <Link to="/" style={{ textDecoration: 'inherit' }}>
-          <div className='col'>
+        <Link className='col' to="/" style={{ color: 'inherit', textDecoration: 'inherit' }}>
+          <div style={{width: '50px'}}>
             <div className='row m-auto'>
               <img
                 src={Home}
@@ -109,8 +109,8 @@ const MyAccount = () => {
             </div>
           </div>
         </Link>
-        <Link to="/notification">
-        <div className='col'>
+        <Link className='col' to="/notification" style={{ color: 'inherit', textDecoration: 'inherit' }}>
+        <div style={{width: '50px'}}>
           <div className='row m-auto'>
             <img
               src={Bell}
@@ -122,8 +122,8 @@ const MyAccount = () => {
           </div>
         </div>
         </Link>
-        <Link to="/create">
-        <div className='col'>
+        <Link className='col' to="/create" style={{ color: 'inherit', textDecoration: 'inherit' }}>
+        <div style={{width: '50px'}}>
           <div className='row m-auto'>
             <img
               src={PlusCircle}
@@ -135,8 +135,8 @@ const MyAccount = () => {
           </div>
         </div>
         </Link>
-        <Link to="/product">
-        <div className='col'>
+        <Link className='col' to="/product" style={{ color: 'inherit', textDecoration: 'inherit' }}>
+        <div style={{width: '50px'}}>
           <div className='row m-auto'>
             <img
               src={List}
@@ -148,8 +148,8 @@ const MyAccount = () => {
           </div>
         </div>
         </Link>
-        <Link to="/myaccount">
-        <div className='col'>
+        <Link className='col' to="/myaccount" style={{ color: 'inherit', textDecoration: 'inherit' }}>
+        <div style={{width: '50px'}}>
           <div className='row m-auto'>
             <img
               src={User}

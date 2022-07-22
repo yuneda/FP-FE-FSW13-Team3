@@ -10,7 +10,19 @@ $color-grey-soft: #eeeeee;
 .descProduct {
   position: absolute;
   z-index: 3;
-  padding-top: 55%;
+  padding-top: 180%;
+  padding-left: 8%;
+}
+.userProduct {
+  position: absolute;
+  z-index: 3;
+  padding-top: 95%;
+  padding-left: 8%;
+}
+.disable {
+  pointer-events: none;
+  // display: none;
+  outline: 1px solid red;
 }
 .prodTitle {
   font-weight: 500;
