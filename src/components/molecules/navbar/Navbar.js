@@ -98,7 +98,9 @@ function MyNavbar(props) {
               style={{ maxHeight: '100px' }}
               navbarScroll
             >
-              <div style={logo} className="mt-2"></div>
+              <Link to="/">
+                <div style={logo} className="mt-2"></div>
+              </Link>
               <div className="ms-3 search-input d-flex justify-content-between">
                 <input
                   className="user-input"
@@ -166,7 +168,9 @@ function MyNavbar(props) {
             {...props}
           >
             <Offcanvas.Header closeButton>
-              <Offcanvas.Title>Secondhand</Offcanvas.Title>
+              <Link to="/" style={{ color: 'inherit', textDecoration: 'inherit' }}>
+                <Offcanvas.Title>Secondhand</Offcanvas.Title>
+              </Link>
             </Offcanvas.Header>
             <Offcanvas.Body>
               {props.token && props.tokenExpired && (
@@ -189,27 +193,40 @@ function MyNavbar(props) {
                     to="/product"
                     style={{ color: 'inherit', textDecoration: 'inherit' }}
                   >
-                    <div style={colorInactive}>Daftar Jual</div>
+                    <div className='row nav-list'>
+                      <div className='col-2'>
+                        <i className="fa-solid fa-list-ul"></i>
+                      </div>
+                      <div className='col-8'>
+                        <p className=''>Daftar Jual</p>
+                      </div>
+                    </div>
+                    {/* <div style={colorInactive}>Daftar Jual</div> */}
                   </Link>
-                  <div
-                    onClick={props.onToggleClick}
-                    style={{
-                      cursor: 'pointer',
-                    }}
+                  <Link
+                    to="/notification"
+                    style={{ color: 'inherit', textDecoration: 'inherit' }}
                   >
-                    Notifikasi
-                  </div>
+                    <div className='row nav-list'>
+                      <div className='col-2'>
+                        <i className="fa-regular fa-bell"></i>
+                      </div>
+                      <div className='col-8'>
+                        <p className=''>Notifikasi</p>
+                      </div>
+                    </div>
+                  </Link>
                   <Link
                     to="/profile"
                     style={{ color: 'inherit', textDecoration: 'inherit' }}
                   >
-                    <div
-                      onClick={props.onToggleMenu}
-                      style={{
-                        cursor: 'pointer',
-                      }}
-                    >
-                      Akun Saya
+                    <div className='row nav-list'>
+                      <div className='col-2'>
+                        <i className="fa-regular fa-user"></i>
+                      </div>
+                      <div className='col-8'>
+                        <p className=''>Akun Saya</p>
+                      </div>
                     </div>
                   </Link>
                 </>

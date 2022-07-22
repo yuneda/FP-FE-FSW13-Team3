@@ -1,16 +1,37 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Toast } from 'react-bootstrap';
 import styles from '../Home.module.css';
 import { Link, useNavigate } from 'react-router-dom';
 import zonk from '../../../../assets/mailbox.png';
+import BarLoader from 'react-spinners/BarLoader';
+import { useSelector, useDispatch } from 'react-redux';
 
 const NotifDesktop = ({ showA, toggleShowA, notif, idLogin }) => {
   let address;
+  const dispatch = useDispatch();
+  const product = useSelector((state) => state.product);
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 5000);
+  }, []);
+
   return (
     <Toast className={`${styles.cardNotif} p-1 bg-white`} show={showA} onClose={toggleShowA}>
       <Toast.Body>
         <div className={``} style={{ overflowX: 'hidden', maxHeight: '300px' }}>
           <div className="row">
+            <p className="d-flex justify-content-end">Bersihkan</p>
+          </div>
+          <div className="row">
+            {product.status === "loading" && (
+              <BarLoader color={'#7126B5'} loading={true} size={100} className="mx-auto d-flex justify-content-center" />
+            )}
+          </div>
+          <div className="row">
+            {console.log(notif)}
             {notif &&
               notif.map((notif, index) => {
                 if (notif.status == 'created') {
@@ -64,8 +85,10 @@ const NotifDesktop = ({ showA, toggleShowA, notif, idLogin }) => {
                             )}
                           </div>
                           <div className="col-5 g-0 ">
+                            {/* {console.log(notif.createdAt)} */}
                             <div className="text-secondary">
                               20 Apr, 14:04{' '}
+                              {/* <p>{notif.createdAt}</p> */}
                               <i
                                 className="fa-solid fa-circle fa-xs"
                                 style={{
@@ -91,8 +114,8 @@ const NotifDesktop = ({ showA, toggleShowA, notif, idLogin }) => {
                 );
               })}
             {notif && notif.length == 0 && (
-              <div>
-                <img src={zonk} alt="kosong" className="img-fluid" />
+              <div className="d-flex justify-content-center">
+                <img src={zonk} alt="kosong" className="img-fluid d-flex justify-content-center w-50" />
               </div>
             )}
           </div>

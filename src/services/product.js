@@ -1,22 +1,36 @@
-import axios from 'axios';
+import axios from "axios";
 class ProductServices {
   create(form, token) {
-    const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product';
+    const url = "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product";
     return axios.post(url, form, {
       headers: {
-        'Content-Type': 'multipart/form-data',
-        Authorization: 'Bearer ' + token,
+        "Content-Type": "multipart/form-data",
+        Authorization: "Bearer " + token,
       },
     });
   }
+
+  edit(form, token, id) {
+    const url =
+      "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product/" +
+      id +
+      "/picture/cloudinary";
+    return axios.put(url, form, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: "Bearer " + token,
+      },
+    });
+  }
+
   getAll() {
-    const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product';
+    const url = "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product";
     return axios.get(url);
   }
   filter(filter) {
-    const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product';
+    const url = "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product";
     return axios({
-      method: 'get',
+      method: "get",
       url,
       params: {
         filter,
@@ -24,31 +38,35 @@ class ProductServices {
     });
   }
   search(search) {
-    const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product/search?name=' + search;
+    const url =
+      "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product/search?name=" +
+      search;
     return axios({
-      method: 'post',
+      method: "post",
       url,
     });
   }
   query(status, token) {
-    const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/allproduct?status=' + status;
+    const url =
+      "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/allproduct?status=" +
+      status;
     return axios({
-      method: 'get',
+      method: "get",
       url,
       headers: {
-        Authorization: 'Bearer ' + token,
+        Authorization: "Bearer " + token,
       },
     });
   }
   wishlist(token) {
-    const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/productWishlist';
+    const url = "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/productWishlist";
     return axios({
-      method: 'get',
+      method: "get",
       url,
       headers: {
-        Authorization: 'Bearer ' + token,
+        Authorization: "Bearer " + token,
       },
-    })
+    });
   }
 }
 export default new ProductServices();

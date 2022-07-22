@@ -25,6 +25,7 @@ const Home = () => {
   const [showA, setShowA] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [idLogin, setIdLogin] = useState(null);
+  const notDesktop = useMediaQuery({ query: '(max-width: 991px)' });
   const mobileView = useMediaQuery({ query: '(max-width: 767px)' });
   const toggleMenu = (e) => {
     e.preventDefault();
@@ -69,10 +70,13 @@ const Home = () => {
         onToggleMenu={toggleMenu}
         tokenExpired={tokenExpired}
       />
+      {mobileView ? '' :
       <div className="container position-relative">
         <UserMenu showMenu={showMenu} toggleMenu={toggleMenu} />
         <NotifDesktop idLogin={idLogin} notif={notif} toggleShowA={toggleShowA} showA={showA} />
       </div>
+      // : ''
+      }
       <div className={mobileView ? '' : 'mt-5'}>
         <MyCarousel />
       </div>

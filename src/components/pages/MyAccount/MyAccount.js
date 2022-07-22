@@ -9,11 +9,11 @@ import Bell from '../../../assets/fi_bell.png';
 import PlusCircle from '../../../assets/fi_plus-circle.png';
 import List from '../../../assets/fi_list.png';
 import User from '../../../assets/fi_user.png';
-import { Link } from 'react-router-dom';
-import './MyAccount.css'
+import { Link, useNavigate } from 'react-router-dom';
+import './MyAccount.css';
 
 const MyAccount = () => {
-
+  const navigate = useNavigate();
 
   return (
     <div className="container-fluid box">
@@ -32,23 +32,25 @@ const MyAccount = () => {
           />
         </div>
       </div>
-      <div className='row px-4'>
-        <div className='col-2'>
-          <img
-            src={PenLine}
-            style={{
-              height: '24px',
-              width: '24px',
-              left: '0',
-              top: '0',
-            }}
-          />
+      <Link to="/profile" style={{ color: 'inherit', textDecoration: 'inherit' }}>
+        <div className='row px-4'>
+          <div className='col-2'>
+            <img
+              src={PenLine}
+              style={{
+                height: '24px',
+                width: '24px',
+                left: '0',
+                top: '0',
+              }}
+            />
+          </div>
+          <div className='col-9'>
+            <p className='fw-bold'>Ubah Akun</p>
+          </div>
+          <hr></hr>
         </div>
-        <div className='col-9'>
-          <p className='fw-bold'>Ubah Akun</p>
-        </div>
-        <hr></hr>
-      </div>
+      </Link>
       <div className='row px-4'>
         <div className='col-2'>
           <img
@@ -66,7 +68,14 @@ const MyAccount = () => {
         </div>
         <hr></hr>
       </div>
-      <div className='row px-4'>
+      <div className='row px-4'
+        onClick={(e) => {
+          e.preventDefault();
+          localStorage.removeItem('token');
+          navigate('/login');
+        }}
+        style={{ cursor: 'pointer' }}
+      >
         <div className='col-2'>
           <img
             src={LogOut}
@@ -87,18 +96,21 @@ const MyAccount = () => {
         <p className='text-version'>Version 1.0.0</p>
       </div>
       <div className='row sticky border'>
-        <div className='col'>
-          <div className='row m-auto'>
-            <img
-              src={Home}
-              alt=""
-            />
+        <Link className='col' to="/" style={{ color: 'inherit', textDecoration: 'inherit' }}>
+          <div style={{width: '50px'}}>
+            <div className='row m-auto'>
+              <img
+                src={Home}
+                alt=""
+              />
+            </div>
+            <div className='row'>
+              <p className='nav-text'>Home</p>
+            </div>
           </div>
-          <div className='row'>
-            <p className='nav-text'>Home</p>
-          </div>
-        </div>
-        <div className='col'>
+        </Link>
+        <Link className='col' to="/notification" style={{ color: 'inherit', textDecoration: 'inherit' }}>
+        <div style={{width: '50px'}}>
           <div className='row m-auto'>
             <img
               src={Bell}
@@ -109,7 +121,9 @@ const MyAccount = () => {
             <p className='nav-text'>Notifikasi</p>
           </div>
         </div>
-        <div className='col'>
+        </Link>
+        <Link className='col' to="/create" style={{ color: 'inherit', textDecoration: 'inherit' }}>
+        <div style={{width: '50px'}}>
           <div className='row m-auto'>
             <img
               src={PlusCircle}
@@ -120,7 +134,9 @@ const MyAccount = () => {
             <p className='nav-text'>Jual</p>
           </div>
         </div>
-        <div className='col'>
+        </Link>
+        <Link className='col' to="/product" style={{ color: 'inherit', textDecoration: 'inherit' }}>
+        <div style={{width: '50px'}}>
           <div className='row m-auto'>
             <img
               src={List}
@@ -131,7 +147,9 @@ const MyAccount = () => {
             <p className='nav-text'>Daftar Jual</p>
           </div>
         </div>
-        <div className='col'>
+        </Link>
+        <Link className='col' to="/myaccount" style={{ color: 'inherit', textDecoration: 'inherit' }}>
+        <div style={{width: '50px'}}>
           <div className='row m-auto'>
             <img
               src={User}
@@ -142,6 +160,8 @@ const MyAccount = () => {
             <p className='nav-text'>Akun</p>
           </div>
         </div>
+        </Link>
+        
       </div>
     </div>
   )

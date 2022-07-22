@@ -56,27 +56,30 @@ const Register = () => {
   };
   const handleRegister = async (event) => {
     event.preventDefault();
-    try {
-      const data = { name, email, password };
-      dispatch(registerUser(data));
+    // try {
+    const data = { name, email, password };
+    dispatch(registerUser(data));
 
-      setTimeout(() => {
-        if (user.status == 'succeeded') {
-          setName('');
-          setEmail('');
-          setPassword('');
-          setSuccess(true);
-          navigate('/login');
-        }
-      }, 2000);
-    } catch (error) {
-      console.log(error);
-      setFailed(true);
-    }
+    // setTimeout(() => {
+    //   if (user.statusRegister == 'succeeded') {
+    //     setName('');
+    //     setEmail('');
+    //     setPassword('');
+    //     setSuccess(true);
+    //     navigate('/login');
+    //   }
+    // }, 2000);
+    // } catch (error) {
+    //   console.log(error);
+    //   setFailed(true);
+    // }
   };
   useEffect(() => {
+    if (user.statusRegister == 'succeeded') {
+      navigate('/login');
+    }
     dispatch(makeStatusIdle());
-  }, []);
+  }, [user]);
   return (
     <div className="container-fluid box">
       {user.status == 'succeeded' && navigate('/login')}

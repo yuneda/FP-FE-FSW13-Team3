@@ -122,6 +122,7 @@ const ProductCategory = ({ handleFilter, token }) => {
     Aos.refresh();
   }, []);
   const handleWishlist = async (action, id) => {
+    console.log(action);
     let endPoint;
     if (action) {
       endPoint = 'deletewishlist';
@@ -256,8 +257,8 @@ const ProductCategory = ({ handleFilter, token }) => {
               );
             })}
           {product.status == 'succeeded' && product.data.length == 0 && (
-            <div>
-              <img src={not_found} alt="" />
+            <div className="w-100">
+              <img src={not_found} alt="" className="m-auto d-flex justify-content-center w-50" />
             </div>
           )}
           {product.status == 'loading' && (

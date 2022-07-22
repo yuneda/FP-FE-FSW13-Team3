@@ -20,7 +20,7 @@ const Whislist = () => {
             <div className="row w-100 justify-content-center">
               <div className="col-1 mt-5">
                 <Link to='/'>
-                  <i className=" fa-solid fa-arrow-left"></i>
+                  <i className=" fa-solid fa-arrow-left" style={{color: "black"}}></i>
                 </Link>
               </div>
               <div className="col-10 mt-5">
