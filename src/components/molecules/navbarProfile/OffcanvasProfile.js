@@ -33,7 +33,9 @@ function OffcanvasProfile(props) {
             {...props}
           >
             <Offcanvas.Header closeButton>
-              <Offcanvas.Title>Secondhand</Offcanvas.Title>
+              <Link to="/" style={{ color: 'inherit', textDecoration: 'inherit' }}>
+                <Offcanvas.Title>Secondhand</Offcanvas.Title>
+              </Link>
             </Offcanvas.Header>
             <Offcanvas.Body>
               {/* {props.token && props.tokenExpired && (
@@ -56,12 +58,12 @@ function OffcanvasProfile(props) {
                   to="/product"
                   style={{ color: 'inherit', textDecoration: 'inherit' }}
                 >
-                  <div className='row'>
+                  <div className='row nav-list'>
                     <div className='col-2'>
                       <i className="fa-solid fa-list-ul"></i>
                     </div>
                     <div className='col-8'>
-                      <p className='nav-list'>Daftar Jual</p>
+                      <p className=''>Daftar Jual</p>
                     </div>
                   </div>
                   {/* <div style={colorInactive}>Daftar Jual</div> */}
@@ -70,19 +72,12 @@ function OffcanvasProfile(props) {
                   to="/notification"
                   style={{ color: 'inherit', textDecoration: 'inherit' }}
                 >
-                  <div
-                    onClick={props.onToggleClick}
-                    style={{
-                      cursor: 'pointer',
-                    }}
-                  >
-                    <div className='row'>
-                      <div className='col-2'>
-                        <i className="fa-regular fa-bell"></i>
-                      </div>
-                      <div className='col-8'>
-                        <p className='nav-list'>Notifikasi</p>
-                      </div>
+                  <div className='row nav-list'>
+                    <div className='col-2'>
+                      <i className="fa-regular fa-bell"></i>
+                    </div>
+                    <div className='col-8'>
+                      <p className=''>Notifikasi</p>
                     </div>
                   </div>
                 </Link>
@@ -96,12 +91,12 @@ function OffcanvasProfile(props) {
                       cursor: 'pointer',
                     }}
                   >
-                    <div className='row'>
+                    <div className='row nav-list'>
                       <div className='col-2'>
                         <i className="fa-regular fa-user"></i>
                       </div>
                       <div className='col-8'>
-                        <p className='nav-list'>Akun Saya</p>
+                        <p className=''>Akun Saya</p>
                       </div>
                     </div>
                   </div>

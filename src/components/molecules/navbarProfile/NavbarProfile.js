@@ -4,8 +4,10 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import './Navbar.css';
 import { Link } from 'react-router-dom';
+import { useMediaQuery } from 'react-responsive';
 
 function MyNavbar(props) {
+  const mobileView = useMediaQuery({ query: '(max-width: 570px)' });
   const logo = {
     width: '100px',
     height: '34px',
@@ -22,9 +24,16 @@ function MyNavbar(props) {
           <Link to="/">
             <Nav
               className="me-auto my-2 my-lg-0"
-              style={{ maxHeight: '100px' }}
+              style={{ maxHeight: '100px', zIndex: '3' }}
               navbarScroll
             >
+              {mobileView ?  
+              <i
+                className="fa-solid fa-arrow-left"
+                style={{ marginTop: '15px', color: 'inherit', textDecoration: 'inherit' }}
+              ></i>
+              : ''
+              } 
               <div style={logo} className="mt-2 logo"></div>
             </Nav>
           </Link>

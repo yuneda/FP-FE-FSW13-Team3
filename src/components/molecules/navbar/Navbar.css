@@ -11,3 +11,7 @@
   border: none;
   outline: none;
 }
+
+.nav-list:hover {
+  color: #7126B5;
+}
