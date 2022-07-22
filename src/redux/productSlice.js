@@ -1,33 +1,45 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import ProductServices from '../services/product';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import ProductServices from "../services/product";
 
-const createUrl = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product';
+const createUrl = "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product";
 
 const initialState = {
-  status: 'idle', //'idle' | 'loading' | 'succeeded' | 'failed'
-  error: '',
+  status: "idle", //'idle' | 'loading' | 'succeeded' | 'failed'
+  error: "",
   createProduct: null,
   data: [],
+  editProduct: null,
 };
 
-export const createProduct = createAsyncThunk('product/add', async (data) => {
+export const createProduct = createAsyncThunk("product/add", async (data) => {
   const { form, token } = data;
   return await ProductServices.create(form, token);
 });
 
-export const getAllProduct = createAsyncThunk('product/getAll', async () => {
+export const editProduct = createAsyncThunk("product/edit", async (data) => {
+  const { form, token, id } = data;
+  return await ProductServices.edit(form, token, id);
+});
+
+export const getAllProduct = createAsyncThunk("product/getAll", async () => {
   return await ProductServices.getAll();
 });
 
-export const filterProduct = createAsyncThunk('product/filter', async (data) => {
-  return await ProductServices.filter(data);
-});
+export const filterProduct = createAsyncThunk(
+  "product/filter",
+  async (data) => {
+    return await ProductServices.filter(data);
+  }
+);
 
-export const searchProduct = createAsyncThunk('product/search', async (data) => {
-  return await ProductServices.search(data);
-});
+export const searchProduct = createAsyncThunk(
+  "product/search",
+  async (data) => {
+    return await ProductServices.search(data);
+  }
+);
 
-export const queryProduct = createAsyncThunk('product/query', async (data) => {
+export const queryProduct = createAsyncThunk("product/query", async (data) => {
   // console.log(status);
   // console.log(token);
   const { status, token } = data;
@@ -35,84 +47,105 @@ export const queryProduct = createAsyncThunk('product/query', async (data) => {
   return await ProductServices.query(status, token);
 });
 
-export const wishlistProduct = createAsyncThunk('product/wishlist', async (data) => {
-  return await ProductServices.wishlist(data);
-});
+export const wishlistProduct = createAsyncThunk(
+  "product/wishlist",
+  async (data) => {
+    return await ProductServices.wishlist(data);
+  }
+);
 
 const productSlice = createSlice({
-  name: 'product',
+  name: "product",
   initialState,
   reducers: {
     makeStatusIdle: (state) => {
-      state.status = 'idle';
+      state.status = "idle";
+      state.error = "";
     },
   },
   extraReducers(builder) {
     builder
       .addCase(createProduct.pending, (state) => {
-        state.status = 'loading';
+        state.status = "loading";
       })
       .addCase(createProduct.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = "succeeded";
         state.createProduct = action.payload;
-        state.error = '';
-        console.log('createProduct fulfilled');
+        state.error = "";
+        console.log("createProduct fulfilled");
       })
       .addCase(createProduct.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = "failed";
         state.error = action.error.message;
         state.createProduct = null;
         console.log(action.error.message);
       })
+
+      .addCase(editProduct.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(editProduct.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.editProduct = action.payload;
+        state.error = "";
+        console.log("editProduct fulfilled");
+      })
+      .addCase(editProduct.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+        state.editProduct = null;
+        console.log(action.error.message);
+      })
+
       .addCase(getAllProduct.pending, (state) => {
-        state.status = 'loading';
+        state.status = "loading";
       })
       .addCase(getAllProduct.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = "succeeded";
         state.data = action.payload.data.data.product.data;
-        state.error = '';
-        console.log('getAllProduct fulfilled');
+        state.error = "";
+        console.log("getAllProduct fulfilled");
       })
       .addCase(getAllProduct.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = "failed";
         state.error = action.error.message;
         state.data = [];
         console.log(action.error.message);
       })
       .addCase(filterProduct.pending, (state) => {
-        state.status = 'loading';
+        state.status = "loading";
       })
       .addCase(filterProduct.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = "succeeded";
         state.data = action.payload.data.data.product.data;
-        state.error = '';
-        console.log('filterProduct fulfilled');
+        state.error = "";
+        console.log("filterProduct fulfilled");
       })
       .addCase(searchProduct.pending, (state) => {
-        state.status = 'loading';
+        state.status = "loading";
       })
       .addCase(searchProduct.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = "succeeded";
         state.data = action.payload.data.data.product.data;
-        state.error = '';
-        console.log('searchProduct fulfilled');
+        state.error = "";
+        console.log("searchProduct fulfilled");
       })
       .addCase(queryProduct.pending, (state) => {
-        state.status = 'loading';
+        state.status = "loading";
         state.data = [];
       })
       .addCase(queryProduct.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = "succeeded";
         state.data = action.payload.data.data.product;
-        state.error = '';
-        console.log('queryProduct fulfilled');
+        state.error = "";
+        console.log("queryProduct fulfilled");
         console.log(action.payload.data.data.product);
       })
       .addCase(wishlistProduct.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = "succeeded";
         state.data = action.payload.data.data.data;
-        state.error = '';
-        console.log('wishlistProduct fulfilled');
+        state.error = "";
+        console.log("wishlistProduct fulfilled");
       });
   },
 });
