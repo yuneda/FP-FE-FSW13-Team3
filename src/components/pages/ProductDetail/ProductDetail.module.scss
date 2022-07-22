@@ -7,23 +7,34 @@ $color-grey-soft: #eeeeee;
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.15);
   border-radius: 16px;
 }
+// .descProduct {
+//   // position: absolute;
+//   z-index: 3;
+//   padding-top: 180%;
+//   padding-left: 8%;
+// }
+// .userProduct {
+//   // position: absolute;
+//   z-index: 3;
+//   padding-top: 95%;
+//   padding-left: 8%;
+// }
 .descProduct {
+  z-index: 3;
+  padding-left: 6%;
+  padding-right: 6%;
+}
+.back {
+  padding: 2%;
+  margin-left: 20px;
+  margin-top: 20px;
+  color: black;
   position: absolute;
   z-index: 3;
-  padding-top: 180%;
-  padding-left: 8%;
+  background-color: #ffffff;
+  border-radius: 50%;
 }
-.userProduct {
-  position: absolute;
-  z-index: 3;
-  padding-top: 95%;
-  padding-left: 8%;
-}
-.disable {
-  pointer-events: none;
-  // display: none;
-  outline: 1px solid red;
-}
+
 .prodTitle {
   font-weight: 500;
   font-size: 16px;
