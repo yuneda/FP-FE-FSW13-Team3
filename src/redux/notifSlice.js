@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import NotificationServices from '../services/notif';
-
+const Name = "Rizky";
 const initialState = {
   status: 'idle', //'idle' | 'loading' | 'succeeded' | 'failed'
   error: '',

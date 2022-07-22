@@ -407,7 +407,7 @@ const ProductOffer = () => {
                                             <div className={`col-12 mb-3 mt-4`}>
                                               <a
                                                 href="https://wa.me/+628980023612"
-                                                rel="noopener"
+                                                rel="noopener noreferrer"
                                                 target="_blank"
                                               >
                                                 <button

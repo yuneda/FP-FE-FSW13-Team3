@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Profile.css';
 import Navbar from '../../molecules/navbarProfile/NavbarProfile';
@@ -6,8 +7,13 @@ import Form from 'react-bootstrap/Form';
 import PicInput from '../../../assets/fi_camera.png';
 import capitalCity from '../../../docs/city.json';
 import { Link } from 'react-router-dom';
+import { makeStatusIdle, updateUser } from '../../../redux/usersSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Profile = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.users);
   const token = localStorage.getItem('token');
   const [file, setFile] = useState(null);
   const [image, setImage] = useState();
@@ -15,15 +21,18 @@ const Profile = () => {
   const [city, setCity] = useState('');
   const [address, setAddress] = useState('');
   const [phone, setPhone] = useState('');
+  useEffect(() => {
+    if (user.statusUpdate == 'succeeded') {
+      navigate('/');
+    }
+    dispatch(makeStatusIdle());
+  }, [user]);
   useState(async () => {
-    let result = await axios.get(
-      'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user',
-      {
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-      }
-    );
+    let result = await axios.get('https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user', {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    });
     result = result.data.data;
     console.log(result.name);
     setName(result.name);
@@ -65,24 +74,15 @@ const Profile = () => {
     form.append('no_tlpn', phone);
     console.log(file, name, city, address, phone);
     const inputBody = { name, city, address, no_tlpn: phone };
-    try {
-      const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user';
-      const url2 =
-        'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user/2/picture/cloudinary';
-      const response = await axios.put(url2, form, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          // 'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + token,
-        },
-      });
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
+    const data = {
+      token,
+      form,
+    };
+    dispatch(updateUser(data));
   };
   return (
     <>
+      {user.statusUpdate == 'succeeded' && navigate('/')}
       <Navbar title="Lengkapi Info Akun" />
       <div className="container-fluid box">
         <div className="row justify-content-center mt-3">
@@ -142,9 +142,7 @@ const Profile = () => {
                 </div>
                 {/* <img src={image} alt="" /> */}
                 <div className="col-sm-9">
-                  <label className="d-flex justify-content-between">
-                    Nama*
-                  </label>
+                  <label className="d-flex justify-content-between">Nama*</label>
                   <div className="input-group mb-3">
                     <input
                       type="text"
@@ -159,9 +157,7 @@ const Profile = () => {
                   </div>
                 </div>
                 <div className="col-sm-9 mb-3 ">
-                  <label className="d-flex justify-content-between">
-                    Kota*
-                  </label>
+                  <label className="d-flex justify-content-between">Kota*</label>
                   <div className="input-group ">
                     <select
                       className="form-select option-field"
@@ -180,9 +176,7 @@ const Profile = () => {
                   </div>
                 </div>
                 <div className="col-sm-9" as="textarea">
-                  <label className="d-flex justify-content-between">
-                    Alamat*
-                  </label>
+                  <label className="d-flex justify-content-between">Alamat*</label>
                   <div className="input-group mb-3">
                     <Form.Control
                       as="textarea"
@@ -199,9 +193,7 @@ const Profile = () => {
                   </div>
                 </div>
                 <div className="col-sm-9">
-                  <label className="d-flex justify-content-between">
-                    No Handphone*
-                  </label>
+                  <label className="d-flex justify-content-between">No Handphone*</label>
                   <div className="input-group mb-3">
                     <input
                       type="text"
@@ -216,10 +208,7 @@ const Profile = () => {
                   </div>
                 </div>
                 <div className="col-sm-9 mb-5">
-                  <button
-                    type="submit"
-                    className="btn w-100 border-radius btn-register"
-                  >
+                  <button type="submit" className="btn w-100 border-radius btn-register">
                     Simpan
                   </button>
                 </div>
