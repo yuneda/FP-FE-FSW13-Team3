@@ -1,15 +1,12 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import NavbarProduct from '../../molecules/navbarproduct/NavbarProduct';
 import MyNavbar from '../../molecules/navbar/Navbar';
 // import styles from './ProductDetail.module.css';
 import styles from './ProductDetail.module.scss';
 import detailImg from '../../../assets/nothing.png';
-import user from '../../../assets/user.jpg';
 import SwiperProduct from '../../molecules/swiper/SwiperProduct';
 import UserMenu from '../Home/molecules/UserMenu';
 import NotifDesktop from '../Home/molecules/NotifDesktop';
-import Buyer from '../../../assets/buyer.png';
 import Profile from '../../../assets/profile.png';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
@@ -17,7 +14,6 @@ import { isExpired } from 'react-jwt';
 import { useState } from 'react';
 import DesktopView from '../Responsive/DesktopView';
 import { useMediaQuery } from 'react-responsive';
-import { successAlert } from '../../../utils/alert';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAllNotif } from '../../../redux/notifSlice';
 import { addOffer, makeStatusIdle, handlewishlist } from '../../../redux/transactionSlice';
@@ -29,10 +25,8 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 const ProductDetail = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const productState = useSelector((state) => state.product);
   const notifRedux = useSelector((state) => state.notif);
   const userRedux = useSelector((state) => state.users);
-  const offerRedux = useSelector((state) => state.transaction);
   const [product, setProduct] = useState(null);
   const [idLogin, setIdLogin] = useState(null);
   const [idSeller, setIdSeller] = useState(null);
@@ -43,7 +37,6 @@ const ProductDetail = () => {
   const tokenExpired = isExpired(token);
   const notDesktop = useMediaQuery({ query: '(max-width: 991px)' });
   const mobileView = useMediaQuery({ query: '(max-width: 767px)' });
-  const [notif, setNotif] = useState(null);
   const [showMenu, setShowMenu] = useState(false);
   const [price, setPrice] = useState('');
   const [show, setShow] = useState(false);
@@ -100,7 +93,6 @@ const ProductDetail = () => {
     dispatch(makeStatusIdle());
     dispatch(getAllNotif(token));
     const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product/' + id;
-    const urlUser = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user';
     if (userRedux.statusAuth == 'succeeded') {
       setIdLogin(userRedux.auth.id);
       if (userRedux.auth.wishlist) {

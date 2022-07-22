@@ -2,10 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import InputForm from "../../atoms/inputform/InputForm";
 import MyNavbar from "../../molecules/navbarProfile/NavbarProfile";
-import Form from "react-bootstrap/Form";
 import OptionInput from "../../atoms/OptionInput/OptionInput";
 import TextArea from "../../atoms/textArea/TextArea";
-import PicInput from "../../../assets/fi_camera.png";
 // import './CreateProduct.css';
 import "./EditProduct.scss";
 import MyAlert from "../../atoms/alert/Alert";
@@ -14,7 +12,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { makeStatusIdle, editProduct } from "../../../redux/productSlice";
 import ScaleLoader from "react-spinners/ScaleLoader";
 import { useParams } from "react-router-dom";
-import { authUser } from "../../../redux/usersSlice";
 import { isExpired } from "react-jwt";
 
 const CreateProduct = () => {

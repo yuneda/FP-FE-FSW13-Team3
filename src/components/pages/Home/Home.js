@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import './Home.scss';
 import MyNavbar from '../../molecules/navbar/Navbar';
 import MyCarousel from '../../molecules/carousel/MyCarousel';
@@ -25,7 +24,6 @@ const Home = () => {
   const [showA, setShowA] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [idLogin, setIdLogin] = useState(null);
-  const notDesktop = useMediaQuery({ query: '(max-width: 991px)' });
   const mobileView = useMediaQuery({ query: '(max-width: 767px)' });
   const toggleMenu = (e) => {
     e.preventDefault();

@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
 import PicInput from '../../../assets/fi_camera.png';
 import PenLine from '../../../assets/fi_edit.png';
 import Setting from '../../../assets/fi_settings.png';

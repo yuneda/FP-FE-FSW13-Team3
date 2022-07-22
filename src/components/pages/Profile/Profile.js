@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Profile.css';
@@ -73,7 +73,6 @@ const Profile = () => {
     form.append('address', address);
     form.append('no_tlpn', phone);
     console.log(file, name, city, address, phone);
-    const inputBody = { name, city, address, no_tlpn: phone };
     const data = {
       token,
       form,

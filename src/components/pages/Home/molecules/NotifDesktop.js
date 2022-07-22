@@ -1,23 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Toast } from 'react-bootstrap';
 import styles from '../Home.module.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import zonk from '../../../../assets/mailbox.png';
 import BarLoader from 'react-spinners/BarLoader';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const NotifDesktop = ({ showA, toggleShowA, notif, idLogin }) => {
   let address;
-  const dispatch = useDispatch();
-  const product = useSelector((state) => state.product);
-  const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 5000);
-  }, []);
-
+  const notifRedux = useSelector((state) => state.notif);
   return (
     <Toast className={`${styles.cardNotif} p-1 bg-white`} show={showA} onClose={toggleShowA}>
       <Toast.Body>
@@ -26,7 +17,7 @@ const NotifDesktop = ({ showA, toggleShowA, notif, idLogin }) => {
             <p className="d-flex justify-content-end">Bersihkan</p>
           </div>
           <div className="row">
-            {product.status === "loading" && (
+            {notifRedux.status === "loading" && (
               <BarLoader color={'#7126B5'} loading={true} size={100} className="mx-auto d-flex justify-content-center" />
             )}
           </div>

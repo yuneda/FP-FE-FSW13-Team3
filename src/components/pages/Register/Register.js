@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
 import { registerUser, makeStatusIdle } from '../../../redux/usersSlice';
 
 import './Register.css';
@@ -10,14 +9,12 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { eyeOff } from 'react-icons-kit/feather/eyeOff';
 import BgRegister from '../../../assets/bg-register.png';
-import MyAlert from '../../atoms/alert/Alert';
 
 const Register = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [failed, setFailed] = useState(false);
-  const [success, setSuccess] = useState(false);
   const [type, setType] = useState('password');
   const [icon, setIcon] = useState(eyeOff);
   const navigate = useNavigate();
@@ -83,11 +80,6 @@ const Register = () => {
   return (
     <div className="container-fluid box">
       {user.status == 'succeeded' && navigate('/login')}
-      {success && (
-        <div className="tes mx-auto">
-          <MyAlert title="Registration success" color="success" />
-        </div>
-      )}
       <div className="row">
         <div
           className="col-md-6 col-sm-12 col-12 left d-flex align-items-center fit-image"
