@@ -21,24 +21,19 @@ function MyNavbar(props) {
       <Container>
         <div className="logo"></div>
         <div className="col-sm-4">
-          <Link to="/">
+          <Link to="/" style={{ color: 'inherit', textDecoration: 'inherit' }}>
             <Nav
               className="me-auto my-2 my-lg-0"
               style={{ maxHeight: "100px", zIndex: "3" }}
               navbarScroll
             >
-              {mobileView ? (
-                <i
-                  className="fa-solid fa-arrow-left"
-                  style={{
-                    marginTop: "15px",
-                    color: "inherit",
-                    textDecoration: "inherit",
-                  }}
-                ></i>
-              ) : (
-                ""
-              )}
+              {mobileView ?  
+              <i
+                className="fa-solid fa-arrow-left ms-3"
+                style={{ marginTop: '15px', color: 'inherit', textDecoration: 'inherit' }}
+              ></i>
+              : ''
+              } 
               <div style={logo} className="mt-2 logo"></div>
             </Nav>
           </Link>
