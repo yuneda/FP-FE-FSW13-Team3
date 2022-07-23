@@ -32,6 +32,19 @@
   width: 120px;
 }
 
+.btn-sellmbl {
+  position: fixed;
+  left: 35%;
+  z-index: 2;
+  bottom: 20px;
+  width: 120px;
+}
+
+.fifty-chars {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 .wrapper-category::-webkit-scrollbar {
   width: 0;
 }

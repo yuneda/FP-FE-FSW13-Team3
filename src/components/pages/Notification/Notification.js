@@ -74,7 +74,6 @@ const Notification = () => {
                 <div className="col-3">
                   <img
                     src={notif.Product.image[0]}
-                    // src={Watch}
                     alt=""
                     className={'rounded img-fluid'}
                   />
@@ -83,26 +82,17 @@ const Notification = () => {
                   <div className="row">
                     <div className="col-7 g-0  ps-3">
                       <div className="text-secondary">
-                        {/* <p>Status Produk</p> */}
                         {notif.status == 'created' &&
                           'Berhasil diterbitkan'}
                         {notif.status !== 'created' &&
                           'Penawaran produk'}
                       </div>
                       <div className="fw-bold">
-                        {/* <p>Nama Produk</p> */}
                         {notif.Product.product_name}
                       </div>
                       <div
                         className="fw-bold"
-                      // style={{
-                      //   textDecoration:
-                      //     notif.status == 'accept'
-                      //       ? 'line-through'
-                      //       : 'none',
-                      // }}
                       >
-                        {/* <p>200.000</p> */}
                         {Intl.NumberFormat('id-ID', {
                           style: 'currency',
                           currency: 'IDR',
@@ -120,18 +110,19 @@ const Notification = () => {
                     </div>
                     <div className="col-5 g-0 ">
                       <div className="text-secondary">
-                        20 Apr, 14:04{' '}
-                        <i
-                          className="fa-solid fa-circle fa-xs"
-                          style={{
-                            color: 'red',
-                          }}
-                        ></i>
+                        {new Date(notif.createdAt).toLocaleString(
+                          'en-GB',
+                          {
+                            day: '2-digit',
+                            month: 'short',
+                            hour: 'numeric',
+                            minute: '2-digit',
+                          }
+                        )}
                       </div>
                     </div>
                     {notif.status == 'accept' && (
                       <div className="text-secondary">
-                        {/* <p>Kamu menerima penawaran ini</p> */}
                         {idLogin !== notif.id_seller &&
                           'Kamu akan dihubungi via WA'}
                         {idLogin == notif.id_seller &&

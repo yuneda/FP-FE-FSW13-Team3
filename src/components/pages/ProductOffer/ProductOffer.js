@@ -9,6 +9,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import { useMediaQuery } from 'react-responsive';
+import { Link } from 'react-router-dom';
 // component
 import ModalAccOffer from './molecules/ModalAccOffer';
 import ModalStatusOffer from './molecules/ModalStatusOffer';
@@ -53,7 +54,7 @@ const ProductOffer = () => {
   const handleStatus = async (e) => {
     e.preventDefault();
     console.log('status ai');
-    if(status == 'sold'){
+    if (status == 'sold') {
       try {
         const urlSold =
           'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product/' +
@@ -107,26 +108,31 @@ const ProductOffer = () => {
         <div className="row justify-content-center">
           <div className="col-md-6 col-sm-12 col-12 right d-flex">
             <div className="row w-100 justify-content-center ">
-              <div className="col-1 mt-5">
-                <i className=" fa-solid fa-arrow-left"></i>
-              </div>
-              <div className="col-10 mt-2">
+              {mobileView ? '' :
+                <div className="col-1 mt-4">
+                  <Link to="/">
+                    <i className=" fa-solid fa-arrow-left" style={{ color: 'black' }}></i>
+                  </Link>
+                </div>
+              }
+              {/* <div className="col-10 mt-2 "> */}
+              <div className="col w-100 ">
                 <MyAlert
                   title="Status produk berhasil diperbarui"
                   color="success"
                 />
                 {user && (
-                  <div className={`card mt-5 ${styles.cardDesc}`}>
+                  <div className={`card mt-3 ${styles.cardDesc}`}>
                     <div className="row align-items-center">
-                      <div className={`col-2 ${styles.tes1} nyoba`}>
+                      <div className={mobileView ? `col-4 ms-2 my-2 p-0 justify-content-center d-flex ${styles.tes1} nyoba` : `col-3 ${styles.tes1} nyoba`}>
                         <img
                           src={user.image}
                           alt=""
-                          className={`${styles.userImg}  img-fluid img-user-offer`}
+                          className={`${styles.userImg} img-fluid img-user-offer`}
                         />
                       </div>
 
-                      <div className="col-10 g-0">
+                      <div className={mobileView ? "col-6 g-0" : "col-8 g-0"}>
                         <div className="fw-bold">{user.name}</div>
                         <div className="text-secondary">{user.city}</div>
                       </div>
@@ -134,22 +140,22 @@ const ProductOffer = () => {
                   </div>
                 )}
                 {offer && (
-                  <div>
+                  <div className=''>
                     <div className="fw-bold pt-3">
                       Daftar Produkmu yang Ditawar
                     </div>
-                    <div className={`${styles.cardOffer}`}>
-                      <div className="row align-items-center">
-                        <div className="col-2">
+                    <div className={`${styles.cardOffer} `}>
+                      <div className="row align-items-center ">
+                        <div className={mobileView ? "col-3 p-0" : "col-2"}>
                           <img
                             src={product.image}
                             alt=""
                             className={`${styles.productImg} img-fluid p-2`}
                           />
                         </div>
-                        <div className="col-10 g-0 ">
+                        <div className="col-8 g-0 ">
                           <div className="row">
-                            <div className="col-9 mt-3">
+                            <div className={mobileView ? "col-8 mt-3 " : "col-9 mt-3 "}>
                               <div className="text-secondary">
                                 Penawaran produk
                               </div>
@@ -168,7 +174,7 @@ const ProductOffer = () => {
                                 }).format(offer.bid_price)}
                               </div>
                             </div>
-                            <div className="col-3 mt-3">
+                            <div className={mobileView ? "col-4 mt-3" : "col-3 mt-3"}>
                               <div className="text-secondary">
                                 {new Date(offer.createdAt).toLocaleString(
                                   'en-GB',
@@ -183,7 +189,7 @@ const ProductOffer = () => {
                             </div>
                           </div>
                         </div>
-                        <div className="col-2"></div>
+                        {/* <div className="col-2"></div> */}
                         <div className="row g-0 mt-3">
                           <div className="col-6"></div>
                           <div className="col-6 justify-content-end d-flex mb-3">
@@ -205,16 +211,6 @@ const ProductOffer = () => {
                               {accept ? 'Status' : 'Tolak'}
                             </button>
                             {accept && (
-                              // <Button onClick={handleShow}
-                              //   className={
-                              //     accept
-                              //       ? 'btn border-radius btn-register px-4 py-2'
-                              //       : 'btn border-radius btn-register px-5 py-2'
-                              //   }
-                              // >
-                              //   Hubungi di{' '}
-                              //   <i className="fa-brands fa-whatsapp"></i>
-                              // </Button>
                               <button
                                 className={
                                   accept
@@ -250,7 +246,7 @@ const ProductOffer = () => {
                                   show={show}
                                   onHide={handleClose}
                                   placement="bottom"
-                                  className={`${styles.offcancas} tes w-100 h-75`}
+                                  className={`${styles.offcancas}  w-100 h-75`}
                                   name="bottom"
                                   backdrop="static"
                                 >
@@ -258,7 +254,7 @@ const ProductOffer = () => {
                                     closeButton
                                     onClick={(e) => {
                                       if (!accept) {
-                                        console.log('offcanvas close tes');
+                                        console.log('offcanvas close ');
                                         handleAccept(e);
                                       }
                                     }}
@@ -421,7 +417,7 @@ const ProductOffer = () => {
                                 </Offcanvas>
                               )}
 
-                              {/* Modal */}
+                              {/* Modal  */}
                               <div
                                 className="modal fade"
                                 id="staticBackdrop"
