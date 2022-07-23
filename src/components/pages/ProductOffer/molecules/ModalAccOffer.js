@@ -1,7 +1,7 @@
 import React from 'react';
 import Buyer from '../../../../assets/buyer.png';
 import Watch from '../../../../assets/watch-offer.png';
-import styles from '../ProductOffer.module.css';
+import styles from '../ProductOffer.module.scss';
 
 const ModalAccOffer = () => {
   return (

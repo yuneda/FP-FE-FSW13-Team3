@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import './Profile.css';
+import './Profile.scss';
 import Navbar from '../../molecules/navbarProfile/NavbarProfile';
 import Form from 'react-bootstrap/Form';
 import PicInput from '../../../assets/fi_camera.png';

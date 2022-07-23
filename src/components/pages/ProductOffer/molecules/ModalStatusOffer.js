@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../ProductOffer.module.css';
+import styles from '../ProductOffer.module.scss';
 
 const ModalStatusOffer = (props) => {
   return (

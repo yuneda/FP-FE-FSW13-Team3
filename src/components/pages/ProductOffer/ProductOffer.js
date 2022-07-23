@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import MyNavbar from '../../molecules/navbarProfile/NavbarProfile';
-import styles from './ProductOffer.module.css';
+import styles from './ProductOffer.module.scss';
 import Buyer from '../../../assets/buyer.png';
 import Watch from '../../../assets/watch-offer.png';
-import './ProductOffer.css';
+import './ProductOffer.scss';
 import MyAlert from '../../atoms/alert/Alert';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';

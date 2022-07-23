@@ -9,7 +9,7 @@ import PlusCircle from '../../../assets/fi_plus-circle.png';
 import List from '../../../assets/fi_list.png';
 import User from '../../../assets/fi_user.png';
 import { Link, useNavigate } from 'react-router-dom';
-import './MyAccount.css';
+import './MyAccount.scss';
 
 const MyAccount = () => {
   const navigate = useNavigate();

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { registerUser, makeStatusIdle } from '../../../redux/usersSlice';
 
-import './Register.css';
+import './Register.scss';
 import { Icon } from 'react-icons-kit';
 import { eye } from 'react-icons-kit/feather/eye';
 import { Link } from 'react-router-dom';

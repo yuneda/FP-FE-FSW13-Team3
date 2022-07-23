@@ -1,7 +1,7 @@
 import React from 'react';
 import MyNavbar from '../../molecules/navbarProfile/NavbarProfile';
 import ProductWishlist from '../../molecules/productwishlist/ProductWishlist';
-import './Whislist.css';
+import './Whislist.scss';
 import { Link } from 'react-router-dom';
 
 const Whislist = () => {

@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import './Home.scss';
 import MyNavbar from '../../molecules/navbar/Navbar';
 import MyCarousel from '../../molecules/carousel/MyCarousel';
 import ProductCategory from '../../molecules/productcategory/ProductCategory';
 import { isExpired } from 'react-jwt';
 import { useMediaQuery } from 'react-responsive';
-import UserMenu from './molecules/UserMenu';
-import NotifDesktop from './molecules/NotifDesktop';
+import UserMenu from '../../molecules/usermenu/UserMenu';
+import NotifDesktop from '../../molecules/notifdesktop/NotifDesktop';
 
 import { getAllNotif } from '../../../redux/notifSlice';
 import { authUser } from '../../../redux/usersSlice';

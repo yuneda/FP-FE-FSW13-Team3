@@ -1,8 +1,9 @@
 import React from 'react';
 import { Toast } from 'react-bootstrap';
-import styles from '../Home.module.css';
+import styles from './NotifDesktop.module.scss';
 import { Link } from 'react-router-dom';
-import zonk from '../../../../assets/mailbox.png';
+// import zonk from '../../../../assets/mailbox.png';
+import zonk from '../../../assets/mailbox.png';
 import BarLoader from 'react-spinners/BarLoader';
 import { useSelector } from 'react-redux';
 
