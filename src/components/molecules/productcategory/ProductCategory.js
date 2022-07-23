@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ButtonCategory from '../../atoms/buttoncategory/ButtonCategory';
 import not_found from '../../../assets/not_found.png';
-import './ProductCategory.css';
+import './ProductCategory.scss';
 import Aos from 'aos';
 import 'aos/dist/aos.css';
 import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
@@ -15,6 +15,7 @@ import { decodeToken, isExpired } from 'react-jwt';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAllProduct } from '../../../redux/productSlice';
 import { makeStatusPreviewIdle } from '../../../redux/previewSlice';
+import { useMediaQuery } from 'react-responsive';
 
 const MySwal = withReactContent(Swal);
 
@@ -30,6 +31,7 @@ const ProductCategory = ({ handleFilter, token }) => {
   const [health, setHealth] = useState(false);
   const [wishlist, setWishlist] = useState([]);
   const [loading, setLoading] = useState(false);
+  const mobileView = useMediaQuery({ query: '(max-width: 767px)' });
   const handleAll = (e) => {
     e.preventDefault();
     setAll(true);
@@ -86,21 +88,21 @@ const ProductCategory = ({ handleFilter, token }) => {
   };
   const handleAddWishlist = async (e) => {
     MySwal.fire({
-      position: 'center',
-      icon: 'success',
-      title: 'Added to wishlist',
+      position: "center",
+      icon: "success",
+      title: "Added to wishlist",
       showConfirmButton: false,
       timer: 2000,
     });
   };
   useEffect(() => {
     dispatch(getAllProduct());
-    const urlUser = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user';
+    const urlUser = "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user";
     const fetchData = async () => {
       try {
         const responseUser = await axios.get(urlUser, {
           headers: {
-            Authorization: 'Bearer ' + token,
+            Authorization: "Bearer " + token,
           },
         });
         if (responseUser.data.data.wishlist) {
@@ -126,19 +128,19 @@ const ProductCategory = ({ handleFilter, token }) => {
     console.log(action);
     let endPoint;
     if (action) {
-      endPoint = 'deletewishlist';
+      endPoint = "deletewishlist";
     } else {
-      endPoint = 'wishlist';
+      endPoint = "wishlist";
     }
     try {
       const response = await axios({
-        method: 'put',
-        url: 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/' + endPoint,
+        method: "put",
+        url: "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/" + endPoint,
         data: {
           id_product: id,
         },
         headers: {
-          Authorization: 'Bearer ' + token,
+          Authorization: "Bearer " + token,
         },
       });
       successAlert();
@@ -197,33 +199,33 @@ const ProductCategory = ({ handleFilter, token }) => {
             />
           </ScrollMenu>
         </div>
-        <div className="row justify-content-start g-2 row-cols-lg-6 row-cols-md-4 row-cols-sm-2 row-cols-1 my-5">
+        <div className="row justify-content-start g-2 row-cols-lg-6 row-cols-md-4 row-cols-sm-2 row-cols-2 my-5">
           {product.status == 'succeeded' &&
             product.data.map((data, index) => {
               return (
                 <Link
                   key={index}
                   to={`product/${data.id}`}
-                  style={{ color: 'inherit', textDecoration: 'inherit' }}
+                  style={{ color: "inherit", textDecoration: "inherit" }}
                 >
                   <div key={index} className="col" data-aos="fade-up">
-                    <div className="card p-2">
+                    <div className="card p-2" style={{minHeight: '200px', maxHeight: '200px'}}>
                       <img
                         src={data.image[0]}
                         alt=""
                         style={{
-                          height: '97.1719px',
-                          objectFit: 'cover',
+                          height: "97.1719px",
+                          objectFit: "cover",
                         }}
                       />
-                      <p className="product-title mb-0">{data.product_name}</p>
+                      <p className="product-title mb-0 fifty-chars">{data.product_name}</p>
                       <p className="desc mb-0">{data.category}</p>
                       <div className="row">
-                        <div className="col-9">
+                        <div className="col-9 fifty-chars">
                           <p className="price">
-                            {Intl.NumberFormat('id-ID', {
-                              style: 'currency',
-                              currency: 'IDR',
+                            {Intl.NumberFormat("id-ID", {
+                              style: "currency",
+                              currency: "IDR",
                             }).format(data.product_price)}
                           </p>
                         </div>
@@ -232,20 +234,23 @@ const ProductCategory = ({ handleFilter, token }) => {
                             <Link
                               to="/"
                               style={{
-                                color: 'inherit',
-                                textDecoration: 'inherit',
+                                color: "inherit",
+                                textDecoration: "inherit",
                               }}
                               onClick={async (e) => {
                                 e.preventDefault();
-                                handleWishlist(wishlist.includes(data.id), data.id);
+                                handleWishlist(
+                                  wishlist.includes(data.id),
+                                  data.id
+                                );
                               }}
                             >
                               <i
                                 className={
                                   wishlist.includes(data.id)
                                     ? // [1, 2, 3].includes(data.id)
-                                      'fa-solid fa-bookmark'
-                                    : 'fa-regular fa-bookmark'
+                                      "fa-solid fa-bookmark"
+                                    : "fa-regular fa-bookmark"
                                 }
                               ></i>
                             </Link>
@@ -257,18 +262,27 @@ const ProductCategory = ({ handleFilter, token }) => {
                 </Link>
               );
             })}
-          {product.status == 'succeeded' && product.data.length == 0 && (
+          {product.status == "succeeded" && product.data.length == 0 && (
             <div className="w-100">
-              <img src={not_found} alt="" className="m-auto d-flex justify-content-center w-50" />
+              <img
+                src={not_found}
+                alt=""
+                className="m-auto d-flex justify-content-center w-50"
+              />
             </div>
           )}
-          {product.status == 'loading' && (
-            <ScaleLoader color={'#7126B5'} loading={loading} size={50} className="mx-auto" />
+          {product.status == "loading" && (
+            <ScaleLoader
+              color={"#7126B5"}
+              loading={loading}
+              size={50}
+              className="mx-auto"
+            />
           )}
         </div>
       </div>
       <Link to={token ? '/create' : '/login'} onClick={() => dispatch(makeStatusPreviewIdle())}>
-        <ButtonCategory content="Jual" isActive={true} css="btn-sell d-block" />
+        <ButtonCategory content="Jual" isActive={true} css={mobileView ? "btn-sellmbl d-block" : "btn-sell d-block"} />
       </Link>
     </>
   );

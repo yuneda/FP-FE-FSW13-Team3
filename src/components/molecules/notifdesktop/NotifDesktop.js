@@ -77,16 +77,22 @@ const NotifDesktop = ({ showA, toggleShowA, notif, idLogin }) => {
                             )}
                           </div>
                           <div className="col-5 g-0 ">
-                            {/* {console.log(notif.createdAt)} */}
                             <div className="text-secondary">
-                              20 Apr, 14:04{' '}
-                              {/* <p>{notif.createdAt}</p> */}
-                              <i
+                              {new Date(notif.createdAt).toLocaleString(
+                                'en-GB',
+                                {
+                                  day: '2-digit',
+                                  month: 'short',
+                                  hour: 'numeric',
+                                  minute: '2-digit',
+                                }
+                              )}
+                              {/* <i
                                 className="fa-solid fa-circle fa-xs"
                                 style={{
                                   color: 'red',
                                 }}
-                              ></i>
+                              ></i> */}
                             </div>
                           </div>
                           {notif.status == 'accept' && (

@@ -1,19 +1,19 @@
-import React from 'react';
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import './Navbar.css';
-import { Link } from 'react-router-dom';
-import { useMediaQuery } from 'react-responsive';
+import React from "react";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import "./Navbar.scss";
+import { Link } from "react-router-dom";
+import { useMediaQuery } from "react-responsive";
 
 function MyNavbar(props) {
-  const mobileView = useMediaQuery({ query: '(max-width: 570px)' });
+  const mobileView = useMediaQuery({ query: "(max-width: 570px)" });
   const logo = {
-    width: '100px',
-    height: '34px',
-    left: '136px',
-    top: '27px',
-    background: '#4B1979',
+    width: "100px",
+    height: "34px",
+    left: "136px",
+    top: "27px",
+    background: "#4B1979",
   };
 
   return (
@@ -21,15 +21,15 @@ function MyNavbar(props) {
       <Container>
         <div className="logo"></div>
         <div className="col-sm-4">
-          <Link to="/">
+          <Link to="/" style={{ color: 'inherit', textDecoration: 'inherit' }}>
             <Nav
               className="me-auto my-2 my-lg-0"
-              style={{ maxHeight: '100px', zIndex: '3' }}
+              style={{ maxHeight: "100px", zIndex: "3" }}
               navbarScroll
             >
               {mobileView ?  
               <i
-                className="fa-solid fa-arrow-left"
+                className="fa-solid fa-arrow-left ms-3"
                 style={{ marginTop: '15px', color: 'inherit', textDecoration: 'inherit' }}
               ></i>
               : ''

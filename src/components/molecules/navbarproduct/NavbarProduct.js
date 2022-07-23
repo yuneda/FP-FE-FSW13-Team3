@@ -1,38 +1,42 @@
-import React, { useState, useEffect } from 'react';
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import './NavbarProduct.css';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import "./NavbarProduct.scss";
+import { Link } from "react-router-dom";
 
 function NavbarProduct(props) {
   const colorActive = {
-    color: '#7126B5',
+    color: "#7126B5",
   };
   const btnStyle = {
-    background: '#7126B5',
-    borderRadius: '12px',
-    padding: '14px 16px',
-    color: 'white',
+    background: "#7126B5",
+    borderRadius: "12px",
+    padding: "14px 16px",
+    color: "white",
   };
   const logo = {
-    width: '100px',
-    height: '34px',
-    left: '136px',
-    top: '27px',
-    background: '#4B1979',
+    width: "100px",
+    height: "34px",
+    left: "136px",
+    top: "27px",
+    background: "#4B1979",
   };
   return (
     <Navbar
       expand="lg"
       style={{
-        borderBottom: '3px solid #EEEEEE',
+        borderBottom: "3px solid #EEEEEE",
       }}
     >
       <Container>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
-          <Nav className="me-auto my-2 my-lg-0" style={{ maxHeight: '100px' }} navbarScroll>
+          <Nav
+            className="me-auto my-2 my-lg-0"
+            style={{ maxHeight: "100px" }}
+            navbarScroll
+          >
             <Link to="/">
               <div style={logo} className="mt-2"></div>
             </Link>
@@ -42,9 +46,9 @@ function NavbarProduct(props) {
                 placeholder="Cari di sini .."
                 type="text"
                 style={{
-                  border: 'none',
-                  background: 'none',
-                  width: '400px',
+                  border: "none",
+                  background: "none",
+                  width: "400px",
                 }}
               />
               <button>
@@ -53,14 +57,14 @@ function NavbarProduct(props) {
             </div>
           </Nav>
           <Link to="/product">
-            <div style={{ color: 'black' }}>
+            <div style={{ color: "black" }}>
               <i className="fa-solid fa-list-ul me-3"></i>
             </div>
           </Link>
           <div
             onClick={props.onToggleClick}
             style={{
-              cursor: 'pointer',
+              cursor: "pointer",
             }}
           >
             <i className="fa-regular fa-bell me-3 text-black"></i>
@@ -69,14 +73,14 @@ function NavbarProduct(props) {
             <>
               <i className="fa-regular fa-user text-black"></i>
             </> */}
-            <div
-              onClick={props.onToggleUser}
-              style={{
-                cursor: 'pointer',
-              }}
-            >
-              <i className="fa-regular fa-user text-black"></i>
-            </div>
+          <div
+            onClick={props.onToggleUser}
+            style={{
+              cursor: "pointer",
+            }}
+          >
+            <i className="fa-regular fa-user text-black"></i>
+          </div>
           {/* </Link> */}
         </Navbar.Collapse>
       </Container>

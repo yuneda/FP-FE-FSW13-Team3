@@ -91,19 +91,6 @@ const Preview = () => {
                       <div className="col">
                         <p className={styles.prodTitle}>{product.name}</p>
                       </div>
-                      {/* <div className="col-2">
-                        <i
-                          onClick={(e) => {
-                            e.preventDefault();
-                            handleWishlist(wishlist.includes(product.id));
-                          }}
-                          className={
-                            wishlist.includes(product.id)
-                              ? 'fa-solid fa-bookmark'
-                              : 'fa-regular fa-bookmark'
-                          }
-                        ></i>
-                      </div> */}
                     </div>
                     <p className="text-secondary">{product.category}</p>
                     <p>
@@ -184,118 +171,9 @@ const Preview = () => {
                           aria-label="Close"
                         />
                       </div>
-                      {/* <div className="modal-body m-3 p-1">
-                        <>
-                          <div className="fw-bold">Masukkan Harga Tawaranmu</div>
-                          <div className="text-secondary">
-                            Harga tawaranmu akan diketahui penual, jika penjual cocok kamu akan
-                            segera dihubungi penjual.
-                          </div>
-                          <div className={`mt-3 ${styles.modalBg}`}>
-                            <div className={`p-3`}>
-                              <div className="row align-items-center">
-                                <div className={`col-3`}>
-                                  <img
-                                    src={product.image[0]}
-                                    // src={Buyer}
-                                    style={{
-                                      width: '58.5px',
-                                      height: '58.5px',
-                                      objectFit: 'cover',
-                                    }}
-                                    alt=""
-                                    className={`${styles.userImg} img-fluid`}
-                                  />
-                                </div>
-                                <div className="col-9">
-                                  <div className="fw-bold">{product.product_name}</div>
-                                  <div className="">
-                                    {Intl.NumberFormat('id-ID', {
-                                      style: 'currency',
-                                      currency: 'IDR',
-                                    }).format(product.product_price)}
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </>
-                      </div> */}
                     </div>
                   </div>
                 </div>
-
-                {/* Offcanvas */}
-                {/* <Offcanvas
-                  show={show}
-                  onHide={handleClose}
-                  placement="bottom"
-                  className={`${styles.offcancas} tes w-100 h-75`}
-                  name="bottom"
-                >
-                  <Offcanvas.Header closeButton>
-                  </Offcanvas.Header>
-                  <Offcanvas.Body>
-                    <>
-                      <div className="fw-bold">Masukkan Harga Tawaranmu</div>
-                      <div className="text-secondary">
-                        Harga tawaranmu akan diketahui penual, jika penjual cocok kamu akan segera
-                        dihubungi penjual.
-                      </div>
-                      <div className={`mt-3 ${styles.modalBg}`}>
-                        <div className={`p-3`}>
-                          <div className="row align-items-center">
-                            <div className={`col-3`}>
-                              <img
-                                src={product.image[0]}
-                                style={{
-                                  width: '58.5px',
-                                  height: '58.5px',
-                                  objectFit: 'cover',
-                                }}
-                                alt=""
-                                className={`${styles.userImg} img-fluid`}
-                              />
-                            </div>
-                            <div className="col-9">
-                              <div className="fw-bold">{product.product_name}</div>
-                              <div className="">
-                                {Intl.NumberFormat('id-ID', {
-                                  style: 'currency',
-                                  currency: 'IDR',
-                                }).format(product.product_price)}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="mt-3">
-                        <label htmlFor="priceOffer">Harga Tawar</label>
-                        <div className="input-group mb-3">
-                          <input
-                            id="priceOffer"
-                            type="text"
-                            className="border-radius form-control"
-                            placeholder="Rp 0, 00"
-                            aria-label="Username"
-                            aria-describedby="basic-addon1"
-                            autoComplete="off"
-                            onChange={handlePrice}
-                            value={price}
-                          />
-                        </div>
-                      </div>
-                      <div className={`col-12 mb-3 mt-4`}>
-                        <button
-                          className={`btn border-radius btn-register  px-4 py-3 ${styles.btnEditModal}`}
-                          onClick={handleOffer}
-                        >
-                          Kirim
-                        </button>
-                      </div>
-                    </>
-                  </Offcanvas.Body>
-                </Offcanvas> */}
               </div>
             )}
           </div>

@@ -1,5 +1,5 @@
-import React from 'react';
-import './InputForm.css';
+import React from "react";
+import "./InputForm.scss";
 
 const InputForm = ({ ...props }) => {
   return (
