@@ -1,23 +1,23 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React from "react";
+import { useState, useEffect } from "react";
 // import { Toast, Row, Col, Button } from "react-bootstrap";
-import NoWishlist from '../../../assets/no_wishlist.png';
+import NoWishlist from "../../../assets/no_wishlist.png";
 // import data from '../../../docs/product.json';
-import './ProductWishlist.css';
-import axios from 'axios';
-import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content';
-import { Link, useNavigate } from 'react-router-dom';
-import { isExpired } from 'react-jwt';
-import { wishlistProduct } from '../../../redux/productSlice';
-import { useSelector, useDispatch } from 'react-redux';
-import Aos from 'aos';
-import 'aos/dist/aos.css';
+import "./ProductWishlist.scss";
+import axios from "axios";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import { Link, useNavigate } from "react-router-dom";
+import { isExpired } from "react-jwt";
+import { wishlistProduct } from "../../../redux/productSlice";
+import { useSelector, useDispatch } from "react-redux";
+import Aos from "aos";
+import "aos/dist/aos.css";
 
 const MySwal = withReactContent(Swal);
 
 const ProductWishlist = ({ action }) => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   const tokenExpired = isExpired(token);
   const product = useSelector((state) => state.product);
   const [showA, setShowA] = useState(true);
@@ -26,35 +26,35 @@ const ProductWishlist = ({ action }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const imgStyle = {
-    height: '100px',
-    objectFit: 'cover',
+    height: "100px",
+    objectFit: "cover",
   };
 
   const handleDelete = async (data) => {
     try {
       const result = await MySwal.fire({
-        title: 'Are you sure want to delete ' + data.product_name + ' ?',
+        title: "Are you sure want to delete " + data.product_name + " ?",
         text: "You won't be able to revert this!",
-        icon: 'warning',
+        icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!',
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
       });
       console.log(result);
       if (result.isConfirmed) {
         const response = await axios({
-          url: 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/deletewishlist',
-          method: 'put',
+          url: "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/deletewishlist",
+          method: "put",
           data: {
             id_product: data.id,
           },
           headers: {
-            Authorization: 'Bearer ' + token,
+            Authorization: "Bearer " + token,
           },
         });
         console.log(response);
-        MySwal.fire('Deleted!', 'Your file has been deleted.', 'success');
+        MySwal.fire("Deleted!", "Your file has been deleted.", "success");
         window.location.reload(false);
       }
     } catch (error) {
@@ -64,15 +64,15 @@ const ProductWishlist = ({ action }) => {
   useEffect(() => {
     dispatch(wishlistProduct(token));
     if (!token || tokenExpired) {
-      navigate('/login');
+      navigate("/login");
     }
     const fetchWishList = async () => {
       try {
         const response = await axios({
-          method: 'get',
-          url: 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/productWishlist',
+          method: "get",
+          url: "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/productWishlist",
           headers: {
-            Authorization: 'Bearer ' + token,
+            Authorization: "Bearer " + token,
           },
         });
         console.log(response.data.data.data);
@@ -90,15 +90,18 @@ const ProductWishlist = ({ action }) => {
 
   return (
     <>
-      <div className="row justify-content-start g-1 row-cols-lg-3 row-cols-sm-2 row-cols-1" data-aos='fade-up'>
+      <div
+        className="row justify-content-start g-1 row-cols-lg-3 row-cols-sm-2 row-cols-1"
+        data-aos="fade-up"
+      >
         {data &&
           data.map((data, index) => {
             return (
               <Link
                 to={`/product/${data.id}`}
                 style={{
-                  color: 'inherit',
-                  textDecoration: 'inherit',
+                  color: "inherit",
+                  textDecoration: "inherit",
                 }}
                 key={index}
               >
@@ -120,8 +123,8 @@ const ProductWishlist = ({ action }) => {
                         <Link
                           to="/wishlist"
                           style={{
-                            color: 'inherit',
-                            textDecoration: 'inherit',
+                            color: "inherit",
+                            textDecoration: "inherit",
                           }}
                         >
                           <i
@@ -146,14 +149,11 @@ const ProductWishlist = ({ action }) => {
         {/* {console.log(product.status)} */}
         {console.log(product.data)}
         {/* {product.status == 'idle' &&         */}
-        {product.data.length == 0 &&
+        {product.data.length == 0 && (
           <>
-            <img
-              src={NoWishlist}
-              className='row m-auto w-75'
-            />
+            <img src={NoWishlist} className="row m-auto w-75" />
           </>
-        }
+        )}
       </div>
     </>
   );

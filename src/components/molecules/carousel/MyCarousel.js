@@ -1,13 +1,13 @@
-import React from 'react';
-import OwlCarousel from 'react-owl-carousel';
-import 'owl.carousel/dist/assets/owl.carousel.css';
-import 'owl.carousel/dist/assets/owl.theme.default.css';
-import CardCarousel from './CardCarousel';
-import './Carousel.css';
-import { useMediaQuery } from 'react-responsive';
+import React from "react";
+import OwlCarousel from "react-owl-carousel";
+import "owl.carousel/dist/assets/owl.carousel.css";
+import "owl.carousel/dist/assets/owl.theme.default.css";
+import CardCarousel from "./CardCarousel";
+import "./Carousel.scss";
+import { useMediaQuery } from "react-responsive";
 
 const Carousel = () => {
-  const notDesktop = useMediaQuery({ query: '(max-width: 991px)' });
+  const notDesktop = useMediaQuery({ query: "(max-width: 991px)" });
   const resp = {
     0: {
       items: 1,
@@ -20,8 +20,8 @@ const Carousel = () => {
     },
   };
   const styleItem = {
-    height: '350px',
-    width: '400px',
+    height: "350px",
+    width: "400px",
   };
   const carouselContainer = {};
   return (

@@ -1,5 +1,5 @@
-import React from 'react';
-import './OptionInput.css';
+import React from "react";
+import "./OptionInput.scss";
 
 const OptionInput = (props) => {
   return (

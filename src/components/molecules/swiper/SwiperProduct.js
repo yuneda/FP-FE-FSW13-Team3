@@ -1,23 +1,23 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState } from "react";
 // Import Swiper React components
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css/bundle';
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css/bundle";
 
 // Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import 'swiper/css/scrollbar';
-import detailImg from '../../../assets/detail.png';
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
+import detailImg from "../../../assets/detail.png";
 
-import './SwiperProduct.css';
+import "./SwiperProduct.scss";
 
 // import required modules
-import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper';
-import { useMediaQuery } from 'react-responsive';
+import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper";
+import { useMediaQuery } from "react-responsive";
 
 export default function SwiperProduct({ imgProduct }) {
-  const notDesktop = useMediaQuery({ query: '(max-width: 991px)' });
+  const notDesktop = useMediaQuery({ query: "(max-width: 991px)" });
   return (
     <>
       <Swiper
@@ -36,9 +36,9 @@ export default function SwiperProduct({ imgProduct }) {
               className="d-block w-100 img-fluid"
               alt="..."
               style={{
-                borderRadius: notDesktop ? '0px' : '16px',
+                borderRadius: notDesktop ? "0px" : "16px",
                 // maxHeight: '436px',
-                height: '436px',
+                height: "436px",
                 // objectFit: 'cover',
               }}
             />
