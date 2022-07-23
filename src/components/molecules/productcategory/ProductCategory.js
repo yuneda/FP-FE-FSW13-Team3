@@ -14,6 +14,7 @@ import { successAlert } from '../../../utils/alert';
 import { decodeToken, isExpired } from 'react-jwt';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAllProduct } from '../../../redux/productSlice';
+import { makeStatusPreviewIdle } from '../../../redux/previewSlice';
 
 const MySwal = withReactContent(Swal);
 
@@ -266,7 +267,7 @@ const ProductCategory = ({ handleFilter, token }) => {
           )}
         </div>
       </div>
-      <Link to={token ? '/create' : '/login'}>
+      <Link to={token ? '/create' : '/login'} onClick={() => dispatch(makeStatusPreviewIdle())}>
         <ButtonCategory content="Jual" isActive={true} css="btn-sell d-block" />
       </Link>
     </>

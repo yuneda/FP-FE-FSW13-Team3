@@ -7,8 +7,11 @@ import './ProductList.css';
 import axios from 'axios';
 import Aos from 'aos';
 import 'aos/dist/aos.css';
+import { makeStatusPreviewIdle } from '../../../redux/previewSlice';
+import { useDispatch } from 'react-redux';
 
 const ProductList = ({ product, action }) => {
+  const dispatch = useDispatch();
   const [showA, setShowA] = useState(true);
   const toggleShowA = () => setShowA(!showA);
   const imgStyle = {
@@ -23,7 +26,7 @@ const ProductList = ({ product, action }) => {
     <>
       <div className="row justify-content-start g-1 row-cols-lg-3" data-aos='fade-up'>
         {action && (
-          <Link to="/create" style={{ color: 'inherit', textDecoration: 'inherit' }}>
+          <Link to="/create" onClick={() => dispatch(makeStatusPreviewIdle())} style={{ color: 'inherit', textDecoration: 'inherit' }}>
             <div className="col d-flex justify-content-center">
               <label htmlFor="file-upload" className="file-upload">
                 <div className="fileUploadButton">

@@ -27,7 +27,7 @@ const Login = () => {
   useEffect(() => {
     dispatch(makeStatusIdle());
     if (user.status == 'succeeded') {
-      navigate('/');
+      navigate('/product');
     }
     console.log('yuneda');
   }, [dispatch, user]);
