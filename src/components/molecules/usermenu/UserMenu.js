@@ -1,12 +1,13 @@
 import React from 'react';
 import { Toast } from 'react-bootstrap';
-import styles from '../Home.module.css';
-import '../Home.css';
+import styles from './UserMenu.module.scss';
+// import '../Home.scss';
 import { Link, useNavigate } from 'react-router-dom';
-import EditIcon from '../../../../assets/fi_edit.png';
-import Setting from '../../../../assets/fi_settings.png';
-import Bookmark from '../../../../assets/fi_bookmark.png';
-import LogOut from '../../../../assets/fi_log-out.png';
+// import EditIcon from '../../../../assets/fi_edit.png';
+import EditIcon from '../../../assets/fi_edit.png';
+import Setting from '../../../assets/fi_settings.png';
+import Bookmark from '../../../assets/fi_bookmark.png';
+import LogOut from '../../../assets/fi_log-out.png';
 
 const UserMenu = ({ showMenu, toggleMenu }) => {
   const navigate = useNavigate();

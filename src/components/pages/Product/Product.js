@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import NavbarProduct from '../../molecules/navbarproduct/NavbarProduct';
-import './Product.css';
+import './Product.scss';
 import likeImage from '../../../assets/liked.png';
 import ProductList from '../../molecules/productlist/ProductList';
 import axios from 'axios';
@@ -9,13 +8,11 @@ import DesktopView from '../Responsive/DesktopView';
 import MobileView from '../Responsive/MobileView';
 import MyNavbar from '../../molecules/navbarProfile/OffcanvasProfile';
 import MyNavbarDesktop from '../../molecules/navbar/Navbar';
-import UserMenu from '../Home/molecules/UserMenu';
-import NotifDesktop from '../Home/molecules/NotifDesktop';
-import NotifProduct from './molecules/NotifProduct';
-import UserProduct from './molecules/UserProduct';
+import UserMenu from '../../molecules/usermenu/UserMenu';
+import NotifDesktop from '../../molecules/notifdesktop/NotifDesktop';
+import UserProduct from '../../molecules/userproduct/UserProduct';
 import Spinner from 'react-bootstrap/Spinner';
-import { Toast } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { isExpired } from 'react-jwt';
 import { queryProduct } from '../../../redux/productSlice';
 import { getAllNotif } from '../../../redux/notifSlice';
@@ -25,7 +22,6 @@ import { useMediaQuery } from 'react-responsive';
 const Product = () => {
   const product = useSelector((state) => state.product);
   const notifRedux = useSelector((state) => state.notif);
-  const [data, setData] = useState([]);
   const [showA, setShowA] = useState(false);
   const [all, setAll] = useState(true);
   const [like, setLike] = useState(false);
@@ -33,7 +29,6 @@ const Product = () => {
   const [user, setUser] = useState(null);
   const [notif, setNotif] = useState(null);
   const [showMenu, setShowMenu] = useState(false);
-  const [idLogin, setIdLogin] = useState(null);
   const notDesktop = useMediaQuery({ query: '(max-width: 991px)' });
   const token = localStorage.getItem('token');
   const tokenExpired = isExpired(token);
@@ -144,7 +139,7 @@ const Product = () => {
 
       <div className="container position-relative">
         <UserMenu showMenu={showMenu} toggleMenu={toggleMenu} />
-        <NotifDesktop idLogin={idLogin} notif={notif} toggleShowA={toggleShowA} showA={showA} />
+        <NotifDesktop notif={notif} toggleShowA={toggleShowA} showA={showA} />
       </div>
 
       <div className="container position-relative">

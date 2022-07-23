@@ -1,64 +1,53 @@
-import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
-import NavbarProduct from "../../molecules/navbarproduct/NavbarProduct";
-import MyNavbar from "../../molecules/navbar/Navbar";
+import React, { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import MyNavbar from '../../molecules/navbar/Navbar';
 // import styles from './ProductDetail.module.css';
-import styles from "./ProductDetail.module.scss";
-import detailImg from "../../../assets/nothing.png";
-import user from "../../../assets/user.jpg";
-import SwiperProduct from "../../molecules/swiper/SwiperProduct";
-import UserMenu from "../Home/molecules/UserMenu";
-import NotifDesktop from "../Home/molecules/NotifDesktop";
-import Buyer from "../../../assets/buyer.png";
-import Profile from "../../../assets/profile.png";
-import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
-import { isExpired } from "react-jwt";
-import { useState } from "react";
-import DesktopView from "../Responsive/DesktopView";
-import { useMediaQuery } from "react-responsive";
-import { successAlert } from "../../../utils/alert";
-import { useSelector, useDispatch } from "react-redux";
-import { getAllNotif } from "../../../redux/notifSlice";
-import {
-  addOffer,
-  makeStatusIdle,
-  handlewishlist,
-} from "../../../redux/transactionSlice";
-import { authUser } from "../../../redux/usersSlice";
+import styles from './ProductDetail.module.scss';
+import detailImg from '../../../assets/nothing.png';
+import SwiperProduct from '../../molecules/swiper/SwiperProduct';
+import UserMenu from '../../molecules/usermenu/UserMenu';
+import NotifDesktop from '../../molecules/notifdesktop/NotifDesktop';
+import Profile from '../../../assets/profile.png';
+import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
+import { isExpired } from 'react-jwt';
+import { useState } from 'react';
+import DesktopView from '../Responsive/DesktopView';
+import { useMediaQuery } from 'react-responsive';
+import { useSelector, useDispatch } from 'react-redux';
+import { getAllNotif } from '../../../redux/notifSlice';
+import { addOffer, makeStatusIdle, handlewishlist } from '../../../redux/transactionSlice';
+import { authUser } from '../../../redux/usersSlice';
 
-import Button from "react-bootstrap/Button";
-import Offcanvas from "react-bootstrap/Offcanvas";
+import Button from 'react-bootstrap/Button';
+import Offcanvas from 'react-bootstrap/Offcanvas';
 
 const ProductDetail = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const productState = useSelector((state) => state.product);
   const notifRedux = useSelector((state) => state.notif);
   const userRedux = useSelector((state) => state.users);
-  const offerRedux = useSelector((state) => state.transaction);
   const [product, setProduct] = useState(null);
   const [idLogin, setIdLogin] = useState(null);
   const [idSeller, setIdSeller] = useState(null);
   const [wishlist, setWishlist] = useState([]);
   const [showA, setShowA] = useState(false);
   const { id } = useParams();
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
   const tokenExpired = isExpired(token);
-  const notDesktop = useMediaQuery({ query: "(max-width: 991px)" });
-  const mobileView = useMediaQuery({ query: "(max-width: 767px)" });
-  const [notif, setNotif] = useState(null);
+  const notDesktop = useMediaQuery({ query: '(max-width: 991px)' });
+  const mobileView = useMediaQuery({ query: '(max-width: 767px)' });
   const [showMenu, setShowMenu] = useState(false);
-  const [price, setPrice] = useState("");
+  const [price, setPrice] = useState('');
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const colorGrey = {
-    background: "#D0D0D0",
+    background: '#D0D0D0',
   };
   const colorPurple = {
-    background: "#7126B5",
+    background: '#7126B5',
   };
   const [offer, setOffer] = useState(false);
   const toggleMenu = (e) => {
@@ -89,9 +78,9 @@ const ProductDetail = () => {
   const handleWishlist = async (action) => {
     let endPoint;
     if (action) {
-      endPoint = "deletewishlist";
+      endPoint = 'deletewishlist';
     } else {
-      endPoint = "wishlist";
+      endPoint = 'wishlist';
     }
     const data = {
       token,
@@ -102,9 +91,9 @@ const ProductDetail = () => {
   };
   useEffect(() => {
     dispatch(makeStatusIdle());
-    const url = "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product/" + id;
-    const urlUser = "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user";
-    if (userRedux.statusAuth == "succeeded") {
+    dispatch(getAllNotif(token));
+    const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product/' + id;
+    if (userRedux.statusAuth == 'succeeded') {
       setIdLogin(userRedux.auth.id);
       if (userRedux.auth.wishlist) {
         setWishlist(userRedux.auth.wishlist);
@@ -117,13 +106,13 @@ const ProductDetail = () => {
     }
     dispatch(authUser(token));
     if (!token || tokenExpired) {
-      navigate("/login");
+      navigate('/login');
     }
-    if (notifRedux.status == "succeeded") {
-      setNotif(notifRedux.data);
-    }
+    // if (notifRedux.status == 'succeeded') {
+    //   setNotif(notifRedux.data);
+    // }
     fetchData();
-  }, [token, tokenExpired, notifRedux, userRedux]);
+  }, [token, tokenExpired]);
 
   return (
     <>
@@ -140,7 +129,7 @@ const ProductDetail = () => {
         <UserMenu showMenu={showMenu} toggleMenu={toggleMenu} />
         <NotifDesktop
           idLogin={idLogin}
-          notif={notif}
+          notif={notifRedux.data}
           toggleShowA={toggleShowA}
           showA={showA}
         />
@@ -154,29 +143,19 @@ const ProductDetail = () => {
       }
       <div className={notDesktop ? '' : 'container'}>
         <div className="row justify-content-center">
-          <div className={notDesktop ? "col-12" : "col-10"}>
+          <div className={notDesktop ? 'col-12' : 'col-10'}>
             {product && (
               <div className="row">
-                <div
-                  className={
-                    notDesktop
-                      ? "col-lg-8 col-md-12"
-                      : "col-lg-8 col-md-12 mt-4"
-                  }
-                >
+                <div className={notDesktop ? 'col-lg-8 col-md-12' : 'col-lg-8 col-md-12 mt-4'}>
                   <div className="carousel">
-                    <SwiperProduct
-                      imgProduct={product ? product.image : detailImg}
-                    />
+                    <SwiperProduct imgProduct={product ? product.image : detailImg} />
                   </div>
                 </div>
                 <div className={mobileView ? `col-lg-4 col-md-12 mt-4 ${styles.descProduct}` : `col-lg-4 col-md-12 mt-4`}>
                   <div className={`card p-3 ${styles.cardDesc}`}>
                     <div className="row d-flex justify-content-between">
                       <div className="col">
-                        <p className={styles.prodTitle}>
-                          {product.product_name}
-                        </p>
+                        <p className={styles.prodTitle}>{product.product_name}</p>
                       </div>
                       <div className="col-2">
                         <i
@@ -186,29 +165,27 @@ const ProductDetail = () => {
                           }}
                           className={
                             wishlist.includes(product.id)
-                              ? "fa-solid fa-bookmark"
-                              : "fa-regular fa-bookmark"
+                              ? 'fa-solid fa-bookmark'
+                              : 'fa-regular fa-bookmark'
                           }
                         ></i>
                       </div>
                     </div>
                     <p className="text-secondary">{product.category}</p>
                     <p>
-                      {Intl.NumberFormat("id-ID", {
-                        style: "currency",
-                        currency: "IDR",
+                      {Intl.NumberFormat('id-ID', {
+                        style: 'currency',
+                        currency: 'IDR',
                       }).format(product.product_price)}
                     </p>
                     {idLogin && idLogin == idSeller && (
                       <>
-                        <button className={`${styles.btnPublish} mb-2`}>
-                          Terbitkan
-                        </button>
+                        <button className={`${styles.btnPublish} mb-2`}>Terbitkan</button>
                         <Link to={`/edit/${id}`}>
                           <button
                             className={styles.btnEdit}
                             style={{
-                              width: "100%",
+                              width: '100%',
                             }}
                           >
                             Edit
@@ -234,9 +211,7 @@ const ProductDetail = () => {
                         style={!offer ? colorPurple : colorGrey}
                         disabled={offer}
                       >
-                        {!offer
-                          ? "Saya tertarik dan ingin nego"
-                          : "Menunggu Respon Penjual"}
+                        {!offer ? 'Saya tertarik dan ingin nego' : 'Menunggu Respon Penjual'}
                       </Button>
                     )}
                   </div>
@@ -251,18 +226,12 @@ const ProductDetail = () => {
                             className={`${styles.userImg} img-fluid`}
                           />
                         ) : (
-                          <img
-                            src={Profile}
-                            alt=""
-                            className={`${styles.userImg} img-fluid`}
-                          />
+                          <img src={Profile} alt="" className={`${styles.userImg} img-fluid`} />
                         )}
                       </div>
                       <div className="col-9 g-0">
                         <div className="fw-bold">{product.User.name}</div>
-                        <div className="text-secondary">
-                          {product.User.city}
-                        </div>
+                        <div className="text-secondary">{product.User.city}</div>
                       </div>
                     </div>
                   </div>
@@ -276,18 +245,14 @@ const ProductDetail = () => {
                 >
                   <div className={`card p-4 mt-4 ${styles.cardDesc}`}>
                     <p className="fw-bold">Deskripsi</p>
+                    <p className="fw-light text-secondary">{product.description}</p>
                     <p className="fw-light text-secondary">
-                      {product.description}
-                    </p>
-                    <p className="fw-light text-secondary">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                      Duis aute irure dolor in reprehenderit in voluptate velit
-                      esse cillum dolore eu fugiat nulla pariatur. Excepteur
-                      sint occaecat cupidatat non proident, sunt in culpa qui
-                      officia deserunt mollit anim id est laborum.
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                      incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                      nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
+                      eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+                      in culpa qui officia deserunt mollit anim id est laborum.
                     </p>
                   </div>
                 </div>
@@ -301,15 +266,10 @@ const ProductDetail = () => {
                   aria-labelledby="staticBackdropLabel"
                   aria-hidden="true"
                 >
-                  <div
-                    className={`modal-dialog modal-dialog-centered ${styles.modalOffer}`}
-                  >
+                  <div className={`modal-dialog modal-dialog-centered ${styles.modalOffer}`}>
                     <div className={`modal-content ${styles.modal}`}>
                       <div className="modal-header border-0">
-                        <h5
-                          className="modal-title"
-                          id="staticBackdropLabel"
-                        ></h5>
+                        <h5 className="modal-title" id="staticBackdropLabel"></h5>
                         <button
                           type="button"
                           className="btn-close"
@@ -319,12 +279,10 @@ const ProductDetail = () => {
                       </div>
                       <div className="modal-body m-3 p-1">
                         <>
-                          <div className="fw-bold">
-                            Masukkan Harga Tawaranmu
-                          </div>
+                          <div className="fw-bold">Masukkan Harga Tawaranmu</div>
                           <div className="text-secondary">
-                            Harga tawaranmu akan diketahui penual, jika penjual
-                            cocok kamu akan segera dihubungi penjual.
+                            Harga tawaranmu akan diketahui penual, jika penjual cocok kamu akan
+                            segera dihubungi penjual.
                           </div>
                           <div className={`mt-3 ${styles.modalBg}`}>
                             <div className={`p-3`}>
@@ -334,22 +292,20 @@ const ProductDetail = () => {
                                     src={product.image[0]}
                                     // src={Buyer}
                                     style={{
-                                      width: "58.5px",
-                                      height: "58.5px",
-                                      objectFit: "cover",
+                                      width: '58.5px',
+                                      height: '58.5px',
+                                      objectFit: 'cover',
                                     }}
                                     alt=""
                                     className={`${styles.userImg} img-fluid`}
                                   />
                                 </div>
                                 <div className="col-9">
-                                  <div className="fw-bold">
-                                    {product.product_name}
-                                  </div>
+                                  <div className="fw-bold">{product.product_name}</div>
                                   <div className="">
-                                    {Intl.NumberFormat("id-ID", {
-                                      style: "currency",
-                                      currency: "IDR",
+                                    {Intl.NumberFormat('id-ID', {
+                                      style: 'currency',
+                                      currency: 'IDR',
                                     }).format(product.product_price)}
                                   </div>
                                 </div>
@@ -401,8 +357,8 @@ const ProductDetail = () => {
                     <>
                       <div className="fw-bold">Masukkan Harga Tawaranmu</div>
                       <div className="text-secondary">
-                        Harga tawaranmu akan diketahui penual, jika penjual
-                        cocok kamu akan segera dihubungi penjual.
+                        Harga tawaranmu akan diketahui penual, jika penjual cocok kamu akan segera
+                        dihubungi penjual.
                       </div>
                       <div className={`mt-3 ${styles.modalBg}`}>
                         <div className={`p-3`}>
@@ -412,22 +368,20 @@ const ProductDetail = () => {
                                 src={product.image[0]}
                                 // src={Buyer}
                                 style={{
-                                  width: "58.5px",
-                                  height: "58.5px",
-                                  objectFit: "cover",
+                                  width: '58.5px',
+                                  height: '58.5px',
+                                  objectFit: 'cover',
                                 }}
                                 alt=""
                                 className={`${styles.userImg} img-fluid`}
                               />
                             </div>
                             <div className="col-9">
-                              <div className="fw-bold">
-                                {product.product_name}
-                              </div>
+                              <div className="fw-bold">{product.product_name}</div>
                               <div className="">
-                                {Intl.NumberFormat("id-ID", {
-                                  style: "currency",
-                                  currency: "IDR",
+                                {Intl.NumberFormat('id-ID', {
+                                  style: 'currency',
+                                  currency: 'IDR',
                                 }).format(product.product_price)}
                               </div>
                             </div>

@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import MyNavbar from '../../molecules/navbarProfile/NavbarProfile';
-import styles from './ProductOffer.module.css';
+import styles from './ProductOffer.module.scss';
 import Buyer from '../../../assets/buyer.png';
 import Watch from '../../../assets/watch-offer.png';
-import './ProductOffer.css';
+import './ProductOffer.scss';
 import MyAlert from '../../atoms/alert/Alert';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import { useMediaQuery } from 'react-responsive';
 // component
@@ -15,7 +14,6 @@ import ModalAccOffer from './molecules/ModalAccOffer';
 import ModalStatusOffer from './molecules/ModalStatusOffer';
 
 const ProductOffer = () => {
-  const [alert, setAlert] = useState(false);
   const [accept, setAccept] = useState(false);
   const [product, setProduct] = useState(null);
   const [buyer, setBuyer] = useState(null);
@@ -52,32 +50,29 @@ const ProductOffer = () => {
     };
     fetchData();
   }, []);
-
-  const handleAlert = (e) => {
-    e.preventDefault();
-    setAlert(true);
-  };
   const handleStatus = async (e) => {
     e.preventDefault();
     console.log('status ai');
-    try {
-      const urlSold =
-        'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product/' +
-        product.id +
-        '/statussold';
-      const soldResponse = await axios({
-        method: 'put',
-        url: urlSold,
-        data: {
-          status: 'sold',
-        },
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-      });
-      console.log(soldResponse);
-    } catch (error) {
-      console.log(error);
+    if(status == 'sold'){
+      try {
+        const urlSold =
+          'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product/' +
+          product.id +
+          '/statussold';
+        const soldResponse = await axios({
+          method: 'put',
+          url: urlSold,
+          data: {
+            status: 'sold',
+          },
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        });
+        console.log(soldResponse);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -407,7 +402,7 @@ const ProductOffer = () => {
                                             <div className={`col-12 mb-3 mt-4`}>
                                               <a
                                                 href="https://wa.me/+628980023612"
-                                                rel="noopener"
+                                                rel="noopener noreferrer"
                                                 target="_blank"
                                               >
                                                 <button

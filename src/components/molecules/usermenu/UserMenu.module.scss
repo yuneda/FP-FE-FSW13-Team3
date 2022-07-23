@@ -1,0 +1,27 @@
+.cardNotif {
+  position: absolute;
+  right: 0;
+  z-index: 2;
+  margin-top: -12px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+  border-radius: 16px;
+  /* width: 280px; */
+}
+
+.productImg {
+  border-radius: 12px;
+  /* height: 61px;
+  width: 61px;
+  object-fit: cover; */
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+}
+
+.navbar-toggle {
+  background-color: transparent;
+  background-image: none;
+  border: 1px solid transparent;
+}

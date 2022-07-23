@@ -1,8 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import ProductServices from "../services/product";
 
-const createUrl = "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product";
-
 const initialState = {
   status: "idle", //'idle' | 'loading' | 'succeeded' | 'failed'
   error: "",

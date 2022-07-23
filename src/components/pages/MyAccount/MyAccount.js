@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
 import PicInput from '../../../assets/fi_camera.png';
 import PenLine from '../../../assets/fi_edit.png';
 import Setting from '../../../assets/fi_settings.png';
@@ -10,7 +9,7 @@ import PlusCircle from '../../../assets/fi_plus-circle.png';
 import List from '../../../assets/fi_list.png';
 import User from '../../../assets/fi_user.png';
 import { Link, useNavigate } from 'react-router-dom';
-import './MyAccount.css';
+import './MyAccount.scss';
 
 const MyAccount = () => {
   const navigate = useNavigate();

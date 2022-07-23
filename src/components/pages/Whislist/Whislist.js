@@ -1,13 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import MyNavbar from '../../molecules/navbarProfile/NavbarProfile';
-import axios from 'axios';
 import ProductWishlist from '../../molecules/productwishlist/ProductWishlist';
-import data from '../../../docs/product.json';
-import './Whislist.css';
-import { queryProduct } from '../../../redux/productSlice';
-import { useSelector, useDispatch } from 'react-redux';
-
-import { useParams, Link } from 'react-router-dom';
+import './Whislist.scss';
+import { Link } from 'react-router-dom';
 
 const Whislist = () => {
 

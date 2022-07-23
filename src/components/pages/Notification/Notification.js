@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import Watch from '../../../assets/watch-offer.png';
 import MyNavbar from '../../molecules/navbarProfile/OffcanvasProfile';
-import MailBox from '../../../assets/mailbox.png';
-import { Link, useNavigate } from 'react-router-dom';
-import zonk from '../../../assets/mailbox.png';
-import BarLoader from 'react-spinners/BarLoader';
+import { Link } from 'react-router-dom';
+// import zonk from '../../../assets/mailbox.png';
+// import BarLoader from 'react-spinners/BarLoader';
 import { useSelector, useDispatch } from 'react-redux';
-import { isExpired } from 'react-jwt';
+// import { isExpired } from 'react-jwt';
 import { getAllNotif } from '../../../redux/notifSlice';
 
 const Notification = () => {
@@ -17,12 +15,12 @@ const Notification = () => {
   // const product = useSelector((state) => state.product);
   const notifRedux = useSelector((state) => state.notif);
   const token = localStorage.getItem('token');
-  const tokenExpired = isExpired(token);
-  const [loading, setLoading] = useState(false);
-  const [notif, setNotif] = useState(null);
+  // const tokenExpired = isExpired(token);
+  // const [loading, setLoading] = useState(false);
+  // const [notif, setNotif] = useState(null);
   const [idLogin, setIdLogin] = useState(null);
-  const { id } = useParams();
-  const [product, setProduct] = useState(null);
+  // const { id } = useParams();
+  // const [product, setProduct] = useState(null);
   useEffect(() => {
     const urlUser = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user';
 

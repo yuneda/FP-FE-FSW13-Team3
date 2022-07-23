@@ -5,54 +5,24 @@ import { eyeOff } from 'react-icons-kit/feather/eyeOff';
 import BgLogin from '../../../../src/assets/bg-login.png';
 // import "./Login.css";
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { GoogleLogin } from 'react-google-login';
-import { gapi } from 'gapi-script';
 import { useSelector, useDispatch } from 'react-redux';
-import { registerUser, makeStatusIdle } from '../../../redux/usersSlice';
+import { makeStatusIdle } from '../../../redux/usersSlice';
 import './Login.scss';
 
 import {
-  selectUserStatus,
-  selectUserLogin,
-  selectUserError,
   loginUser,
 } from '../../../redux/usersSlice';
 
-const clientId = '623214781738-uv2700sfb46feke2a3bfg8k1lcmamr4l.apps.googleusercontent.com';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [failed, setFailed] = useState(false);
   const [type, setType] = useState('password');
   const [icon, setIcon] = useState(eyeOff);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.users);
-
-  // const onSuccess = async (res) => {
-  //   console.log('LOGIN SUCCESS!', res);
-  //   try {
-  //     const response = await axios({
-  //       method: 'post',
-  //       url: 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/googleregis',
-  //       data: {
-  //         tokenId: res.tokenId,
-  //       },
-  //     });
-  //     console.log(response);
-  //     localStorage.setItem('token', response.data.token);
-  //     navigate('/');
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   }
-  // };
-
-  // const onFailure = (res) => {
-  //   console.log('LOGIN FAILED!', res);
-  // };
 
   useEffect(() => {
     dispatch(makeStatusIdle());
@@ -65,13 +35,11 @@ const Login = () => {
   const handleEmail = (event) => {
     event.preventDefault();
     setEmail(event.target.value);
-    setFailed(false);
   };
 
   const handlePassword = (event) => {
     event.preventDefault();
     setPassword(event.target.value);
-    setFailed(false);
   };
 
   const handleLogin = async (event) => {
