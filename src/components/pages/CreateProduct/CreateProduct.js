@@ -12,16 +12,21 @@ import MyAlert from '../../atoms/alert/Alert';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStatusIdle, createProduct } from '../../../redux/productSlice';
+import { addPreviewProduct } from '../../../redux/previewSlice';
 import ScaleLoader from 'react-spinners/ScaleLoader';
 import { Link } from 'react-router-dom';
+import { errorAlert } from '../../../utils/alert'
 
 const CreateProduct = () => {
   const dispatch = useDispatch();
   const product = useSelector((state) => state.product);
+  const productPreview = useSelector((state) => state.preview.previewProduct);
   let imgContainer = [];
+  let imgContainerPreview = [];
   let imgCount = 0;
   const token = localStorage.getItem('token');
   const [files, setFiles] = useState(null);
+  const [filesPreview, setFilesPreview] = useState(null);
   const [userId, setUserId] = useState('');
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
@@ -52,10 +57,37 @@ const CreateProduct = () => {
     imgCount = filesInput.length;
     for (let index = 0; index < imgCount; index++) {
       imgContainer.push(e.target.files[index]);
+      imgContainerPreview.push(URL.createObjectURL(e.target.files[index]));
     }
     setFiles(imgContainer);
+    setFilesPreview(imgContainerPreview);
   };
+  const handlePreview = (e) => {
+    e.preventDefault();
+    if (!name || !price || !category || !desc || !files) {
+      errorAlert('Semua field harus diisi');
+    } else {
+      const form = new FormData();
+      for (let index = 0; index < files.length; index++) {
+        form.append('files', files[index]);
+      }
+      form.append('product_name', name);
+      form.append('product_price', price);
+      form.append('category', category);
+      form.append('description', desc);
+      form.append('status', 'available');
+      const data = { name, price, category, desc , filesPreview, form, imgContainer }
+      dispatch(addPreviewProduct(data));
+      navigate('/preview');
+    }
+  }
   useEffect(() => {
+    if(productPreview){
+      setName(productPreview.name);
+      setPrice(productPreview.price);
+      setCategory(productPreview.category);
+      setDesc(productPreview.desc);
+    }
     dispatch(makeStatusIdle());
     async function fetchData() {
       let response = await axios.get('https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user', {
@@ -77,21 +109,25 @@ const CreateProduct = () => {
   }, []);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(files.length);
-    const form = new FormData();
-    for (let index = 0; index < files.length; index++) {
-      form.append('files', files[index]);
+    if (!name || !price || !category || !desc || !files) {
+      errorAlert('Semua field harus diisi');
+    } else {
+      console.log(files.length);
+      const form = new FormData();
+      for (let index = 0; index < files.length; index++) {
+        form.append('files', files[index]);
+      }
+      form.append('product_name', name);
+      form.append('product_price', price);
+      form.append('category', category);
+      form.append('description', desc);
+      form.append('status', 'available');
+      const data = {
+        form,
+        token,
+      };
+      dispatch(createProduct(data));
     }
-    form.append('product_name', name);
-    form.append('product_price', price);
-    form.append('category', category);
-    form.append('description', desc);
-    form.append('status', 'available');
-    const data = {
-      form,
-      token,
-    };
-    dispatch(createProduct(data));
   };
   return (
     <>
@@ -175,7 +211,7 @@ const CreateProduct = () => {
                   )}
                 </div>
                 <div className="col-4 mb-5 button-size d-flex justify-content-start ">
-                  <button className="btn border-radius">Preview</button>
+                  <button onClick={handlePreview} className="btn border-radius">Preview</button>
                 </div>
                 <div className="col-1"></div>
 
