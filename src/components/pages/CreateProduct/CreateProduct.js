@@ -90,13 +90,13 @@ const CreateProduct = () => {
       dispatch(authUser(token));
     }
   },[])
-  useEffect(() => {
-    if(userRedux.auth){
-      if(userRedux.auth.address == null || userRedux.auth.city == null || userRedux.auth.image == null || userRedux.auth.no_telp == null){
-        navigate('/profile');
-      }
-    }
-  },[userRedux])
+  // useEffect(() => {
+  //   if(userRedux.auth){
+  //     if(userRedux.auth.address == null || userRedux.auth.city == null || userRedux.auth.image == null || userRedux.auth.no_telp == null){
+  //       navigate('/profile');
+  //     }
+  //   }
+  // },[userRedux])
   useEffect(() => {
     if (!token || tokenExpired) {
       navigate('/login');
