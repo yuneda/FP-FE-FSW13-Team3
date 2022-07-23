@@ -10,14 +10,15 @@ import SwiperProduct from '../../molecules/swiper/SwiperProduct';
 import { useMediaQuery } from 'react-responsive';
 import { isExpired } from 'react-jwt';
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { getAllNotif } from '../../../redux/notifSlice';
-import { makeStatusIdle, createProduct } from '../../../redux/productSlice';
+import { createProduct } from '../../../redux/productSlice';
 
 const Preview = () => {
   const dispatch = useDispatch()
   const token = localStorage.getItem('token');
   const tokenExpired = isExpired(token);
+  const navigate = useNavigate();
   const userRedux = useSelector((state) => state.users);
   const notifRedux = useSelector((state) => state.notif);
   const product = useSelector((state) => state.preview.previewProduct);
@@ -44,6 +45,9 @@ const Preview = () => {
     dispatch(createProduct(data));
   }
   useEffect(() => {
+    if (!token || tokenExpired) {
+      navigate('/login');
+    }
     dispatch(getAllNotif(token));
     if (userRedux.statusAuth == 'succeeded') {
       setIdLogin(userRedux.auth.id);

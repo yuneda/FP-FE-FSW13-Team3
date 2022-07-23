@@ -105,9 +105,9 @@ const ProductDetail = () => {
       setIdSeller(response.data.data.id_user);
     }
     dispatch(authUser(token));
-    if (!token || tokenExpired) {
-      navigate('/login');
-    }
+    // if (!token || tokenExpired) {
+    //   navigate('/login');
+    // }
     // if (notifRedux.status == 'succeeded') {
     //   setNotif(notifRedux.data);
     // }

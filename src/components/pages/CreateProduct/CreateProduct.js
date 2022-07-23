@@ -11,8 +11,10 @@ import './CreateProduct.scss';
 import MyAlert from '../../atoms/alert/Alert';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { isExpired } from 'react-jwt';
 import { makeStatusIdle, createProduct } from '../../../redux/productSlice';
 import { addPreviewProduct } from '../../../redux/previewSlice';
+import { authUser } from '../../../redux/usersSlice';
 import ScaleLoader from 'react-spinners/ScaleLoader';
 import { Link } from 'react-router-dom';
 import { errorAlert } from '../../../utils/alert'
@@ -21,10 +23,12 @@ const CreateProduct = () => {
   const dispatch = useDispatch();
   const product = useSelector((state) => state.product);
   const productPreview = useSelector((state) => state.preview.previewProduct);
+  const userRedux = useSelector((state) => state.users);
   let imgContainer = [];
   let imgContainerPreview = [];
   let imgCount = 0;
   const token = localStorage.getItem('token');
+  const tokenExpired = isExpired(token);
   const [files, setFiles] = useState(null);
   const [filesPreview, setFilesPreview] = useState(null);
   const [userId, setUserId] = useState('');
@@ -82,6 +86,17 @@ const CreateProduct = () => {
     }
   }
   useEffect(() => {
+    if (!tokenExpired && token) {
+      dispatch(authUser(token));
+    }
+  },[])
+  useEffect(() => {
+    if (!token || tokenExpired) {
+      navigate('/login');
+    }
+    // if(userRedux.auth.address == null || userRedux.auth.city == null || userRedux.auth.image == null || userRedux.auth.no_telp == null){
+    //   navigate('/profile');
+    // }
     if(productPreview){
       setName(productPreview.name);
       setPrice(productPreview.price);
@@ -100,7 +115,7 @@ const CreateProduct = () => {
       setUserId(response);
     }
     fetchData();
-  }, []);
+  }, [userRedux]);
   useEffect(() => {
     setLoading(true);
     setTimeout(() => {
