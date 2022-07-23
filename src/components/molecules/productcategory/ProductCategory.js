@@ -14,6 +14,7 @@ import { successAlert } from '../../../utils/alert';
 import { decodeToken, isExpired } from 'react-jwt';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAllProduct } from '../../../redux/productSlice';
+import { useMediaQuery } from 'react-responsive';
 
 const MySwal = withReactContent(Swal);
 
@@ -29,6 +30,7 @@ const ProductCategory = ({ handleFilter, token }) => {
   const [health, setHealth] = useState(false);
   const [wishlist, setWishlist] = useState([]);
   const [loading, setLoading] = useState(false);
+  const mobileView = useMediaQuery({ query: '(max-width: 767px)' });
   const handleAll = (e) => {
     e.preventDefault();
     setAll(true);
@@ -196,7 +198,7 @@ const ProductCategory = ({ handleFilter, token }) => {
             />
           </ScrollMenu>
         </div>
-        <div className="row justify-content-start g-2 row-cols-lg-6 row-cols-md-4 row-cols-sm-2 row-cols-1 my-5">
+        <div className="row justify-content-start g-2 row-cols-lg-6 row-cols-md-4 row-cols-sm-2 row-cols-2 my-5">
           {product.status == 'succeeded' &&
             product.data.map((data, index) => {
               return (
@@ -206,7 +208,7 @@ const ProductCategory = ({ handleFilter, token }) => {
                   style={{ color: 'inherit', textDecoration: 'inherit' }}
                 >
                   <div key={index} className="col" data-aos="fade-up">
-                    <div className="card p-2">
+                    <div className="card p-2" style={{minHeight: '200px', maxHeight: '200px'}}>
                       <img
                         src={data.image[0]}
                         alt=""
@@ -215,10 +217,10 @@ const ProductCategory = ({ handleFilter, token }) => {
                           objectFit: 'cover',
                         }}
                       />
-                      <p className="product-title mb-0">{data.product_name}</p>
+                      <p className="product-title mb-0 fifty-chars">{data.product_name}</p>
                       <p className="desc mb-0">{data.category}</p>
                       <div className="row">
-                        <div className="col-9">
+                        <div className="col-9 fifty-chars">
                           <p className="price">
                             {Intl.NumberFormat('id-ID', {
                               style: 'currency',
@@ -267,7 +269,7 @@ const ProductCategory = ({ handleFilter, token }) => {
         </div>
       </div>
       <Link to={token ? '/create' : '/login'}>
-        <ButtonCategory content="Jual" isActive={true} css="btn-sell d-block" />
+        <ButtonCategory content="Jual" isActive={true} css={mobileView ? "btn-sellmbl d-block" : "btn-sell d-block"} />
       </Link>
     </>
   );

@@ -72,7 +72,6 @@ const Home = () => {
         <UserMenu showMenu={showMenu} toggleMenu={toggleMenu} />
         <NotifDesktop idLogin={idLogin} notif={notif} toggleShowA={toggleShowA} showA={showA} />
       </div>
-      // : ''
       }
       <div className={mobileView ? '' : 'mt-5'}>
         <MyCarousel />
