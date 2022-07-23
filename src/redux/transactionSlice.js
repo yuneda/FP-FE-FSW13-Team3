@@ -39,10 +39,10 @@ const transactionSlice = createSlice({
         state.error = action.error.message;
         console.log(action.error.message);
       })
-      .addCase(handlewishlist.pending, (state) => {
+      .addCase(handlewishlist.pending, () => {
         // state.status = 'loading';
       })
-      .addCase(handlewishlist.fulfilled, (state) => {
+      .addCase(handlewishlist.fulfilled, () => {
         // state.status = 'succeeded';
         // state.error = '';
         // successAlert('Your offer has been sent');

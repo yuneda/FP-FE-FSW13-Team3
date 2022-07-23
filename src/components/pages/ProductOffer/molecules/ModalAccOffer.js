@@ -1,7 +1,7 @@
 import React from 'react';
 import Buyer from '../../../../assets/buyer.png';
 import Watch from '../../../../assets/watch-offer.png';
-import styles from '../ProductOffer.module.css';
+import styles from '../ProductOffer.module.scss';
 
 const ModalAccOffer = () => {
   return (
@@ -53,7 +53,7 @@ const ModalAccOffer = () => {
         </div>
       </div>
       <div className={`col-12 mb-3 mt-4`}>
-        <a href="https://wa.me/+628980023612" rel="noopener" target="_blank">
+        <a href="https://wa.me/+628980023612" rel="noopener noreferrer" target="_blank">
           <button
             className={`btn border-radius btn-register  px-4 py-3 ${styles.btnEditModal}`}
           >

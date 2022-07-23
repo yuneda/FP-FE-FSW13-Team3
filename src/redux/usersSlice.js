@@ -1,8 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import UserServices from '../services/user';
-import { errorAlert } from '../utils/alert';
+import { errorAlert, successAlert } from '../utils/alert';
 
-const loginUrl = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/login';
 const initialState = {
   status: 'idle',
   statusRegister: 'idle', //'idle' | 'loading' | 'succeeded' | 'failed'
@@ -10,6 +9,7 @@ const initialState = {
   error: '',
   userLogin: null,
   userRegister: false,
+  statusUpdate: 'idle',
   auth: null,
 };
 
@@ -27,6 +27,11 @@ export const authUser = createAsyncThunk('users/auth', async (token) => {
   return await UserServices.auth(token);
 });
 
+export const updateUser = createAsyncThunk('users/update', async (data) => {
+  const { form, token } = data;
+  return await UserServices.update(form, token);
+});
+
 const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -34,6 +39,7 @@ const userSlice = createSlice({
     makeStatusIdle: (state) => {
       state.status = 'idle';
       state.statusRegister = 'idle';
+      state.statusUpdate = 'idle';
     },
   },
   extraReducers(builder) {
@@ -60,6 +66,7 @@ const userSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (state) => {
         state.statusRegister = 'succeeded';
+        successAlert('Register success');
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.statusRegister = 'failed';
@@ -69,6 +76,14 @@ const userSlice = createSlice({
       .addCase(authUser.fulfilled, (state, action) => {
         state.auth = action.payload.data.data;
         state.statusAuth = 'succeeded';
+      })
+      .addCase(updateUser.fulfilled, (state) => {
+        state.statusUpdate = 'succeeded';
+        successAlert('Update profile success');
+      })
+      .addCase(updateUser.rejected, (state) => {
+        state.statusUpdate = 'failed';
+        errorAlert('Update profile failed');
       });
   },
 });

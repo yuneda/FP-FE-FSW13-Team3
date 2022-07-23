@@ -1,6 +1,4 @@
 import React from 'react';
-import MediaQuery, { useMediaQuery } from 'react-responsive';
-import { useBreakpoints } from '../../../utils/breakpoints/index';
 import MobileView from './MobileView';
 import TabletView from './TabletView';
 import DesktopView from './DesktopView';
