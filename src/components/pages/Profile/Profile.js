@@ -1,38 +1,41 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import './Profile.scss';
-import Navbar from '../../molecules/navbarProfile/NavbarProfile';
-import Form from 'react-bootstrap/Form';
-import PicInput from '../../../assets/fi_camera.png';
-import capitalCity from '../../../docs/city.json';
-import { Link } from 'react-router-dom';
-import { makeStatusIdle, updateUser } from '../../../redux/usersSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import "./Profile.scss";
+import Navbar from "../../molecules/navbarProfile/NavbarProfile";
+import Form from "react-bootstrap/Form";
+import PicInput from "../../../assets/fi_camera.png";
+import capitalCity from "../../../docs/city.json";
+import { Link } from "react-router-dom";
+import { makeStatusIdle, updateUser } from "../../../redux/usersSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const Profile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.users);
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   const [file, setFile] = useState(null);
   const [image, setImage] = useState();
-  const [name, setName] = useState('');
-  const [city, setCity] = useState('');
-  const [address, setAddress] = useState('');
-  const [phone, setPhone] = useState('');
+  const [name, setName] = useState("");
+  const [city, setCity] = useState("");
+  const [address, setAddress] = useState("");
+  const [phone, setPhone] = useState("");
   useEffect(() => {
-    if (user.statusUpdate == 'succeeded') {
-      navigate('/');
+    if (user.statusUpdate == "succeeded") {
+      navigate("/");
     }
     dispatch(makeStatusIdle());
   }, [user]);
   useState(async () => {
-    let result = await axios.get('https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user', {
-      headers: {
-        Authorization: 'Bearer ' + token,
-      },
-    });
+    let result = await axios.get(
+      "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user",
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
     result = result.data.data;
     console.log(result.name);
     setName(result.name);
@@ -67,11 +70,11 @@ const Profile = () => {
     e.preventDefault();
     const form = new FormData();
     // photoFormData.append("avatar", file);
-    form.append('picture', file);
-    form.append('name', name);
-    form.append('city', city);
-    form.append('address', address);
-    form.append('no_tlpn', phone);
+    form.append("picture", file);
+    form.append("name", name);
+    form.append("city", city);
+    form.append("address", address);
+    form.append("no_tlpn", phone);
     console.log(file, name, city, address, phone);
     const data = {
       token,
@@ -81,7 +84,7 @@ const Profile = () => {
   };
   return (
     <>
-      {user.statusUpdate == 'succeeded' && navigate('/')}
+      {user.statusUpdate == "succeeded" && navigate("/")}
       <Navbar title="Lengkapi Info Akun" />
       <div className="container-fluid box">
         <div className="row justify-content-center mt-3">
@@ -91,7 +94,7 @@ const Profile = () => {
                 <Link to="/">
                   <i
                     className="fa-solid fa-arrow-left"
-                    style={{ marginTop: '20px', color: 'black' }}
+                    style={{ marginTop: "20px", color: "black" }}
                   ></i>
                 </Link>
                 <div className="col-sm-4 mt-3 justify-content-center d-flex">
@@ -99,7 +102,7 @@ const Profile = () => {
                     htmlFor="file-upload"
                     className="bgImage user-upload-image"
                     style={{
-                      position: 'relative',
+                      position: "relative",
                     }}
                   >
                     <div className="my-2">
@@ -108,7 +111,7 @@ const Profile = () => {
                         type="file"
                         accept="image/*"
                         style={{
-                          display: 'none',
+                          display: "none",
                         }}
                         name="picture"
                         onChange={handleFile}
@@ -117,8 +120,8 @@ const Profile = () => {
                         <img
                           src={PicInput}
                           style={{
-                            width: '26px',
-                            height: '26px',
+                            width: "26px",
+                            height: "26px",
                           }}
                         />
                       </div>
@@ -127,21 +130,23 @@ const Profile = () => {
                       src={image}
                       alt=""
                       style={{
-                        display: image ? 'block' : 'none',
-                        height: '78px',
-                        width: '96px',
-                        zIndex: '2',
-                        position: 'absolute',
-                        left: '0',
-                        top: '0',
-                        borderRadius: '12px',
+                        display: image ? "block" : "none",
+                        height: "78px",
+                        width: "96px",
+                        zIndex: "2",
+                        position: "absolute",
+                        left: "0",
+                        top: "0",
+                        borderRadius: "12px",
                       }}
                     />
                   </label>
                 </div>
                 {/* <img src={image} alt="" /> */}
                 <div className="col-sm-9">
-                  <label className="d-flex justify-content-between">Nama*</label>
+                  <label className="d-flex justify-content-between">
+                    Nama*
+                  </label>
                   <div className="input-group mb-3">
                     <input
                       type="text"
@@ -156,14 +161,16 @@ const Profile = () => {
                   </div>
                 </div>
                 <div className="col-sm-9 mb-3 ">
-                  <label className="d-flex justify-content-between">Kota*</label>
+                  <label className="d-flex justify-content-between">
+                    Kota*
+                  </label>
                   <div className="input-group ">
                     <select
                       className="form-select option-field"
                       id="inputGroupSelect04"
                       aria-label="Example select with button addon"
                       onChange={handleCity}
-                      value={city ? city : 'Surabaya'}
+                      value={city ? city : "Surabaya"}
                     >
                       <option defaultValue="Surabaya">Pilih Kota</option>
                       {capitalCity.map((city, index) => (
@@ -175,7 +182,9 @@ const Profile = () => {
                   </div>
                 </div>
                 <div className="col-sm-9" as="textarea">
-                  <label className="d-flex justify-content-between">Alamat*</label>
+                  <label className="d-flex justify-content-between">
+                    Alamat*
+                  </label>
                   <div className="input-group mb-3">
                     <Form.Control
                       as="textarea"
@@ -186,13 +195,15 @@ const Profile = () => {
                       aria-label="Username"
                       aria-describedby="basic-addon1"
                       autoComplete="off"
-                      value={address ? address : ''}
+                      value={address ? address : ""}
                       onChange={handleAddress}
                     />
                   </div>
                 </div>
                 <div className="col-sm-9">
-                  <label className="d-flex justify-content-between">No Handphone*</label>
+                  <label className="d-flex justify-content-between">
+                    No Handphone*
+                  </label>
                   <div className="input-group mb-3">
                     <input
                       type="text"
@@ -201,13 +212,16 @@ const Profile = () => {
                       aria-label="Username"
                       aria-describedby="basic-addon1"
                       autoComplete="off"
-                      value={phone ? phone : ''}
+                      value={phone ? phone : ""}
                       onChange={handlePhone}
                     />
                   </div>
                 </div>
                 <div className="col-sm-9 mb-5">
-                  <button type="submit" className="btn w-100 border-radius btn-register">
+                  <button
+                    type="submit"
+                    className="btn w-100 border-radius btn-register"
+                  >
                     Simpan
                   </button>
                 </div>

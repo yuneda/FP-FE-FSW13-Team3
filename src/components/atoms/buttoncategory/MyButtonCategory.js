@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import './ButtonCategory.css';
+import React, { useState } from "react";
+import "./ButtonCategory.scss";
 
 const MyButtonCategory = ({
   content,
@@ -10,17 +10,17 @@ const MyButtonCategory = ({
   css,
 }) => {
   const buttonStyle = {
-    border: 'none',
-    background: isActive ? '#7126B5' : '#E2D4F0',
-    padding: '14px 24px',
-    borderRadius: '12px',
-    color: isActive ? 'white' : 'black',
-    marginRight: '16px',
-    width: '140px'
+    border: "none",
+    background: isActive ? "#7126B5" : "#E2D4F0",
+    padding: "14px 24px",
+    borderRadius: "12px",
+    color: isActive ? "white" : "black",
+    marginRight: "16px",
+    width: "140px",
   };
   return (
     <button
-      className={css ? css : ''}
+      className={css ? css : ""}
       style={buttonStyle}
       onClick={(e) => {
         changeActive(true);
@@ -32,9 +32,9 @@ const MyButtonCategory = ({
         // }
       }}
     >
-      {content == 'Produk' && <i className="fa-regular fa-user me-2"></i>}
-      {content == 'Diminati' && <i className="me-2 fa-solid fa-heart"></i>}
-      {content == 'Terjual' && <i className="me-2 fa-solid fa-dollar-sign"></i>}
+      {content == "Produk" && <i className="fa-regular fa-user me-2"></i>}
+      {content == "Diminati" && <i className="me-2 fa-solid fa-heart"></i>}
+      {content == "Terjual" && <i className="me-2 fa-solid fa-dollar-sign"></i>}
       {content}
     </button>
   );

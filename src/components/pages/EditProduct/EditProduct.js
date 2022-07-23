@@ -12,9 +12,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { makeStatusIdle, editProduct } from "../../../redux/productSlice";
 import ScaleLoader from "react-spinners/ScaleLoader";
 import { useParams } from "react-router-dom";
-import { isExpired } from "react-jwt";
+import UploadImage from "../../atoms/uploadImage/UploadImage";
+import Button from "../../atoms/button/Button";
 
 const CreateProduct = () => {
+  const [image, setImage] = useState();
   const [IdSeller, setIdSeller] = useState("");
   const [Product, setProduct] = useState("");
   const dispatch = useDispatch();
@@ -33,7 +35,6 @@ const CreateProduct = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const user = useSelector((state) => state.users);
-  const tokenExpired = isExpired(token);
 
   const handleName = (e) => {
     e.preventDefault();
@@ -83,7 +84,6 @@ const CreateProduct = () => {
       setLoading(false);
     }, 5000);
   }, []);
-
   useEffect(() => {
     const url = "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product/" + id;
     const fetchData = async () => {
@@ -93,19 +93,16 @@ const CreateProduct = () => {
         const result = response.data.data;
         setProduct(result);
         setIdSeller(result.id_user);
-        console.log(result);
+        console.log(result.image);
         setName(result.product_name);
         setPrice(result.product_price);
         setCategory(result.category);
+        setImage(result.image);
         setDesc(result.description);
       } catch (error) {
         console.log("error adalah", error);
       }
     };
-
-    // if (!tokenExpired && token) {
-    //   dispatch(authUser(token));
-    // }
     fetchData();
     if (user.auth) {
       console.log(user.auth.name);
@@ -152,23 +149,13 @@ const CreateProduct = () => {
                   className="fa-solid fa-arrow-left fit"
                   style={{ marginTop: "20px" }}
                 ></i>
-                <div className="col-sm-9 responsive-form">
-                  <label className="d-flex justify-content-between">
-                    Nama Produk
-                  </label>
-                  <div className="input-group mt-2 mb-3">
-                    <input
-                      type="text"
-                      className="border-radius form-control"
-                      placeholder="Nama Produk"
-                      aria-label="Username"
-                      aria-describedby="basic-addon1"
-                      autoComplete="off"
-                      onChange={handleName}
-                      value={name}
-                    />
-                  </div>
-                </div>
+                <InputForm
+                  name="Nama Produk"
+                  type="text"
+                  placeholder="Nama Produk"
+                  value={name}
+                  onChange={handleName}
+                />
                 <InputForm
                   name="Harga Produk"
                   type="text"
@@ -190,32 +177,11 @@ const CreateProduct = () => {
                   onChange={handleDesc}
                   value={desc}
                 />
-                <div className="col-sm-9 justify-content-start d-flex">
-                  <label>Foto Produk</label>
-                </div>
-
-                <div className="col-sm-9 justify-content-start d-flex mb-5 input-file">
-                  <label
-                    htmlFor="file-upload"
-                    className="product-upload-image px-5 py-5 "
-                  >
-                    <div className="">
-                      <input
-                        id="file-upload"
-                        type="file"
-                        accept="image/*"
-                        style={{
-                          display: "none",
-                        }}
-                        onChange={handleFiles}
-                        multiple
-                      />
-                      <div className="text-center">
-                        <i className="fa-solid fa-plus fa-xl"></i>
-                      </div>
-                    </div>
-                  </label>
-                </div>
+                <UploadImage
+                  name="Foto Produk"
+                  type="file"
+                  onChange={handleFiles}
+                />
                 {product.status === "loading" && (
                   <ScaleLoader
                     color={"#7126B5"}
@@ -224,19 +190,9 @@ const CreateProduct = () => {
                     className="mx-auto tes"
                   />
                 )}
-                <div className="col-4 mb-5 button-size d-flex justify-content-start ">
-                  <button className="btn border-radius">Preview</button>
-                </div>
+                <Button name="Preview" />
                 <div className="col-1"></div>
-
-                <div className="col-4 mb-5 button-size d-flex justify-content-end ">
-                  <button
-                    type="submit"
-                    className="btn border-radius btn-register "
-                  >
-                    Simpan
-                  </button>
-                </div>
+                <Button name="Simpan" type="submit" color="btn-register" />
                 {product.status === "succeeded" && navigate("/product")}
               </div>
             </form>

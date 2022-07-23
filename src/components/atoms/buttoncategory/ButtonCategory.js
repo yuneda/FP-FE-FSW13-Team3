@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import './ButtonCategory.css';
+import React, { useState } from "react";
+import "./ButtonCategory.scss";
 
 const ButtonCategory = ({
   content,
@@ -10,29 +10,29 @@ const ButtonCategory = ({
   css,
 }) => {
   const buttonStyle = {
-    border: 'none',
-    background: isActive ? '#7126B5' : '#E2D4F0',
-    padding: '14px 24px',
-    borderRadius: '12px',
-    color: isActive ? 'white' : 'black',
-    marginRight: '16px',
+    border: "none",
+    background: isActive ? "#7126B5" : "#E2D4F0",
+    padding: "14px 24px",
+    borderRadius: "12px",
+    color: isActive ? "white" : "black",
+    marginRight: "16px",
   };
   return (
     <button
-      className={css ? css : ''}
+      className={css ? css : ""}
       style={buttonStyle}
       onClick={(e) => {
         changeActive(true);
         handleChange(e);
-        if (content === 'Semua') {
-          handleFilter(e, '');
+        if (content === "Semua") {
+          handleFilter(e, "");
         } else {
           handleFilter(e, content);
         }
       }}
     >
-      {content == 'Jual' && <i className="fa-solid fa-plus me-2"></i>}
-      {content !== 'Jual' && (
+      {content == "Jual" && <i className="fa-solid fa-plus me-2"></i>}
+      {content !== "Jual" && (
         <i className="fa-solid fa-magnifying-glass me-2"></i>
       )}
       {content}
