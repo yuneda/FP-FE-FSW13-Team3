@@ -1,16 +1,16 @@
-import React from 'react';
-import './Alert.css';
+import React from "react";
+import "./Alert.scss";
 
 const MyAlert = (props) => {
   const color = {
-    success: '#73CA5C',
-    warning: '#ffc107',
-    danger: '#ff0000',
+    success: "#73CA5C",
+    warning: "#ffc107",
+    danger: "#ff0000",
   };
   const textColor = {
-    success: '#ffffff',
-    warning: '#ffffff',
-    danger: '#ffffff',
+    success: "#ffffff",
+    warning: "#ffffff",
+    danger: "#ffffff",
   };
 
   return (
