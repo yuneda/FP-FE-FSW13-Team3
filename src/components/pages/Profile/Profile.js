@@ -9,12 +9,15 @@ import capitalCity from "../../../docs/city.json";
 import { Link } from "react-router-dom";
 import { makeStatusIdle, updateUser } from "../../../redux/usersSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { isExpired } from 'react-jwt';
+import { errorAlert } from '../../../utils/alert'
 
 const Profile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.users);
   const token = localStorage.getItem("token");
+  const tokenExpired = isExpired(token);
   const [file, setFile] = useState(null);
   const [image, setImage] = useState();
   const [name, setName] = useState("");
@@ -22,20 +25,23 @@ const Profile = () => {
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
   useEffect(() => {
+    if (!token || tokenExpired) {
+      navigate('/login');
+    }
     if (user.statusUpdate == "succeeded") {
       navigate("/");
     }
     dispatch(makeStatusIdle());
-  }, [user]);
-  useState(async () => {
-    let result = await axios.get(
-      "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user",
-      {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      }
-    );
+    }, [user]);
+    useState(async () => {
+      let result = await axios.get(
+        "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user",
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
     result = result.data.data;
     console.log(result.name);
     setName(result.name);
@@ -68,19 +74,22 @@ const Profile = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const form = new FormData();
-    // photoFormData.append("avatar", file);
-    form.append("picture", file);
-    form.append("name", name);
-    form.append("city", city);
-    form.append("address", address);
-    form.append("no_tlpn", phone);
-    console.log(file, name, city, address, phone);
-    const data = {
-      token,
-      form,
-    };
-    dispatch(updateUser(data));
+    if(!name || !city || !address || !phone || !file){
+      errorAlert("Semua field harus diisi");
+    } else {
+      const form = new FormData();
+      form.append("picture", file);
+      form.append("name", name);
+      form.append("city", city);
+      form.append("address", address);
+      form.append("no_tlpn", phone);
+      console.log(file, name, city, address, phone);
+      const data = {
+        token,
+        form,
+      };
+      dispatch(updateUser(data));
+    }
   };
   return (
     <>

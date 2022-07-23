@@ -2,7 +2,6 @@ import React from 'react';
 import { Toast } from 'react-bootstrap';
 import styles from './NotifDesktop.module.scss';
 import { Link } from 'react-router-dom';
-// import zonk from '../../../../assets/mailbox.png';
 import zonk from '../../../assets/mailbox.png';
 import BarLoader from 'react-spinners/BarLoader';
 import { useSelector } from 'react-redux';
@@ -27,11 +26,11 @@ const NotifDesktop = ({ showA, toggleShowA, notif, idLogin }) => {
             {notif &&
               notif.map((notif, index) => {
                 if (notif.status == 'created') {
-                  address = 'product/' + notif.id_product;
+                  address = '/product/' + notif.id_product;
                 } else if (notif.id_buyer == idLogin) {
                   address = '/';
                 } else {
-                  address = `offer/${notif.id}`;
+                  address = `/offer/${notif.id}`;
                 }
                 return (
                   <Link

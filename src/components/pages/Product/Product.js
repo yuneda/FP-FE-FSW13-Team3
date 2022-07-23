@@ -37,15 +37,14 @@ const Product = () => {
   const tabletView = useMediaQuery({ query: '(max-width: 991px)' });
 
   useEffect(() => {
+    if (!token || tokenExpired) {
+      navigate('/login');
+    }
     if (notifRedux.status == 'succeeded') {
       setNotif(notifRedux.data);
     }
     const data = { token, status: 'available' };
     dispatch(queryProduct(data));
-    console.log(token);
-    if (!token || tokenExpired) {
-      navigate('/login');
-    }
     const fetchDataUser = async () => {
       try {
         const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user';

@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+import logger from 'redux-logger';
 import userReducer from './usersSlice';
 import productReducer from './productSlice';
 import notifReducer from './notifSlice';
@@ -15,5 +16,5 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
-    })
+    }).concat(logger)
 });
