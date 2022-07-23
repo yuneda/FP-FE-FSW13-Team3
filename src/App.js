@@ -14,6 +14,7 @@ import Whislist from "./components/pages/Whislist/Whislist";
 import MyAccount from "./components/pages/MyAccount/MyAccount";
 import Notification from "./components/pages/Notification/Notification";
 import EditProduct from "./components/pages/EditProduct/EditProduct";
+import Preview from "./components/pages/Preview/Preview";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
         <Route path="/myaccount" element={<MyAccount />} />
         <Route path="/notification" element={<Notification />} />
         <Route path="/edit/:id" element={<EditProduct />} />
+        <Route path="/preview" element={<Preview />} />
       </Routes>
     </BrowserRouter>
   );
