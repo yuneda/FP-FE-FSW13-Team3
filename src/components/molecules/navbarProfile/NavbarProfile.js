@@ -21,7 +21,7 @@ function MyNavbar(props) {
       <Container>
         <div className="logo"></div>
         <div className="col-sm-4">
-          <Link to="/">
+          <Link to="/" style={{ color: 'inherit', textDecoration: 'inherit' }}>
             <Nav
               className="me-auto my-2 my-lg-0"
               style={{ maxHeight: '100px', zIndex: '3' }}
@@ -29,7 +29,7 @@ function MyNavbar(props) {
             >
               {mobileView ?  
               <i
-                className="fa-solid fa-arrow-left"
+                className="fa-solid fa-arrow-left ms-3"
                 style={{ marginTop: '15px', color: 'inherit', textDecoration: 'inherit' }}
               ></i>
               : ''
