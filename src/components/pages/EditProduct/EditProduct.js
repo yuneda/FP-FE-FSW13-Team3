@@ -14,8 +14,11 @@ import ScaleLoader from "react-spinners/ScaleLoader";
 import { useParams } from "react-router-dom";
 import UploadImage from "../../atoms/uploadImage/UploadImage";
 import Button from "../../atoms/button/Button";
+import { isExpired } from 'react-jwt';
 
 const CreateProduct = () => {
+  const token = localStorage.getItem('token');
+  const tokenExpired = isExpired(token);
   const [image, setImage] = useState();
   const [IdSeller, setIdSeller] = useState("");
   const [Product, setProduct] = useState("");
@@ -23,7 +26,6 @@ const CreateProduct = () => {
   const product = useSelector((state) => state.product);
   let imgContainer = [];
   let imgCount = 0;
-  const token = localStorage.getItem("token");
   const [files, setFiles] = useState(null);
   const [userId, setUserId] = useState("");
   const [name, setName] = useState("");
@@ -62,6 +64,9 @@ const CreateProduct = () => {
     setFiles(imgContainer);
   };
   useEffect(() => {
+    if (!token || tokenExpired) {
+      navigate('/login');
+    }
     dispatch(makeStatusIdle());
     async function fetchData() {
       let response = await axios.get(

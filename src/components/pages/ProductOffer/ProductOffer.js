@@ -9,12 +9,14 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import { useMediaQuery } from 'react-responsive';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 // component
 import ModalAccOffer from './molecules/ModalAccOffer';
 import ModalStatusOffer from './molecules/ModalStatusOffer';
+import { isExpired } from 'react-jwt';
 
 const ProductOffer = () => {
+  const navigate = useNavigate();
   const [accept, setAccept] = useState(false);
   const [product, setProduct] = useState(null);
   const [buyer, setBuyer] = useState(null);
@@ -24,12 +26,16 @@ const ProductOffer = () => {
   const [sold, setSold] = useState(false);
   const { id } = useParams();
   const token = localStorage.getItem('token');
+  const tokenExpired = isExpired(token);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const mobileView = useMediaQuery({ query: '(max-width: 767px)' });
 
   useEffect(() => {
+    if (!token || tokenExpired) {
+      navigate('/login');
+    }
     const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/history/' + id;
     const fetchData = async () => {
       try {
@@ -117,10 +123,6 @@ const ProductOffer = () => {
               }
               {/* <div className="col-10 mt-2 "> */}
               <div className="col w-100 ">
-                <MyAlert
-                  title="Status produk berhasil diperbarui"
-                  color="success"
-                />
                 {user && (
                   <div className={`card mt-3 ${styles.cardDesc}`}>
                     <div className="row align-items-center">
