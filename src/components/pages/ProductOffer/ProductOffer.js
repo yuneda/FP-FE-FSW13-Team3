@@ -123,10 +123,6 @@ const ProductOffer = () => {
               }
               {/* <div className="col-10 mt-2 "> */}
               <div className="col w-100 ">
-                {/* <MyAlert
-                  title="Status produk berhasil diperbarui"
-                  color="success"
-                /> */}
                 {user && (
                   <div className={`card mt-3 ${styles.cardDesc}`}>
                     <div className="row align-items-center">

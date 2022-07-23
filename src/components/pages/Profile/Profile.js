@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { makeStatusIdle, updateUser } from "../../../redux/usersSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { isExpired } from 'react-jwt';
+import { errorAlert } from '../../../utils/alert'
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -73,19 +74,22 @@ const Profile = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const form = new FormData();
-    // photoFormData.append("avatar", file);
-    form.append("picture", file);
-    form.append("name", name);
-    form.append("city", city);
-    form.append("address", address);
-    form.append("no_tlpn", phone);
-    console.log(file, name, city, address, phone);
-    const data = {
-      token,
-      form,
-    };
-    dispatch(updateUser(data));
+    if(!name || !city || !address || !phone || !file){
+      errorAlert("Semua field harus diisi");
+    } else {
+      const form = new FormData();
+      form.append("picture", file);
+      form.append("name", name);
+      form.append("city", city);
+      form.append("address", address);
+      form.append("no_tlpn", phone);
+      console.log(file, name, city, address, phone);
+      const data = {
+        token,
+        form,
+      };
+      dispatch(updateUser(data));
+    }
   };
   return (
     <>

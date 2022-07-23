@@ -76,6 +76,7 @@ const ProductDetail = () => {
     dispatch(addOffer(data));
   };
   const handleWishlist = async (action) => {
+    console.log(action);
     let endPoint;
     if (action) {
       endPoint = 'deletewishlist';
@@ -93,12 +94,6 @@ const ProductDetail = () => {
     dispatch(makeStatusIdle());
     dispatch(getAllNotif(token));
     const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product/' + id;
-    if (userRedux.statusAuth == 'succeeded') {
-      setIdLogin(userRedux.auth.id);
-      if (userRedux.auth.wishlist) {
-        setWishlist(userRedux.auth.wishlist);
-      }
-    }
     async function fetchData() {
       const response = await axios.get(url);
       setProduct(response.data.data);
@@ -113,6 +108,14 @@ const ProductDetail = () => {
     // }
     fetchData();
   }, [token, tokenExpired]);
+  useEffect(() => {
+    if (userRedux.statusAuth == 'succeeded') {
+      setIdLogin(userRedux.auth.id);
+      if (userRedux.auth.wishlist) {
+        setWishlist(userRedux.auth.wishlist);
+      }
+    }
+  },[userRedux])
 
   return (
     <>
@@ -194,17 +197,6 @@ const ProductDetail = () => {
                       </>
                     )}
                     {idLogin && idLogin !== idSeller && (
-                      // <button
-                      //   className={`${styles.btnPublish} mb-2`}
-                      //   data-bs-toggle="modal"
-                      //   data-bs-target="#staticBackdrop"
-                      //   style={!offer ? colorPurple : colorGrey}
-                      //   disabled={offer}
-                      // >
-                      //   {!offer
-                      //     ? 'Saya tertarik dan ingin nego'
-                      //     : 'Menunggu Respon Penjual'}
-                      // </button>
                       <Button
                         onClick={handleShow}
                         className={`${styles.btnPublish} mb-2`}

@@ -91,12 +91,16 @@ const CreateProduct = () => {
     }
   },[])
   useEffect(() => {
+    if(userRedux.auth){
+      if(userRedux.auth.address == null || userRedux.auth.city == null || userRedux.auth.image == null || userRedux.auth.no_telp == null){
+        navigate('/profile');
+      }
+    }
+  },[userRedux])
+  useEffect(() => {
     if (!token || tokenExpired) {
       navigate('/login');
     }
-    // if(userRedux.auth.address == null || userRedux.auth.city == null || userRedux.auth.image == null || userRedux.auth.no_telp == null){
-    //   navigate('/profile');
-    // }
     if(productPreview){
       setName(productPreview.name);
       setPrice(productPreview.price);
