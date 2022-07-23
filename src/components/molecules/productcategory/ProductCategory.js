@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ButtonCategory from '../../atoms/buttoncategory/ButtonCategory';
 import not_found from '../../../assets/not_found.png';
-import './ProductCategory.css';
+import './ProductCategory.scss';
 import Aos from 'aos';
 import 'aos/dist/aos.css';
 import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
