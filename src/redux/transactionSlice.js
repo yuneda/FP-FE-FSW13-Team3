@@ -47,7 +47,7 @@ const transactionSlice = createSlice({
         // state.error = '';
         // successAlert('Your offer has been sent');
         // console.log('handlewishlist fulfilled');
-        successAlert('Add to wishlist');
+        successAlert('Update wishlist');
         window.location.reload(false);
       });
   },
