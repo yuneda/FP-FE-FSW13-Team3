@@ -121,7 +121,7 @@ const ProductCategory = ({ handleFilter, token }) => {
     }, 5000);
   }, []);
   useEffect(() => {
-    Aos.init({ duration: 2000 });
+    Aos.init({ duration: 2000, once: true });
     Aos.refresh();
   }, []);
   const handleWishlist = async (action, id) => {
@@ -207,8 +207,9 @@ const ProductCategory = ({ handleFilter, token }) => {
                   key={index}
                   to={`product/${data.id}`}
                   style={{ color: "inherit", textDecoration: "inherit" }}
+                  data-aos="fade-up"
                 >
-                  <div key={index} className="col" data-aos="fade-up">
+                  <div key={index} className="col">
                     <div className="card p-2" style={{minHeight: '200px', maxHeight: '200px'}}>
                       <img
                         src={data.image[0]}

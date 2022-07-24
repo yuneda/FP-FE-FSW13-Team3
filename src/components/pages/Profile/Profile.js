@@ -217,7 +217,7 @@ const Profile = () => {
                     <input
                       type="text"
                       className="border-radius form-control"
-                      placeholder="Contoh: +628123456789"
+                      placeholder="08123456789"
                       aria-label="Username"
                       aria-describedby="basic-addon1"
                       autoComplete="off"

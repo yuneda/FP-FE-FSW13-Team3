@@ -161,7 +161,8 @@ const ProductDetail = () => {
                         <p className={styles.prodTitle}>{product.product_name}</p>
                       </div>
                       <div className="col-2">
-                        <i
+                        {token && !tokenExpired && (
+                          <i
                           onClick={(e) => {
                             e.preventDefault();
                             handleWishlist(wishlist.includes(product.id));
@@ -172,6 +173,7 @@ const ProductDetail = () => {
                               : 'fa-regular fa-bookmark'
                           }
                         ></i>
+                        )}
                       </div>
                     </div>
                     <p className="text-secondary">{product.category}</p>
@@ -181,7 +183,7 @@ const ProductDetail = () => {
                         currency: 'IDR',
                       }).format(product.product_price)}
                     </p>
-                    {idLogin && idLogin == idSeller && (
+                    {idLogin && idLogin == idSeller && token && !tokenExpired (
                       <>
                         <button className={`${styles.btnPublish} mb-2`}>Terbitkan</button>
                         <Link to={`/edit/${id}`}>

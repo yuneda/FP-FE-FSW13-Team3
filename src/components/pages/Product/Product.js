@@ -14,7 +14,7 @@ import UserProduct from '../../molecules/userproduct/UserProduct';
 import Spinner from 'react-bootstrap/Spinner';
 import { useNavigate } from 'react-router-dom';
 import { isExpired } from 'react-jwt';
-import { queryProduct } from '../../../redux/productSlice';
+import { queryProduct, makeStatusIdle } from '../../../redux/productSlice';
 import { getAllNotif } from '../../../redux/notifSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
@@ -36,6 +36,9 @@ const Product = () => {
   const dispatch = useDispatch();
   const tabletView = useMediaQuery({ query: '(max-width: 991px)' });
 
+  // useEffect(()=>{
+  //   dispatch(makeStatusIdle())
+  // },[])
   useEffect(() => {
     if (!token || tokenExpired) {
       navigate('/login');
