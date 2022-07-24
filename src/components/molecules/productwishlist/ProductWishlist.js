@@ -41,7 +41,6 @@ const ProductWishlist = ({ action }) => {
         cancelButtonColor: "#d33",
         confirmButtonText: "Yes, delete it!",
       });
-      console.log(result);
       if (result.isConfirmed) {
         const response = await axios({
           url: "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/deletewishlist",
@@ -53,7 +52,6 @@ const ProductWishlist = ({ action }) => {
             Authorization: "Bearer " + token,
           },
         });
-        console.log(response);
         MySwal.fire("Deleted!", "Your file has been deleted.", "success");
         window.location.reload(false);
       }
@@ -75,7 +73,6 @@ const ProductWishlist = ({ action }) => {
             Authorization: "Bearer " + token,
           },
         });
-        console.log(response.data.data.data);
         setData(response.data.data.data);
       } catch (error) {
         console.log(error.message);
@@ -146,9 +143,6 @@ const ProductWishlist = ({ action }) => {
               </Link>
             );
           })}
-        {/* {console.log(product.status)} */}
-        {console.log(product.data)}
-        {/* {product.status == 'idle' &&         */}
         {product.data.length == 0 && (
           <>
             <img src={NoWishlist} className="row m-auto w-75" />

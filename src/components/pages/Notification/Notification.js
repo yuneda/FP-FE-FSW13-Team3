@@ -38,20 +38,9 @@ const Notification = () => {
         console.log('error adalah', error);
       }
     };
-    // if (!token || tokenExpired) {
-    //   navigate('/login');
-    // }
-    // if (notifRedux.status == 'succeeded') {
-    //   setNotif(notifRedux.data);
-    // }
     dispatch(getAllNotif(token));
-    // setLoading(true);
-    // setTimeout(() => {
-    //   setLoading(false);
-    // }, 5000);
     fetchData();
   }, []);
-  // token, tokenExpired, notifRedux
   return (
     <div className='container-fluid'>
       <MyNavbar title="Notifikasi" />

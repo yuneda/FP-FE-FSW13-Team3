@@ -59,7 +59,6 @@ const Product = () => {
           },
         });
         setUser(responseUser.data.data);
-        console.log(responseUser.data.data);
       } catch (error) {
         console.log('error adalah', error);
       }

@@ -39,10 +39,7 @@ export const searchProduct = createAsyncThunk(
 );
 
 export const queryProduct = createAsyncThunk("product/query", async (data) => {
-  // console.log(status);
-  // console.log(token);
   const { status, token } = data;
-  // console.log(tkoe);
   return await ProductServices.query(status, token);
 });
 
@@ -73,13 +70,11 @@ const productSlice = createSlice({
         state.createProduct = action.payload;
         state.error = "";
         customAlert('success', 'Product created successfully', 'Success');
-        console.log("createProduct fulfilled");
       })
       .addCase(createProduct.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
         state.createProduct = null;
-        console.log(action.error.message);
       })
 
       .addCase(editProduct.pending, (state) => {
@@ -89,13 +84,11 @@ const productSlice = createSlice({
         state.status = "succeeded";
         state.editProduct = action.payload;
         state.error = "";
-        console.log("editProduct fulfilled");
       })
       .addCase(editProduct.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
         state.editProduct = null;
-        console.log(action.error.message);
       })
 
       .addCase(getAllProduct.pending, (state) => {
@@ -105,13 +98,11 @@ const productSlice = createSlice({
         state.status = "succeeded";
         state.data = action.payload.data.data.product.data;
         state.error = "";
-        console.log("getAllProduct fulfilled");
       })
       .addCase(getAllProduct.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
         state.data = [];
-        console.log(action.error.message);
       })
       .addCase(filterProduct.pending, (state) => {
         state.status = "loading";
@@ -120,7 +111,6 @@ const productSlice = createSlice({
         state.status = "succeeded";
         state.data = action.payload.data.data.product.data;
         state.error = "";
-        console.log("filterProduct fulfilled");
       })
       .addCase(searchProduct.pending, (state) => {
         state.status = "loading";
@@ -129,7 +119,6 @@ const productSlice = createSlice({
         state.status = "succeeded";
         state.data = action.payload.data.data.product.data;
         state.error = "";
-        console.log("searchProduct fulfilled");
       })
       .addCase(queryProduct.pending, (state) => {
         state.status = "loading";
@@ -139,14 +128,11 @@ const productSlice = createSlice({
         state.status = "succeeded";
         state.data = action.payload.data.data.product;
         state.error = "";
-        console.log("queryProduct fulfilled");
-        console.log(action.payload.data.data.product);
       })
       .addCase(wishlistProduct.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.data = action.payload.data.data.data;
         state.error = "";
-        console.log("wishlistProduct fulfilled");
       });
   },
 });

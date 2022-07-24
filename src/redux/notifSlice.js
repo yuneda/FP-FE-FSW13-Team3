@@ -27,13 +27,11 @@ const notifSlice = createSlice({
         state.status = 'succeeded';
         state.data = action.payload.data.data.data;
         state.error = '';
-        console.log('getAllNotif fulfilled');
       })
       .addCase(getAllNotif.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
         state.data = [];
-        console.log(action.error.message);
       });
   },
 });

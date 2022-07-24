@@ -126,7 +126,6 @@ const ProductCategory = ({ handleFilter, token }) => {
     Aos.refresh();
   }, []);
   const handleWishlist = async (action, id) => {
-    console.log(action);
     let endPoint;
     if (action) {
       endPoint = "deletewishlist";
@@ -158,10 +157,8 @@ const ProductCategory = ({ handleFilter, token }) => {
           cancelButtonColor: "#d33",
           confirmButtonText: "Yes, delete it!",
         });
-        console.log(result);
         if (result.isConfirmed) {
           response;
-          console.log(response);
           MySwal.fire("Deleted!", "Your file has been deleted.", "success");
           window.location.reload(false);
         }

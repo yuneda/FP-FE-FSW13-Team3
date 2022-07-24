@@ -32,21 +32,15 @@ const transactionSlice = createSlice({
         state.status = 'succeeded';
         state.error = '';
         successAlert('Your offer has been sent');
-        console.log('addOffer fulfilled');
       })
       .addCase(addOffer.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
-        console.log(action.error.message);
       })
       .addCase(handlewishlist.pending, () => {
         // state.status = 'loading';
       })
       .addCase(handlewishlist.fulfilled, () => {
-        // state.status = 'succeeded';
-        // state.error = '';
-        // successAlert('Your offer has been sent');
-        // console.log('handlewishlist fulfilled');
         successAlert('Update wishlist');
         window.location.reload(false);
       });

@@ -16,7 +16,6 @@ class UserServices {
     });
   }
   register(name, email, password) {
-    console.log(name, email, password);
     return axios.post('https://fp-be-fsw13-tim3.herokuapp.com/api/v1/register', {
       email,
       password,
@@ -28,7 +27,6 @@ class UserServices {
     return axios.put(url, form, {
       headers: {
         'Content-Type': 'multipart/form-data',
-        // 'Content-Type': 'application/json',
         Authorization: 'Bearer ' + token,
       },
     });

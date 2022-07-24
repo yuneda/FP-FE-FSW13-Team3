@@ -98,25 +98,20 @@ const CreateProduct = () => {
         const result = response.data.data;
         setProduct(result);
         setIdSeller(result.id_user);
-        console.log(result.image);
         setName(result.product_name);
         setPrice(result.product_price);
         setCategory(result.category);
         setImage(result.image);
         setDesc(result.description);
       } catch (error) {
-        console.log("error adalah", error);
+        console.log("Error :", error);
       }
     };
     fetchData();
-    if (user.auth) {
-      console.log(user.auth.name);
-    }
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(files.length);
     const form = new FormData();
     for (let index = 0; index < files.length; index++) {
       form.append("files", files[index]);
@@ -192,7 +187,7 @@ const CreateProduct = () => {
                     color={"#7126B5"}
                     loading={true}
                     size={50}
-                    className="mx-auto tes"
+                    className="mx-auto"
                   />
                 )}
                 <Button name="Preview" />
