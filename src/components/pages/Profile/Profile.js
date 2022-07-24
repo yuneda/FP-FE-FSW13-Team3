@@ -49,13 +49,11 @@ const Profile = () => {
       }
     );
     result = result.data.data;
-    console.log(result.name);
     setName(result.name);
     setCity(result.city);
     setImage(result.image);
     setAddress(result.address);
     setPhone(result.no_tlpn);
-    console.log(result);
   });
   const handleName = (e) => {
     e.preventDefault();
@@ -89,7 +87,6 @@ const Profile = () => {
       form.append("city", city);
       form.append("address", address);
       form.append("no_tlpn", phone);
-      console.log(file, name, city, address, phone);
       const data = {
         token,
         form,

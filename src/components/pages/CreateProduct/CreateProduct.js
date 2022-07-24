@@ -88,8 +88,6 @@ const CreateProduct = () => {
   useEffect(() => {
     setTimeout(() => {
       if(userRedux.auth !== null){
-        console.log(userRedux.auth);
-        console.log(userRedux.auth.no_tlpn);
         if(userRedux.auth.no_tlpn == null){
           customAlert('info', 'Please complete your profile first');
           navigate('/profile');
@@ -131,7 +129,6 @@ const CreateProduct = () => {
     if (!name || !price || !category || !desc || !files) {
       errorAlert('Semua field harus diisi');
     } else {
-      console.log(files.length);
       const form = new FormData();
       for (let index = 0; index < files.length; index++) {
         form.append('files', files[index]);

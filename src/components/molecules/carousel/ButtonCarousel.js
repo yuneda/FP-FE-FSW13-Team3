@@ -30,7 +30,6 @@ const Carousel = () => {
         },
       });
       setData(response.data.data.product);
-      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -52,10 +51,7 @@ const Carousel = () => {
         },
       });
       setData(response.data.data.product);
-      console.log(response);
-      console.log('like berhasil');
     } catch (error) {
-      console.log('like gagal');
       console.log(error);
     }
     setAll(false);
@@ -76,10 +72,7 @@ const Carousel = () => {
         },
       });
       setData(response.data.data.product);
-      console.log(response.data.data.product);
-      console.log('sold berhasil');
     } catch (error) {
-      console.log('sold gagal');
       console.log(error);
     }
     setAll(false);
@@ -107,39 +100,30 @@ const Carousel = () => {
     <>
       <OwlCarousel
         className="owl-theme mt-2"
-        // loop={true}
         margin={5}
-        // nav={true}
-        // center={true}
         dots={false}
         responsive={resp}
-      // style={{
-      //   border: '1px solid blue',
-      // }}
       >
         <MyButtonCategory
           content="Produk"
           isActive={all ? true : false}
-          // handleFilter={handleAll}
           changeActive={setAll}
           handleChange={handleAll}
         />
         <MyButtonCategory
           content="Diminati"
           isActive={like ? true : false}
-          // handleFilter={handleLike}
           changeActive={setLike}
           handleChange={handleLike}
         />
         <MyButtonCategory
           content="Terjual"
           isActive={sold ? true : false}
-          // handleFilter={handleSold}
           changeActive={setSold}
           handleChange={handleSold}
         />
       </OwlCarousel>
-      <div className="d-flex justify-content-center my-3 tes">
+      <div className="d-flex justify-content-center my-3">
         {all && <ProductList product={data} action={true} />}
         {like && !data && (
           <div className="text-center">

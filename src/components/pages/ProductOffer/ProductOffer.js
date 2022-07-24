@@ -46,7 +46,6 @@ const ProductOffer = () => {
             Authorization: 'Bearer ' + token,
           },
         });
-        console.log(response.data.data.Offer);
         setBuyer(response.data.data);
         setProduct(response.data.data.Offer.Product);
         setOffer(response.data.data.Offer);
@@ -59,7 +58,6 @@ const ProductOffer = () => {
   }, []);
   const handleStatus = async (e) => {
     e.preventDefault();
-    console.log('status ai');
     if (status == 'sold') {
       try {
         const urlSold =
@@ -76,7 +74,6 @@ const ProductOffer = () => {
             Authorization: 'Bearer ' + token,
           },
         });
-        console.log(soldResponse);
       } catch (error) {
         console.log(error);
       }
@@ -101,7 +98,6 @@ const ProductOffer = () => {
           Authorization: 'Bearer ' + token,
         },
       });
-      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -256,7 +252,6 @@ const ProductOffer = () => {
                                     closeButton
                                     onClick={(e) => {
                                       if (!accept) {
-                                        console.log('offcanvas close ');
                                         handleAccept(e);
                                       }
                                     }}
