@@ -13,6 +13,7 @@ import MyAccount from "./components/pages/MyAccount/MyAccount";
 import Notification from "./components/pages/Notification/Notification";
 import EditProduct from "./components/pages/EditProduct/EditProduct";
 import Preview from "./components/pages/Preview/Preview";
+import NotFoundPage from "./components/pages/Error/404/NotFoundPage";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route path="/notification" element={<Notification />} />
         <Route path="/edit/:id" element={<EditProduct />} />
         <Route path="/preview" element={<Preview />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );

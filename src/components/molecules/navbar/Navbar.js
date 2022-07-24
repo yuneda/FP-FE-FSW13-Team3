@@ -220,7 +220,7 @@ function MyNavbar(props) {
                     </div>
                   </Link>
                   <Link
-                    to="/profile"
+                    to="/myaccount"
                     style={{ color: "inherit", textDecoration: "inherit" }}
                   >
                     <div className="row nav-list">

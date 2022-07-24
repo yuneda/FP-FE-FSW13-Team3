@@ -17,7 +17,7 @@ import { addPreviewProduct } from '../../../redux/previewSlice';
 import { authUser } from '../../../redux/usersSlice';
 import ScaleLoader from 'react-spinners/ScaleLoader';
 import { Link } from 'react-router-dom';
-import { errorAlert } from '../../../utils/alert'
+import { errorAlert, customAlert } from '../../../utils/alert'
 
 const CreateProduct = () => {
   const dispatch = useDispatch();
@@ -86,17 +86,17 @@ const CreateProduct = () => {
     }
   }
   useEffect(() => {
-    if (!tokenExpired && token) {
-      dispatch(authUser(token));
-    }
+    setTimeout(() => {
+      if(userRedux.auth !== null){
+        console.log(userRedux.auth);
+        console.log(userRedux.auth.no_tlpn);
+        if(userRedux.auth.no_tlpn == null){
+          customAlert('info', 'Please complete your profile first');
+          navigate('/profile');
+        }
+      }
+    }, 1000)
   },[])
-  // useEffect(() => {
-  //   if(userRedux.auth){
-  //     if(userRedux.auth.address == null || userRedux.auth.city == null || userRedux.auth.image == null || userRedux.auth.no_telp == null){
-  //       navigate('/profile');
-  //     }
-  //   }
-  // },[userRedux])
   useEffect(() => {
     if (!token || tokenExpired) {
       navigate('/login');
@@ -119,7 +119,7 @@ const CreateProduct = () => {
       setUserId(response);
     }
     fetchData();
-  }, [userRedux]);
+  }, []);
   useEffect(() => {
     setLoading(true);
     setTimeout(() => {

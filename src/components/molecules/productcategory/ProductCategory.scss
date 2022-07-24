@@ -26,15 +26,9 @@
 
 .btn-sell {
   position: fixed;
-  left: 45%;
-  z-index: 2;
-  bottom: 20px;
-  width: 120px;
-}
-
-.btn-sellmbl {
-  position: fixed;
-  left: 35%;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
   z-index: 2;
   bottom: 20px;
   width: 120px;

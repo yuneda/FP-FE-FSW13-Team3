@@ -198,7 +198,9 @@ const ProductDetail = () => {
                     )}
                     {idLogin && idLogin !== idSeller && (
                       <Button
-                        onClick={handleShow}
+                        onClick={mobileView ? handleShow : null}
+                        data-bs-toggle={mobileView ? '' : "modal"}
+                        data-bs-target={mobileView ? '' : "#staticBackdrop"}
                         className={`${styles.btnPublish} mb-2`}
                         style={!offer ? colorPurple : colorGrey}
                         disabled={offer}

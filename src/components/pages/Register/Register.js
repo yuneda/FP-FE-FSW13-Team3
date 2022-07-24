@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { eyeOff } from 'react-icons-kit/feather/eyeOff';
 import BgRegister from '../../../assets/bg-register.png';
+import { errorAlert } from '../../../utils/alert'
 
 const Register = () => {
   const [name, setName] = useState('');
@@ -25,7 +26,9 @@ const Register = () => {
     backgroundImage: 'url(' + BgRegister + ')',
     backgroundRepeat: 'no-repeat',
   };
-
+  const isValidEmail = (email) => {
+    return /\S+@\S+\.\S+/.test(email);
+  }
   const handleToggle = (event) => {
     event.preventDefault();
     if (type === 'password') {
@@ -53,8 +56,16 @@ const Register = () => {
   };
   const handleRegister = async (event) => {
     event.preventDefault();
-    const data = { name, email, password };
-    dispatch(registerUser(data));
+    if(!isValidEmail(email)){
+      
+      errorAlert('Email is not valid');
+    } else if (password.length < 6){
+      errorAlert('Password must be at least 6 characters');
+    } 
+    else{
+      const data = { name, email, password };
+      dispatch(registerUser(data));
+    }
   };
   useEffect(() => {
     if (user.statusRegister == 'succeeded') {
