@@ -210,7 +210,7 @@ const ProductDetail = () => {
                         currency: 'IDR',
                       }).format(product.product_price)}
                     </p>
-                    {idLogin && idLogin == idSeller && token && !tokenExpired (
+                    {idLogin && idLogin == idSeller && token && !tokenExpired && (
                       <>
                         <button className={`${styles.btnPublish} mb-2`}>Terbitkan</button>
                         <Link to={`/edit/${id}`}>
