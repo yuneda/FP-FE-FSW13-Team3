@@ -9,19 +9,45 @@ import PlusCircle from '../../../assets/fi_plus-circle.png';
 import List from '../../../assets/fi_list.png';
 import User from '../../../assets/fi_user.png';
 import { Link, useNavigate } from 'react-router-dom';
+import { isExpired } from 'react-jwt';
 import './MyAccount.scss';
+import { useSelector, useDispatch } from 'react-redux'
+import { authUser } from '../../../redux/usersSlice'
 
 const MyAccount = () => {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
+  const token = localStorage.getItem('token');
+  const tokenExpired = isExpired(token);
+  const userRedux = useSelector((state) => state.users.auth);
+  React.useEffect(() => {
+    if (!token || tokenExpired) {
+      navigate('/login');
+    }
+    if (!tokenExpired && token) {
+      dispatch(authUser(token));
+    }
+  },[])
   return (
     <div className="container-fluid box">
       <div className='row mx-2 py-4'>
         <h4 className='fw-bold'>Akun Saya</h4>
       </div>
       <div className='row justify-content-center d-flex mb-5 p-3'>
-        <div className="text-center img-account py-2">
-          <img
+        <div className={`text-center img-account ${userRedux.image ? 'position-relative' : `py-2`}`}>
+          {userRedux.image ? (
+            <img
+            src={userRedux.image}
+            className='position-absolute'
+            style={{
+              width: '100%',
+              height: '100%',
+              left: '0',
+              borderRadius: '12px',
+            }}
+          />
+          ) : (
+            <img
             src={PicInput}
             className='m-4'
             style={{
@@ -29,6 +55,8 @@ const MyAccount = () => {
               height: '26px',
             }}
           />
+          )}
+          
         </div>
       </div>
       <Link to="/profile" style={{ color: 'inherit', textDecoration: 'inherit' }}>

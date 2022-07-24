@@ -88,7 +88,9 @@ const CreateProduct = () => {
   useEffect(() => {
     setTimeout(() => {
       if(userRedux.auth !== null){
-        if(userRedux.auth.no_telp == null){
+        console.log(userRedux.auth);
+        console.log(userRedux.auth.no_tlpn);
+        if(userRedux.auth.no_tlpn == null){
           customAlert('info', 'Please complete your profile first');
           navigate('/profile');
         }

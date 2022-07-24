@@ -55,7 +55,7 @@ const userSlice = createSlice({
         localStorage.setItem('token', action.payload.data.token);
       })
       .addCase(loginUser.rejected, (state, action) => {
-        errorAlert('Email or password wrong');
+        customAlert('error', 'Email or password wrong', 'Error');
         state.status = 'failed';
         state.error = action.error.message;
         state.userLogin = null;
