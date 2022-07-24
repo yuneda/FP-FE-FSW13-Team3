@@ -239,7 +239,7 @@ const CreateProduct = () => {
                     Simpan
                   </button>
                 </div>
-                {product.status === 'succeeded' && navigate('/product')}
+                {product.createProduct !== null && navigate('/product')}
               </div>
             </form>
           </div>

@@ -60,7 +60,8 @@ function MyNavbar(props) {
           onClick={handleShow}
         />
         {mobileView && (
-          <div
+          <form onSubmit={props.handleSubmitSearch}>
+            <div
             className="ms-3 d-flex justify-content-between"
             style={{
               color: "#8a8a8a",
@@ -82,14 +83,15 @@ function MyNavbar(props) {
               }}
             />
             <button
-              onClick={props.handleSubmitSearch}
+              type="submit"
               style={{
                 background: "none",
               }}
             >
               <i className="fa-solid fa-magnifying-glass me-2"></i>
             </button>
-          </div>
+            </div>
+          </form>
         )}
         {!mobileView && (
           <Navbar.Collapse id="navbarScroll">
@@ -101,23 +103,25 @@ function MyNavbar(props) {
               <Link to="/">
                 <div style={logo} className="mt-2"></div>
               </Link>
-              <div className="ms-3 search-input d-flex justify-content-between">
-                <input
-                  className="user-input"
-                  placeholder="Cari di sini .."
-                  type="text"
-                  value={props.search}
-                  onChange={props.handleSearch}
-                  style={{
-                    border: "none",
-                    background: "none",
-                    width: "400px",
-                  }}
-                />
-                <button onClick={props.handleSubmitSearch}>
-                  <i className="fa-solid fa-magnifying-glass me-2"></i>
-                </button>
-              </div>
+              <form onSubmit={props.handleSubmitSearch}>
+                <div className="ms-3 search-input d-flex justify-content-between">
+                  <input
+                    className="user-input"
+                    placeholder="Cari di sini .."
+                    type="text"
+                    value={props.search}
+                    onChange={props.handleSearch}
+                    style={{
+                      border: "none",
+                      background: "none",
+                      width: "400px",
+                    }}
+                  />
+                  <button type="submit">
+                    <i className="fa-solid fa-magnifying-glass me-2"></i>
+                  </button>
+                </div>
+              </form>
             </Nav>
             {props.token && props.tokenExpired && (
               <Link to="/login">

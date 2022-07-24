@@ -81,14 +81,16 @@ const Register = () => {
           className="col-md-6 col-sm-12 col-12 left d-flex align-items-center fit-image"
           style={registerImage}
         >
-          <div className="row justify-content-center">
-            <div className="col-sm-10 title-register">
-              <h2 className="title-register">Second</h2>
+          <Link to="/" style={{ color: 'inherit', textDecoration: 'inherit' }}>
+            <div className="row justify-content-center">
+              <div className="col-sm-10 title-register">
+                <h2 className="title-register">Second</h2>
+              </div>
+              <div className="col-sm-10">
+                <h2 className="title-register">Hand.</h2>
+              </div>
             </div>
-            <div className="col-sm-10">
-              <h2 className="title-register">Hand.</h2>
-            </div>
-          </div>
+          </Link>
         </div>
         <div className="col-md-6 col-sm-12 col-12 right d-flex align-items-center">
           <form autoComplete="off" className="fit-form">
