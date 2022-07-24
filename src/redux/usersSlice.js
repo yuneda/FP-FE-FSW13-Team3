@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import UserServices from '../services/user';
-import { errorAlert, successAlert } from '../utils/alert';
+import { errorAlert, successAlert, customAlert } from '../utils/alert';
 
 const initialState = {
   status: 'idle',
@@ -55,7 +55,7 @@ const userSlice = createSlice({
         localStorage.setItem('token', action.payload.data.token);
       })
       .addCase(loginUser.rejected, (state, action) => {
-        errorAlert('Email or password wrong');
+        customAlert('error', 'Email or password wrong', 'Error');
         state.status = 'failed';
         state.error = action.error.message;
         state.userLogin = null;
@@ -79,7 +79,7 @@ const userSlice = createSlice({
       })
       .addCase(updateUser.fulfilled, (state) => {
         state.statusUpdate = 'succeeded';
-        successAlert('Update profile success');
+        customAlert('success','Successfully updated profile', 'Success');
       })
       .addCase(updateUser.rejected, (state) => {
         state.statusUpdate = 'failed';
