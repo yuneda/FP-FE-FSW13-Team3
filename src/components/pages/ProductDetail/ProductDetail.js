@@ -9,6 +9,8 @@ import UserMenu from '../../molecules/usermenu/UserMenu';
 import NotifDesktop from '../../molecules/notifdesktop/NotifDesktop';
 import Profile from '../../../assets/profile.png';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 import { Link, useNavigate } from 'react-router-dom';
 import { isExpired } from 'react-jwt';
 import { useState } from 'react';
@@ -18,9 +20,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getAllNotif } from '../../../redux/notifSlice';
 import { addOffer, makeStatusIdle, handlewishlist } from '../../../redux/transactionSlice';
 import { authUser } from '../../../redux/usersSlice';
+import { successAlert } from '../../../utils/alert';
 
 import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+const MySwal = withReactContent(Swal);
 
 const ProductDetail = () => {
   const dispatch = useDispatch();
@@ -83,12 +87,35 @@ const ProductDetail = () => {
     } else {
       endPoint = 'wishlist';
     }
-    const data = {
-      token,
-      id_product: product.id,
-      endPoint,
-    };
-    dispatch(handlewishlist(data));
+    try {
+      const data = {
+        token,
+        id_product: product.id,
+        endPoint,
+      };
+      console.log(data)
+      if (endPoint == "wishlist") {
+        dispatch(handlewishlist(data));
+      } else {
+        const result = await MySwal.fire({
+          title: "Are you sure want to delete?",
+          text: "You won't be able to revert this!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, delete it!",
+        });
+        console.log(result);
+        if (result.isConfirmed) {
+          dispatch(handlewishlist(data));
+          console.log(data);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    
   };
   useEffect(() => {
     dispatch(makeStatusIdle());
