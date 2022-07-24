@@ -105,8 +105,8 @@ const ProductWishlist = ({ action }) => {
                 <div className="col">
                   <div className="card p-2">
                     <img
-                      // src={data.image[0]}
-                      src={data.image}
+                      src={data.image[0]}
+                      // src={data.image}
                       style={imgStyle}
                       className="img-fluid"
                     />
