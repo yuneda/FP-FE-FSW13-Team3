@@ -14,6 +14,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import ModalAccOffer from './molecules/ModalAccOffer';
 import ModalStatusOffer from './molecules/ModalStatusOffer';
 import { isExpired } from 'react-jwt';
+import {customAlert } from '../../../utils/alert'
 
 const ProductOffer = () => {
   const navigate = useNavigate();
@@ -74,6 +75,7 @@ const ProductOffer = () => {
             Authorization: 'Bearer ' + token,
           },
         });
+        customAlert('success', 'Your offer has been sold', 'Success');
       } catch (error) {
         console.log(error);
       }
@@ -209,6 +211,11 @@ const ProductOffer = () => {
                               {accept ? 'Status' : 'Tolak'}
                             </button>
                             {accept && (
+                              <a
+                              href="https://wa.me/+628980023612"
+                              rel="noopener noreferrer"
+                              target="_blank"
+                            >
                               <button
                                 className={
                                   accept
@@ -219,6 +226,7 @@ const ProductOffer = () => {
                                 Hubungi di{' '}
                                 <i className="fa-brands fa-whatsapp"></i>
                               </button>
+                            </a>
                             )}
                             {!accept && (
                               <button
