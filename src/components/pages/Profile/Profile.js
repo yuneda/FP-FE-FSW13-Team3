@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import { makeStatusIdle, updateUser } from "../../../redux/usersSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { isExpired } from 'react-jwt';
-import { errorAlert } from '../../../utils/alert'
+import { customAlert } from '../../../utils/alert'
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -75,7 +75,7 @@ const Profile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if(!name || !city || !address || !phone || !file){
-      errorAlert("Semua field harus diisi");
+      customAlert('warning', 'Please fill all field first', 'Warning');
     } else {
       const form = new FormData();
       form.append("picture", file);

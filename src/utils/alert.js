@@ -13,9 +13,27 @@ export const successAlert = (title = 'Added to wishlist') => {
 };
 
 export const errorAlert = (text) => {
-  return Swal.fire({
+  return MySwal.fire({
     icon: 'error',
     title: 'Oops...',
     text,
+  });
+};
+
+export const customAlert = (
+    icon = 'success',
+    text = '',
+    title = false
+  ) => {
+  return MySwal.fire({
+    icon,
+    title,
+    text,
+    showClass: {
+      popup: 'animate__animated animate__fadeInDown'
+    },
+    hideClass: {
+      popup: 'animate__animated animate__fadeOutUp'
+    }
   });
 };
