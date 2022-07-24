@@ -22,6 +22,7 @@ const Preview = () => {
   const userRedux = useSelector((state) => state.users);
   const notifRedux = useSelector((state) => state.notif);
   const product = useSelector((state) => state.preview.previewProduct);
+  const productRedux = useSelector((state) => state.product);
   const [showMenu, setShowMenu] = React.useState(false);
   const [show, setShow] = React.useState(false);
   const [idLogin, setIdLogin] = React.useState(null);
@@ -183,6 +184,7 @@ const Preview = () => {
           </div>
         </div>
       </div>
+      {productRedux.createProduct !== null && navigate('/product')}
     </>
   )
 }

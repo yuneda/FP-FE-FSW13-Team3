@@ -16,6 +16,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getAllProduct, makeStatusIdle } from '../../../redux/productSlice';
 import { makeStatusPreviewIdle } from '../../../redux/previewSlice';
 import { useMediaQuery } from 'react-responsive';
+import { customAlert } from '../../../utils/alert';
 
 const MySwal = withReactContent(Swal);
 
@@ -121,7 +122,7 @@ const ProductCategory = ({ handleFilter, token }) => {
     }, 5000);
   }, []);
   useEffect(() => {
-    Aos.init({ duration: 2000 });
+    Aos.init({ duration: 2000, once: true });
     Aos.refresh();
   }, []);
   const handleWishlist = async (action, id) => {
@@ -143,8 +144,28 @@ const ProductCategory = ({ handleFilter, token }) => {
           Authorization: "Bearer " + token,
         },
       });
-      successAlert();
-      window.location.reload(false);
+      if (endPoint == "wishlist") {
+        response;
+        successAlert();
+        window.location.reload(false);
+      } else {
+        const result = await MySwal.fire({
+          title: "Are you sure want to delete?",
+          text: "You won't be able to revert this!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, delete it!",
+        });
+        console.log(result);
+        if (result.isConfirmed) {
+          response;
+          console.log(response);
+          MySwal.fire("Deleted!", "Your file has been deleted.", "success");
+          window.location.reload(false);
+        }
+      }
     } catch (error) {
       console.log(error);
     }
@@ -207,8 +228,9 @@ const ProductCategory = ({ handleFilter, token }) => {
                   key={index}
                   to={`product/${data.id}`}
                   style={{ color: "inherit", textDecoration: "inherit" }}
+                  data-aos="fade-up"
                 >
-                  <div key={index} className="col" data-aos="fade-up">
+                  <div key={index} className="col">
                     <div className="card p-2" style={{minHeight: '200px', maxHeight: '200px'}}>
                       <img
                         src={data.image[0]}
@@ -249,7 +271,7 @@ const ProductCategory = ({ handleFilter, token }) => {
                                 className={
                                   wishlist.includes(data.id)
                                     ? // [1, 2, 3].includes(data.id)
-                                      "fa-solid fa-bookmark"
+                                    "fa-solid fa-bookmark"
                                     : "fa-regular fa-bookmark"
                                 }
                               ></i>
@@ -281,11 +303,11 @@ const ProductCategory = ({ handleFilter, token }) => {
           )}
         </div>
       </div>
-      <Link to={token ? '/create' : '/login'} 
-          onClick={() => {
-            dispatch(makeStatusPreviewIdle());
-            dispatch(makeStatusIdle());
-          }}>
+      <Link to={token ? '/create' : '/login'}
+        onClick={() => {
+          dispatch(makeStatusPreviewIdle());
+          dispatch(makeStatusIdle());
+        }}>
         <ButtonCategory content="Jual" isActive={true} css={"btn-sell d-block"} />
       </Link>
     </>

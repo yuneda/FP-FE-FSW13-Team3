@@ -6,6 +6,7 @@ import Navbar from "../../molecules/navbarProfile/NavbarProfile";
 import Form from "react-bootstrap/Form";
 import PicInput from "../../../assets/fi_camera.png";
 import capitalCity from "../../../docs/city.json";
+import ScaleLoader from 'react-spinners/ScaleLoader';
 import { Link } from "react-router-dom";
 import { makeStatusIdle, updateUser } from "../../../redux/usersSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,6 +25,7 @@ const Profile = () => {
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     if (!token || tokenExpired) {
       navigate('/login');
@@ -32,16 +34,20 @@ const Profile = () => {
       navigate("/");
     }
     dispatch(makeStatusIdle());
-    }, [user]);
-    useState(async () => {
-      let result = await axios.get(
-        "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user",
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      );
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 5000);
+  }, [user]);
+  useState(async () => {
+    let result = await axios.get(
+      "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user",
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
     result = result.data.data;
     console.log(result.name);
     setName(result.name);
@@ -74,7 +80,7 @@ const Profile = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if(!name || !city || !address || !phone || !file){
+    if (!name || !city || !address || !phone || !file) {
       customAlert('warning', 'Please fill all field first', 'Warning');
     } else {
       const form = new FormData();
@@ -217,7 +223,7 @@ const Profile = () => {
                     <input
                       type="text"
                       className="border-radius form-control"
-                      placeholder="Contoh: +628123456789"
+                      placeholder="08123456789"
                       aria-label="Username"
                       aria-describedby="basic-addon1"
                       autoComplete="off"
@@ -225,6 +231,16 @@ const Profile = () => {
                       onChange={handlePhone}
                     />
                   </div>
+                </div>
+                <div className="d-flex justify-content-center">
+                  {user.status == "loading" && (
+                    <ScaleLoader
+                      color={"#7126B5"}
+                      loading={loading}
+                      size={50}
+                      className="mx-auto"
+                    />
+                  )}
                 </div>
                 <div className="col-sm-9 mb-5">
                   <button
@@ -236,6 +252,7 @@ const Profile = () => {
                 </div>
               </div>
             </form>
+
           </div>
         </div>
       </div>

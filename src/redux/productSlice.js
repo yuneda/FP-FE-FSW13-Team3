@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import ProductServices from "../services/product";
+import { customAlert } from '../utils/alert'
 
 const initialState = {
   status: "idle", //'idle' | 'loading' | 'succeeded' | 'failed'
@@ -59,6 +60,7 @@ const productSlice = createSlice({
     makeStatusIdle: (state) => {
       state.status = "idle";
       state.error = "";
+      state.createProduct = null;
     },
   },
   extraReducers(builder) {
@@ -70,6 +72,7 @@ const productSlice = createSlice({
         state.status = "succeeded";
         state.createProduct = action.payload;
         state.error = "";
+        customAlert('success', 'Product created successfully', 'Success');
         console.log("createProduct fulfilled");
       })
       .addCase(createProduct.rejected, (state, action) => {
