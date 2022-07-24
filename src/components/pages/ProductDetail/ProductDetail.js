@@ -70,7 +70,6 @@ const ProductDetail = () => {
   const handleOffer = async (e) => {
     e.preventDefault();
     setOffer(true);
-    console.log(id, price, token);
     const data = {
       id_product: id,
       bid_price: price,
@@ -80,7 +79,6 @@ const ProductDetail = () => {
     dispatch(addOffer(data));
   };
   const handleWishlist = async (action) => {
-    console.log(action);
     let endPoint;
     if (action) {
       endPoint = 'deletewishlist';
@@ -93,7 +91,6 @@ const ProductDetail = () => {
         id_product: product.id,
         endPoint,
       };
-      console.log(data)
       if (endPoint == "wishlist") {
         dispatch(handlewishlist(data));
       } else {
@@ -106,10 +103,8 @@ const ProductDetail = () => {
           cancelButtonColor: "#d33",
           confirmButtonText: "Yes, delete it!",
         });
-        console.log(result);
         if (result.isConfirmed) {
           dispatch(handlewishlist(data));
-          console.log(data);
         }
       }
     } catch (error) {
@@ -241,7 +236,6 @@ const ProductDetail = () => {
                   <div className={`card mt-3 p-2 ${styles.cardDesc}`}>
                     <div className="row align-items-center">
                       <div className="col-3">
-                        {console.log(product.User)}
                         {product.User.image ? (
                           <img
                             src={product.User.image}
@@ -370,7 +364,7 @@ const ProductDetail = () => {
                   show={show}
                   onHide={handleClose}
                   placement="bottom"
-                  className={`${styles.offcancas} tes w-100 h-75`}
+                  className={`${styles.offcancas} w-100 h-75`}
                   name="bottom"
                 >
                   <Offcanvas.Header closeButton>

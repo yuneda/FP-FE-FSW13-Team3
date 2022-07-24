@@ -46,7 +46,6 @@ const userSlice = createSlice({
     builder
       .addCase(loginUser.pending, (state) => {
         state.status = 'loading';
-        console.log('login pending');
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.status = 'succeeded';
@@ -59,7 +58,6 @@ const userSlice = createSlice({
         state.status = 'failed';
         state.error = action.error.message;
         state.userLogin = null;
-        console.log(action.error);
       })
       .addCase(registerUser.pending, (state) => {
         state.statusRegister = 'loading';
@@ -70,8 +68,7 @@ const userSlice = createSlice({
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.statusRegister = 'failed';
-        console.log(action.payload);
-        errorAlert('Email is already used');
+          errorAlert('Email is already used');
       })
       .addCase(authUser.fulfilled, (state, action) => {
         state.auth = action.payload.data.data;

@@ -123,7 +123,6 @@ const Preview = () => {
                   <div className={`card mt-3 p-2 ${styles.cardDesc}`}>
                     <div className="row align-items-center">
                       <div className="col-3">
-                        {console.log(product.User)}
                         {userRedux.auth.image ? (
                           <img
                             src={userRedux.auth.image}

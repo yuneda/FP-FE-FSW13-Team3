@@ -22,7 +22,6 @@ const NotifDesktop = ({ showA, toggleShowA, notif, idLogin }) => {
             )}
           </div>
           <div className="row">
-            {console.log(notif)}
             {notif &&
               notif.map((notif, index) => {
                 if (notif.status == 'created') {

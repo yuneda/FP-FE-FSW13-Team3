@@ -29,7 +29,6 @@ const Login = () => {
     if (user.status == 'succeeded') {
       navigate('/product');
     }
-    console.log('yuneda');
   }, [dispatch, user]);
 
   const handleEmail = (event) => {
@@ -44,9 +43,6 @@ const Login = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault();
-    console.log(email);
-    console.log(password);
-    // try {
     const data = {
       email,
       password,
