@@ -79,7 +79,7 @@ function MyNavbar(props) {
               style={{
                 border: "none",
                 background: "none",
-                width: "100%",
+                width: "180px",
               }}
             />
             <button
