@@ -47,11 +47,11 @@ const Notification = () => {
       <div className='row'>
         {notifRedux.data && notifRedux.data.map((notif, index) => {
           if (notif.status == 'created') {
-            address = 'product/' + notif.id_product;
+            address = '/product/' + notif.id_product;
           } else if (notif.id_buyer == idLogin) {
             address = '/';
           } else {
-            address = `offer/${notif.id}`;
+            address = `/offer/${notif.id}`;
           }
           return (
             <Link
