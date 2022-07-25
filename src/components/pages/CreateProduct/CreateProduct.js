@@ -17,13 +17,15 @@ import { addPreviewProduct } from '../../../redux/previewSlice';
 import { authUser } from '../../../redux/usersSlice';
 import ScaleLoader from 'react-spinners/ScaleLoader';
 import { Link } from 'react-router-dom';
-import { errorAlert, customAlert } from '../../../utils/alert'
+import { errorAlert, customAlert } from '../../../utils/alert';
+import { useMediaQuery } from 'react-responsive';
 
 const CreateProduct = () => {
   const dispatch = useDispatch();
   const product = useSelector((state) => state.product);
   const productPreview = useSelector((state) => state.preview.previewProduct);
   const userRedux = useSelector((state) => state.users);
+  const mobileView = useMediaQuery({ query: '(max-width: 767px)' });
   let imgContainer = [];
   let imgContainerPreview = [];
   let imgCount = 0;
@@ -80,26 +82,26 @@ const CreateProduct = () => {
       form.append('category', category);
       form.append('description', desc);
       form.append('status', 'available');
-      const data = { name, price, category, desc , filesPreview, form, imgContainer }
+      const data = { name, price, category, desc, filesPreview, form, imgContainer };
       dispatch(addPreviewProduct(data));
       navigate('/preview');
     }
-  }
+  };
   useEffect(() => {
     setTimeout(() => {
-      if(userRedux.auth !== null){
-        if(userRedux.auth.no_tlpn == null){
+      if (userRedux.auth !== null) {
+        if (userRedux.auth.no_tlpn == null) {
           customAlert('info', 'Please complete your profile first');
           navigate('/profile');
         }
       }
-    }, 1000)
-  },[])
+    }, 1000);
+  }, []);
   useEffect(() => {
     if (!token || tokenExpired) {
       navigate('/login');
     }
-    if(productPreview){
+    if (productPreview) {
       setName(productPreview.name);
       setPrice(productPreview.price);
       setCategory(productPreview.category);
@@ -221,13 +223,20 @@ const CreateProduct = () => {
                     </div>
                   </label>
                 </div>
-                <div className='d-flex justify-content-center'>
+                <div className="d-flex justify-content-center">
                   {product.status === 'loading' && (
-                    <ScaleLoader color={'#7126B5'} loading={true} size={100} className="mx-auto loading-icon" />
+                    <ScaleLoader
+                      color={'#7126B5'}
+                      loading={true}
+                      size={100}
+                      className="mx-auto loading-icon"
+                    />
                   )}
                 </div>
                 <div className="col-4 mb-5 button-size d-flex justify-content-start ">
-                  <button onClick={handlePreview} className="btn border-radius">Preview</button>
+                  <button onClick={handlePreview} className="btn border-radius">
+                    Preview
+                  </button>
                 </div>
                 <div className="col-1"></div>
 

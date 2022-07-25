@@ -165,7 +165,7 @@ const Product = () => {
                   {/* <ButtonCarousel /> */}
                   {tabletView && (
                     <>
-                      <button onClick={handleAll} className="btn-category-product-mobile me-2">
+                      <button onClick={handleAll} className="btn-category-product-mobile me-2 bg-white">
                         <div
                           className="d-flex justify-content-between px-3 py-2"
                           style={all ? colorActiveMobile : colorInactiveMobile}
@@ -175,7 +175,7 @@ const Product = () => {
                           </div>
                         </div>
                       </button>
-                      <button onClick={handleLike} className="btn-category-product-mobile me-2">
+                      <button onClick={handleLike} className="btn-category-product-mobile me-2 bg-white">
                         <div
                           className="d-flex justify-content-between px-3 py-2"
                           style={like ? colorActiveMobile : colorInactiveMobile}
@@ -186,7 +186,7 @@ const Product = () => {
                           </div>
                         </div>
                       </button>
-                      <button onClick={handleSold} className="btn-category-product-mobile me-2">
+                      <button onClick={handleSold} className="btn-category-product-mobile me-2 bg-white">
                         <div
                           className="d-flex justify-content-between px-3 py-2"
                           style={sold ? colorActiveMobile : colorInactiveMobile}

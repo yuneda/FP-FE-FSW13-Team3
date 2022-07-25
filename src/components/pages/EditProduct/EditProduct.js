@@ -1,37 +1,38 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import InputForm from "../../atoms/inputform/InputForm";
-import MyNavbar from "../../molecules/navbarProfile/NavbarProfile";
-import OptionInput from "../../atoms/OptionInput/OptionInput";
-import TextArea from "../../atoms/textArea/TextArea";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import InputForm from '../../atoms/inputform/InputForm';
+import MyNavbar from '../../molecules/navbarProfile/NavbarProfile';
+import OptionInput from '../../atoms/OptionInput/OptionInput';
+import TextArea from '../../atoms/textArea/TextArea';
 // import './CreateProduct.css';
-import "./EditProduct.scss";
-import MyAlert from "../../atoms/alert/Alert";
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { makeStatusIdle, editProduct } from "../../../redux/productSlice";
-import ScaleLoader from "react-spinners/ScaleLoader";
-import { useParams } from "react-router-dom";
-import UploadImage from "../../atoms/uploadImage/UploadImage";
-import Button from "../../atoms/button/Button";
+import './EditProduct.scss';
+import MyAlert from '../../atoms/alert/Alert';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { makeStatusIdle, editProduct } from '../../../redux/productSlice';
+import ScaleLoader from 'react-spinners/ScaleLoader';
+import { useParams } from 'react-router-dom';
+import UploadImage from '../../atoms/uploadImage/UploadImage';
+import Button from '../../atoms/button/Button';
 import { isExpired } from 'react-jwt';
+import { Link } from 'react-router-dom';
 
 const CreateProduct = () => {
   const token = localStorage.getItem('token');
   const tokenExpired = isExpired(token);
   const [image, setImage] = useState();
-  const [IdSeller, setIdSeller] = useState("");
-  const [Product, setProduct] = useState("");
+  const [IdSeller, setIdSeller] = useState('');
+  const [Product, setProduct] = useState('');
   const dispatch = useDispatch();
   const product = useSelector((state) => state.product);
   let imgContainer = [];
   let imgCount = 0;
   const [files, setFiles] = useState(null);
-  const [userId, setUserId] = useState("");
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-  const [category, setCategory] = useState("");
-  const [desc, setDesc] = useState("");
+  const [userId, setUserId] = useState('');
+  const [name, setName] = useState('');
+  const [price, setPrice] = useState('');
+  const [category, setCategory] = useState('');
+  const [desc, setDesc] = useState('');
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -69,15 +70,12 @@ const CreateProduct = () => {
     }
     dispatch(makeStatusIdle());
     async function fetchData() {
-      let response = await axios.get(
-        "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user",
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: "Bearer " + token,
-          },
-        }
-      );
+      let response = await axios.get('https://fp-be-fsw13-tim3.herokuapp.com/api/v1/user', {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: 'Bearer ' + token,
+        },
+      });
       response = response.data.data.id;
       setUserId(response);
     }
@@ -90,7 +88,7 @@ const CreateProduct = () => {
     }, 5000);
   }, []);
   useEffect(() => {
-    const url = "https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product/" + id;
+    const url = 'https://fp-be-fsw13-tim3.herokuapp.com/api/v1/product/' + id;
     const fetchData = async () => {
       try {
         const response = await axios.get(url);
@@ -104,7 +102,7 @@ const CreateProduct = () => {
         setImage(result.image);
         setDesc(result.description);
       } catch (error) {
-        console.log("Error :", error);
+        console.log('Error :', error);
       }
     };
     fetchData();
@@ -114,13 +112,13 @@ const CreateProduct = () => {
     e.preventDefault();
     const form = new FormData();
     for (let index = 0; index < files.length; index++) {
-      form.append("files", files[index]);
+      form.append('files', files[index]);
     }
-    form.append("product_name", name);
-    form.append("product_price", price);
-    form.append("category", category);
-    form.append("description", desc);
-    form.append("status", "available");
+    form.append('product_name', name);
+    form.append('product_price', price);
+    form.append('category', category);
+    form.append('description', desc);
+    form.append('status', 'available');
     const data = {
       form,
       token,
@@ -141,14 +139,11 @@ const CreateProduct = () => {
               encType="multipart/form-data"
               className="justify-content-center d-flex"
             >
-              {success && (
-                <MyAlert title="Successfully created product" color="success" />
-              )}
+              {success && <MyAlert title="Successfully created product" color="success" />}
               <div className="row w-100 justify-content-center fit">
-                <i
-                  className="fa-solid fa-arrow-left fit"
-                  style={{ marginTop: "20px" }}
-                ></i>
+                <Link to="/" style={{ color: 'inherit', textDecoration: 'inherit' }}>
+                  <i className="fa-solid fa-arrow-left fit" style={{ marginTop: '20px' }}></i>
+                </Link>
                 <InputForm
                   name="Nama Produk"
                   type="text"
@@ -177,23 +172,14 @@ const CreateProduct = () => {
                   onChange={handleDesc}
                   value={desc}
                 />
-                <UploadImage
-                  name="Foto Produk"
-                  type="file"
-                  onChange={handleFiles}
-                />
-                {product.status === "loading" && (
-                  <ScaleLoader
-                    color={"#7126B5"}
-                    loading={true}
-                    size={50}
-                    className="mx-auto"
-                  />
+                <UploadImage name="Foto Produk" type="file" onChange={handleFiles} />
+                {product.status === 'loading' && (
+                  <ScaleLoader color={'#7126B5'} loading={true} size={50} className="mx-auto" />
                 )}
                 <Button name="Preview" />
                 <div className="col-1"></div>
                 <Button name="Simpan" type="submit" color="btn-register" />
-                {product.status === "succeeded" && navigate("/product")}
+                {product.status === 'succeeded' && navigate('/product')}
               </div>
             </form>
           </div>
