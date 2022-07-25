@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { eyeOff } from 'react-icons-kit/feather/eyeOff';
 import BgRegister from '../../../assets/bg-register.png';
-import { errorAlert } from '../../../utils/alert'
+import { errorAlert } from '../../../utils/alert';
 
 const Register = () => {
   const [name, setName] = useState('');
@@ -28,7 +28,7 @@ const Register = () => {
   };
   const isValidEmail = (email) => {
     return /\S+@\S+\.\S+/.test(email);
-  }
+  };
   const handleToggle = (event) => {
     event.preventDefault();
     if (type === 'password') {
@@ -56,13 +56,11 @@ const Register = () => {
   };
   const handleRegister = async (event) => {
     event.preventDefault();
-    if(!isValidEmail(email)){
-      
+    if (!isValidEmail(email)) {
       errorAlert('Email is not valid');
-    } else if (password.length < 6){
+    } else if (password.length < 6) {
       errorAlert('Password must be at least 6 characters');
-    } 
-    else{
+    } else {
       const data = { name, email, password };
       dispatch(registerUser(data));
     }
@@ -95,7 +93,12 @@ const Register = () => {
         <div className="col-md-6 col-sm-12 col-12 right d-flex align-items-center">
           <form autoComplete="off" className="fit-form">
             <div className="row w-100 justify-content-center">
-              <i className="fit-font fa-solid fa-arrow-left mb-5" style={{ marginTop: '20px' }}></i>
+              <Link to="/" style={{ color: 'inherit', textDecoration: 'inherit' }}>
+                <i
+                  className="fit-font fa-solid fa-arrow-left mb-5"
+                  style={{ marginTop: '20px' }}
+                ></i>
+              </Link>
               <div className="col-sm-9 mb-3 text justify-content-start d-flex">
                 <h1>Daftar</h1>
               </div>

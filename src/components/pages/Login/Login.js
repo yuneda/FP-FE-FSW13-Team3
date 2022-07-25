@@ -10,10 +10,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { makeStatusIdle } from '../../../redux/usersSlice';
 import './Login.scss';
 
-import {
-  loginUser,
-} from '../../../redux/usersSlice';
-
+import { loginUser } from '../../../redux/usersSlice';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -88,10 +85,12 @@ const Login = () => {
           <div className="fit-form-login">
             <div className="row w-100 justify-content-center">
               <div className="col-sm-9 mb-3">
-                <i
-                  className="fit-font fa-solid fa-arrow-left mb-5"
-                  style={{ marginTop: '20px' }}
-                ></i>
+                <Link to="/" style={{ color: 'inherit', textDecoration: 'inherit' }}>
+                  <i
+                    className="fit-font fa-solid fa-arrow-left mb-5"
+                    style={{ marginTop: '20px' }}
+                  ></i>
+                </Link>
                 <h1>Masuk</h1>
               </div>
               <div className="col-sm-9">
